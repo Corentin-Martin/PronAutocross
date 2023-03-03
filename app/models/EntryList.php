@@ -1,6 +1,6 @@
 <?php
 
-class EntryList {
+class EntryList extends CoreModel {
     
     private $id;
     private $race_id;

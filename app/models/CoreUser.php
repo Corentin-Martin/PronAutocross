@@ -1,7 +1,7 @@
 <?php
 
-class CoreUser {
-    
+class CoreUser extends CoreModel {
+
     protected $id;
     protected $firstName;
     protected $lastName;

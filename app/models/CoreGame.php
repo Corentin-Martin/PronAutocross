@@ -1,6 +1,6 @@
 <?php
 
-class CoreGame {
+class CoreGame extends CoreModel {
 
     protected $id;
     protected $maxiSprint;

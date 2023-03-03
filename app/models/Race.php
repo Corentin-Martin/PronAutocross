@@ -1,6 +1,6 @@
 <?php
 
-class Race {
+class Race extends CoreModel {
     
     private $id;
     private $name;
