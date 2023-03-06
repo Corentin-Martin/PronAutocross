@@ -1,14 +1,12 @@
 <?php
 
+namespace App\Models;
+
 class EntryList extends CoreModel {
     
-    private $id;
     private $race_id;
     private $category_id;
     private $driver_id;
-
-    public function getId(){ return $this->id; }
-    public function setId($id): self { $this->id = $id; return $this; }
 
     public function getRaceId(){ return $this->race_id; }
     public function setRaceId($race_id): self { $this->race_id = $race_id; return $this; }

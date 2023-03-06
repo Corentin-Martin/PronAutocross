@@ -1,14 +1,12 @@
 <?php
 
+namespace App\Models;
+
 class Race extends CoreModel {
     
-    private $id;
     private $name;
     private $date;
     private $poster;
-
-    public function getId(){ return $this->id; }
-    public function setId($id): self { $this->id = $id; return $this; }
 
     public function getName(){ return $this->name; }
     public function setName($name): self { $this->name = $name; return $this; }

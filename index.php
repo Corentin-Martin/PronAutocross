@@ -1,21 +1,27 @@
 <?php
 
-require_once __DIR__ . "/app/utils/Database.php";
+require_once __DIR__ . '/vendor/autoload.php';
 
-require_once __DIR__ . "/app/models/CoreModel.php";
-require_once __DIR__ . "/app/models/CoreGame.php";
-require_once __DIR__ . "/app/models/CoreUser.php";
-require_once __DIR__ . "/app/models/Category.php";
-require_once __DIR__ . "/app/models/Driver.php";
-require_once __DIR__ . "/app/models/EntryList.php";
-require_once __DIR__ . "/app/models/Participation.php";
-require_once __DIR__ . "/app/models/Player.php";
-require_once __DIR__ . "/app/models/Questions.php";
-require_once __DIR__ . "/app/models/Race.php";
-require_once __DIR__ . "/app/models/Score.php";
-require_once __DIR__ . "/app/models/Verification.php";
+use App\Models\Participation;
+use App\Models\Score;
 
 
-$categoryModel = new Driver();
+// $verificationModel = new Verification(2, 24, 25, 26, 27, 28, 29, 30, 31, "oui", "non", 1);
 
-var_dump($categoryModel->findAll('driver'));
+// $participationModel = new Participation();
+// $participation = $participationModel->findAll(Participation::class);
+
+// $participationModel->play(2, 4, 24, 25, 26, 27, 28, 29, 30, 31, "oui", "oui", 1);
+
+// $verifModel = new Participation();
+
+$score = new Score();
+
+// var_dump($participation); die;
+
+// $test = $score->calcul(1);
+
+$scoreRace1 = $score->sortingDesc(1);
+
+var_dump($scoreRace1);
+

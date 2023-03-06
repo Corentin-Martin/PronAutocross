@@ -1,8 +1,9 @@
 <?php
 
+namespace App\Models;
+
 class CoreGame extends CoreModel {
 
-    protected $id;
     protected $maxiSprint;
     protected $tourismeCup;
     protected $sprintGirls;
@@ -15,9 +16,6 @@ class CoreGame extends CoreModel {
     protected $bonus1;
     protected $bonus2;
     protected $race_id;
-
-    public function getId(){ return $this->id; }
-    public function setId($id): self { $this->id = $id; return $this; }
 
     public function getMaxiSprint(){ return $this->maxiSprint; }
     public function setMaxiSprint($maxiSprint): self { $this->maxiSprint = $maxiSprint; return $this; }

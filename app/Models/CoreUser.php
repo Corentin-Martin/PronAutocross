@@ -1,14 +1,12 @@
 <?php
 
+namespace App\Models;
+
 class CoreUser extends CoreModel {
 
-    protected $id;
     protected $firstName;
     protected $lastName;
     protected $picture;
-
-    public function getId(){ return $this->id; }
-    public function setId($id): self { $this->id = $id; return $this; }
 
     public function getFirstName(){ return $this->firstName; }
     public function setFirstName($firstName): self { $this->firstName = $firstName; return $this; }
