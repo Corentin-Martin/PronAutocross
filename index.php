@@ -1,41 +1,72 @@
 <?php
 
+use App\Controllers\ErrorController;
+use App\Controllers\MainController;
+use App\Controllers\StandingsController;
+
 require_once __DIR__ . '/vendor/autoload.php';
 
-use App\Models\Participation;
-use App\Models\Questions;
-use App\Models\Race;
-use App\Models\Score;
+$router = new AltoRouter();
+
+$router->setBasePath($_SERVER['BASE_URI']);
+
+$router->map(
+    'GET',
+    '/',
+    [
+    'controller' => MainController::class,
+    'method' => 'home'
+    ],
+    'home'
+);
+
+$router->map(
+    'GET',
+    '/general',
+    [
+    'controller' => StandingsController::class,
+    'method' => 'general'
+    ],
+    'general'
+);
+
+$router->map(
+    'GET',
+    '/results/[i:id]',
+    [
+    'controller' => StandingsController::class,
+    'method' => 'results'
+    ],
+    'results'
+);
+
+$router->map(
+    'GET',
+    '/error404',
+    [
+    'controller' => ErrorController::class,
+    'method' => 'error404'
+    ],
+    'error404'
+);
+
+$match = $router->match();
 
 
-// $verificationModel = new Verification(2, 24, 25, 26, 27, 28, 29, 30, 31, "oui", "non", 1);
+if ($match) {
 
-// $participationModel = new Participation();
-// $participation = $participationModel->findAll(Participation::class);
+    $raceId = $match['params']['id'] ?? null;
 
-// $participationModel->play(2, 4, 24, 25, 26, 27, 28, 29, 30, 31, "oui", "oui", 1);
+    $controller = new $match['target']['controller']();
+    $method = $match['target']['method'];
 
-// $verifModel = new Participation();
+    if ($raceId !== null) {
+        $controller->$method($raceId);
+    } else {
+        $controller->$method();
+    }
 
-// $score = new Score();
-
-// $race1 = $score->sortingByRace(1);
-
-$raceModel = new Race();
-
-$test = date('Y-m-d H:i:s');
-$race = $raceModel->insertRace('Saint Junien', $test);
-
-
-
-// var_dump($participation); die;
-
-// $score->calcul(1);
-
-// $questionModel = new Questions();
-// $question = $questionModel->addQuestions('Qui gagne ?', 'Qui fait la pôle ?', 'Top 3 en finale ?', 'Qui gagne ?','Qui fait la pôle ?', 'Top 3 en finale ?','Qui gagne ?', 'Qui fait la pôle ?', 'Top 3 en finale ?', 'Du soleil ?', 'De la pluie ?', 1);
-
-// $scoreRace1 = $score->sortingDesc(1);
-
-var_dump($test);
-
+} else {
+    $controller = new ErrorController();
+    $controller->error404();
+}
