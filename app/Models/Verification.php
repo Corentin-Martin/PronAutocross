@@ -46,7 +46,7 @@ class Verification extends CoreGame {
         }
     }
 
-    public function show($raceId) {
+    public function showByRaceId($raceId) {
         $pdo = Database::getPDO();
 
         $pdoStatement = $pdo->query("SELECT * FROM verification WHERE race_id=$raceId");

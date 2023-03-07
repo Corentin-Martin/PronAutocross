@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Utils\Database;
+
 class Race extends CoreModel {
     
     private $name;
@@ -16,4 +18,17 @@ class Race extends CoreModel {
 
     public function getPoster(){ return $this->poster; }
     public function setPoster($poster): self { $this->poster = $poster; return $this; }
+
+    public function insertRace($name, $date, $poster = null) {
+
+        $this->setName($name);
+        $this->setDate($date);
+        $this->setPoster($poster);
+
+        $pdo = Database::getPDO();
+
+        $sql = "INSERT INTO race (`name`, `date`, `poster`) VALUES ('{$this->getName()}', '{$this->getDate()}', '{$this->getPoster()}')";
+
+        return $pdoStatement = $pdo->exec($sql);
+    }
 }
