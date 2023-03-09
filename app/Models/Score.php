@@ -108,7 +108,24 @@ class Score extends CoreGame {
 
         $pdo = Database::getPDO();
 
-            $sql = "SELECT score.*, player.pseudo FROM score JOIN player ON player.id = score.player_id WHERE score.year_id=$year AND score.race_id=$raceId ORDER BY score.total DESC, player.pseudo ASC";
+            $sql = "SELECT score.*, player.pseudo FROM score JOIN player ON player.id = score.player_id WHERE score.year_id='$year' AND score.race_id='$raceId' ORDER BY score.total DESC, player.pseudo ASC";
+
+            $pdoStatement = $pdo->query($sql);
+
+        return $pdoStatement->fetchAll(PDO::FETCH_CLASS, Score::class);
+    }
+
+    /**
+     * Tri les scores des participants pour une course
+     *
+     * @param int $raceId // L'id de la course
+     * @return Score[]
+     */
+    public function sortingForGeneral($year, $raceId, $playerId) {
+
+        $pdo = Database::getPDO();
+
+            $sql = "SELECT * FROM score WHERE year_id='$year' AND race_id='$raceId' AND player_id='$playerId'";
 
             $pdoStatement = $pdo->query($sql);
 

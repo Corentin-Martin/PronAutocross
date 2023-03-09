@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\GeneralScore;
+use App\Models\Player;
 use App\Models\Score;
 
 class StandingsController extends CoreController {
@@ -17,6 +19,10 @@ class StandingsController extends CoreController {
     }
 
     public function general($year) {
-        $this->show('general');
+
+        $generalModel = new GeneralScore();
+        $general = $generalModel->sortingGeneral($year);
+
+        $this->show('general', ['general' => $general], $year);
     }
 }

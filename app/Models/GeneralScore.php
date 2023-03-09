@@ -20,6 +20,16 @@ class GeneralScore extends CoreModel
     public function getTotal(){ return $this->total; }
     public function setTotal($total): self { $this->total = $total; return $this; }
 
+    public function createGeneral($playerId, $yearId, $total = 0) {
+
+        $pdo = Database::getPDO();
+
+        $sql = "INSERT INTO general_score (`player_id`, `year_id`, `total`) VALUES ('$playerId', '$yearId', '$total')";
+
+        return $pdoStatement = $pdo->exec($sql);
+
+    }
+
     public function updateTotal($yearId, $playerId, $points) {
 
         $pdo = Database::getPDO();
