@@ -63,7 +63,15 @@ class Participation extends CoreGame {
     public function showAllParticipations($yearId, $raceId) {
         $pdo = Database::getPDO();
 
-        $pdoStatement = $pdo->query("SELECT * FROM participation WHERE year_id=$yearId AND race_id=$raceId");
+        $pdoStatement = $pdo->query("SELECT * FROM participation WHERE year_id='$yearId' AND race_id='$raceId'");
+
+        return $pdoStatement->fetchAll(PDO::FETCH_CLASS, Participation::class);
+    }
+
+    public function showAllForADriver($yearId, $raceId, $driverId) {
+        $pdo = Database::getPDO();
+
+        $pdoStatement = $pdo->query("SELECT * FROM participation WHERE year_id='$yearId' AND race_id='$raceId' AND (maxiSprint='$driverId' OR tourismeCup='$driverId' OR sprintGirls='$driverId' OR buggyCup='$driverId' OR juniorSprint='$driverId' OR maxiTourisme='$driverId' OR buggy1600='$driverId' OR superSprint='$driverId' OR superBuggy='$driverId') ");
 
         return $pdoStatement->fetchAll(PDO::FETCH_CLASS, Participation::class);
     }
