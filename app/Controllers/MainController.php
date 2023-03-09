@@ -10,6 +10,11 @@ class MainController extends CoreController {
 
     public function home() {
 
+        $rateModel = new Rate();
+
+        $rate = $rateModel->updateRate(2023, 1);
+
+        dd($rate);
 
         $this->show('home');
     }
