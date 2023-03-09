@@ -93,8 +93,8 @@ class Score extends CoreGame {
     
             $pdoStatement = $pdo->exec($sql);
 
-            $playerModel = new Player();
-            $player = $playerModel->addPoints($this->getPlayerId(),$this->getTotal());
+            $playerModel = new GeneralScore();
+            $player = $playerModel->updateTotal($this->getYearId(), $this->getPlayerId(), $this->getTotal());
         }
     }
 

@@ -28,31 +28,7 @@ class Player extends CoreUser {
     public function getRole(){ return $this->role; }
     public function setRole($role): self { $this->role = $role; return $this; }
 
-    public function addPoints($playerId, $points) {
-
-        $pdo = Database::getPDO();
-
-        $sql = "UPDATE player SET points = $points WHERE id = $playerId";
-
-        return $pdoStatement = $pdo->exec($sql);
 
 
-    }
-
-        /**
-     * Tri les scores des participants pour une course
-     *
-     * @param int $raceId // L'id de la course
-     * @return Score[]
-     */
-    public function sortingGeneral() {
-
-        $pdo = Database::getPDO();
-
-            $sql = "SELECT * FROM `player` ORDER BY `points` DESC, `pseudo` ASC";
-
-            $pdoStatement = $pdo->query($sql);
-
-        return $pdoStatement->fetchAll(PDO::FETCH_CLASS, Score::class);
-    }
 }
+
