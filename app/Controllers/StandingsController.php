@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Category;
 use App\Models\GeneralScore;
 use App\Models\Player;
 use App\Models\Score;
@@ -14,8 +15,11 @@ class StandingsController extends CoreController {
         $scoreModel = new Score();
         $score = $scoreModel->sortingByRace($year, $raceId);
 
+        $categoryModel = new Category();
+        $categories = $categoryModel->findAll(Category::class);
 
-        $this->show('results', ['race_id' => $raceId, 'score' => $score]);
+
+        $this->show('results', ['race_id' => $raceId, 'score' => $score, 'categories' => $categories]);
     }
 
     public function general($year) {

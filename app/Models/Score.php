@@ -58,16 +58,16 @@ class Score extends CoreGame {
             $sql = "INSERT INTO `score` (
                 `player_id`,
                 `maxiSprint`,
-                -- `tourismeCup`,
-                -- `sprintGirls`,
-                -- `buggyCup`,
-                -- `juniorSprint`, 
-                -- `maxiTourisme`,
-                -- `buggy1600`,
-                -- `superSprint`,
-                -- `superBuggy`, 
-                -- `bonus1`,
-                -- `bonus2`,
+                `tourismeCup`,
+                `sprintGirls`,
+                `buggyCup`,
+                `juniorSprint`, 
+                `maxiTourisme`,
+                `buggy1600`,
+                `superSprint`,
+                `superBuggy`, 
+                `bonus1`,
+                `bonus2`,
                 `total`,
                 `race_id`,
                 `participation_id`,
@@ -75,16 +75,16 @@ class Score extends CoreGame {
                 VALUES (
                 '{$this->getPlayerId()}',
                 '{$this->getMaxiSprint()}', 
-                -- '{$this->getTourismeCup()}', 
-                -- '{$this->getSprintGirls()}',
-                -- '{$this->getBuggyCup()}', 
-                -- '{$this->getJuniorSprint()}', 
-                -- '{$this->getMaxiTourisme()}', 
-                -- '{$this->getBuggy1600()}', 
-                -- '{$this->getSuperSprint()}', 
-                -- '{$this->getSuperBuggy()}', 
-                -- '{$this->getBonus1()}', 
-                -- '{$this->getBonus2()}',
+                '{$this->getTourismeCup()}', 
+                '{$this->getSprintGirls()}',
+                '{$this->getBuggyCup()}', 
+                '{$this->getJuniorSprint()}', 
+                '{$this->getMaxiTourisme()}', 
+                '{$this->getBuggy1600()}', 
+                '{$this->getSuperSprint()}', 
+                '{$this->getSuperBuggy()}', 
+                '{$this->getBonus1()}', 
+                '{$this->getBonus2()}',
                 '{$this->getTotal()}', 
                 '{$this->getRaceId()}',
                 '{$this->getParticipationId()}',
@@ -121,7 +121,7 @@ class Score extends CoreGame {
      * @param int $raceId // L'id de la course
      * @return Score[]
      */
-    public function sortingForGeneral($year, $raceId, $playerId) {
+    public function findForGeneral($year, $raceId, $playerId) {
 
         $pdo = Database::getPDO();
 
@@ -129,7 +129,7 @@ class Score extends CoreGame {
 
             $pdoStatement = $pdo->query($sql);
 
-        return $pdoStatement->fetchAll(PDO::FETCH_CLASS, Score::class);
+        return $pdoStatement->fetchObject(Score::class);
     }
 
 

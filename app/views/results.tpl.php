@@ -1,70 +1,57 @@
 <h1> RESULTATS DE <?= $racesById[$viewData['race_id']]->getName() ?></h1>
 
-<table>
-    <thead>
-    <tr>
-    <td>Place</td>
-    <td>Pseudo</td>
-<td>Maxi Sprint</td>
-<td>Tourisme Cup</td>
-<td>Sprint Girls</td>
-<td>Buggy Cup</td>
-<td>Junior Sprint</td>
-<td>Maxi Tourisme</td>
-<td>Buggy 1600</td>
-<td>Super Sprint</td>
-<td>Super Buggy</td>
-<td>Bonus 1</td>
-<td>Bonus 2</td>
-<td>Total</td>
-</tr>
-    </thead>
-    <tbody>
+    <table>
+        <thead>
+            <tr>
+                <td>Place</td>
+                <td>Pseudo</td>
 
-<?php
-$place=2;
-$increment=1;
-$preceding = null;
-foreach ($viewData['score'] as $score) : ;
- ?>
+                <?php foreach ($viewData['categories'] as $category) : ?>
+                <td><?= $category->getName() ?></td>
+                <?php endforeach; ?>
 
+                <td>Bonus 1</td>
+                <td>Bonus 2</td>
+                <td>Total</td>
+            </tr>
+        </thead>
 
-<tr>
-<td><?php if (is_null($preceding) || $preceding === $score->getTotal()) {
+        <tbody>
 
-    $place--;
-    
-    echo $place;
-    
-} else {
-    echo $increment;
+            <?php $place=2; $increment=1; $preceding = null;
+            foreach ($viewData['score'] as $score) : ; ?>
 
-    $place = $increment;
+            <tr>
+                <td>
+                    <?php if (is_null($preceding) || $preceding === $score->getTotal()) {
 
-}
-$place++;
-$increment++;
+                        $place--;
+                        echo $place;
 
+                    } else {
 
+                        echo $increment;
+                        $place = $increment;
 
-$preceding = $score->getTotal(); ?>
-</td>
-<td><?= $playersById[$score->getPlayerId()]->getPseudo() ?></td>
-<td><?= $score->getMaxiSprint(); ?></td>
-<td><?= $score->getTourismeCup(); ?></td>
-<td><?= $score->getSprintGirls(); ?></td>
-<td><?= $score->getBuggyCup(); ?></td>
-<td><?= $score->getJuniorSprint(); ?></td>
-<td><?= $score->getMaxiTourisme(); ?></td>
-<td><?= $score->getBuggy1600(); ?></td>
-<td><?= $score->getSuperSprint(); ?></td>
-<td><?= $score->getSuperBuggy(); ?></td>
-<td><?= $score->getBonus1(); ?></td>
-<td><?= $score->getBonus2(); ?></td>
-<td><?= $score->getTotal(); ?></td>
-</tr>
+                    }
 
-<?php endforeach; ?>
+                    $place++; $increment++; $preceding = $score->getTotal(); ?>
+                </td>
 
-</tbody>
-</table>
+                <td><?= $playersById[$score->getPlayerId()]->getPseudo() ?></td>
+                
+                <?php foreach ($viewData['categories'] as $category) :
+                $categoryToGet = str_replace(" ", "", $category->getName()); ?>
+                <td><?= $score->{'get'.$categoryToGet}(); ?></td>
+                <?php endforeach; ?>
+
+                <td><?= $score->getBonus1(); ?></td>
+                <td><?= $score->getBonus2(); ?></td>
+                <td><?= $score->getTotal(); ?></td>
+            </tr>
+
+            <?php endforeach; ?>
+
+        </tbody>
+        
+    </table>
