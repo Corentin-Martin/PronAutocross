@@ -22,7 +22,7 @@ $router->map(
 
 $router->map(
     'GET',
-    '/general',
+    '/results/[i:year]',
     [
     'controller' => StandingsController::class,
     'method' => 'general'
@@ -32,7 +32,7 @@ $router->map(
 
 $router->map(
     'GET',
-    '/results/[i:id]',
+    '/results/[i:year]/[i:id]',
     [
     'controller' => StandingsController::class,
     'method' => 'results'
@@ -55,13 +55,16 @@ $match = $router->match();
 
 if ($match) {
 
+    $year = $match['params']['year'] ?? null;
     $raceId = $match['params']['id'] ?? null;
 
     $controller = new $match['target']['controller']();
     $method = $match['target']['method'];
 
-    if ($raceId !== null) {
-        $controller->$method($raceId);
+    if ($year !== null && $raceId !== null) {
+        $controller->$method($year, $raceId);
+    } else if ($year !== null && $raceId === null) {
+        $controller->$method($year); 
     } else {
         $controller->$method();
     }

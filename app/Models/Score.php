@@ -28,10 +28,10 @@ class Score extends CoreGame {
      * @param int $raceId // L'id de la course
      * @return void
      */
-    public function calcul($raceId) {
+    public function calcul($yearId, $raceId) {
 
         $participationModel = new Participation();
-        $participations = $participationModel->showAllParticipations($raceId);
+        $participations = $participationModel->showAllParticipations($yearId, $raceId);
 
         foreach ($participations as $participation) {
 
@@ -47,6 +47,7 @@ class Score extends CoreGame {
             $this->setPlayerId($participation->getPlayerId());
             $this->setParticipationId($participation->getId());
             $this->setRaceId($participation->getRaceId());
+            $this->setYearId($participation->getYearId());
             
             $total = $this->getMaxiSprint();
 
@@ -69,7 +70,8 @@ class Score extends CoreGame {
                 -- `bonus2`,
                 `total`,
                 `race_id`,
-                `participation_id`) 
+                `participation_id`,
+                `year_id`) 
                 VALUES (
                 '{$this->getPlayerId()}',
                 '{$this->getMaxiSprint()}', 
@@ -85,7 +87,8 @@ class Score extends CoreGame {
                 -- '{$this->getBonus2()}',
                 '{$this->getTotal()}', 
                 '{$this->getRaceId()}',
-                '{$this->getParticipationId()}'
+                '{$this->getParticipationId()}',
+                '{$this->getYearId()}'
                 )";
     
             $pdoStatement = $pdo->exec($sql);
@@ -101,11 +104,11 @@ class Score extends CoreGame {
      * @param int $raceId // L'id de la course
      * @return Score[]
      */
-    public function sortingByRace($raceId) {
+    public function sortingByRace($year, $raceId) {
 
         $pdo = Database::getPDO();
 
-            $sql = "SELECT score.*, player.pseudo FROM score JOIN player ON player.id = score.player_id WHERE score.race_id=$raceId ORDER BY score.total DESC, player.pseudo ASC";
+            $sql = "SELECT score.*, player.pseudo FROM score JOIN player ON player.id = score.player_id WHERE score.year_id=$year AND score.race_id=$raceId ORDER BY score.total DESC, player.pseudo ASC";
 
             $pdoStatement = $pdo->query($sql);
 

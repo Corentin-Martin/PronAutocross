@@ -9,6 +9,7 @@ class Race extends CoreModel {
     private $name;
     private $date;
     private $poster;
+    private $year_id;
 
     public function getName(){ return $this->name; }
     public function setName($name): self { $this->name = $name; return $this; }
@@ -19,16 +20,22 @@ class Race extends CoreModel {
     public function getPoster(){ return $this->poster; }
     public function setPoster($poster): self { $this->poster = $poster; return $this; }
 
-    public function insertRace($name, $date, $poster = null) {
+    public function getYearId(){ return $this->year_id; }
+    public function setYearId($year_id): self { $this->year_id = $year_id; return $this; }
+
+    public function insertRace($name, $date, $poster = null, $year_id) {
 
         $this->setName($name);
         $this->setDate($date);
         $this->setPoster($poster);
+        $this->setYearId($year_id);
 
         $pdo = Database::getPDO();
 
-        $sql = "INSERT INTO race (`name`, `date`, `poster`) VALUES ('{$this->getName()}', '{$this->getDate()}', '{$this->getPoster()}')";
+        $sql = "INSERT INTO race (`name`, `date`, `poster`) VALUES ('{$this->getName()}', '{$this->getDate()}', '{$this->getPoster()}', '{$this->getYearId()}')";
 
         return $pdoStatement = $pdo->exec($sql);
     }
+
+
 }

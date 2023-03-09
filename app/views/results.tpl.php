@@ -22,12 +22,33 @@
     <tbody>
 
 <?php
-
-foreach ($viewData['score'] as $score) : dump($score); ?>
+$place=2;
+$increment=1;
+$preceding = null;
+foreach ($viewData['score'] as $score) : ;
+ ?>
 
 
 <tr>
-<td></td>
+<td><?php if (is_null($preceding) || $preceding === $score->getTotal()) {
+
+    $place--;
+    
+    echo $place;
+    
+} else {
+    echo $increment;
+
+    $place = $increment;
+
+}
+$place++;
+$increment++;
+
+
+
+$preceding = $score->getTotal(); ?>
+</td>
 <td><?= $playersById[$score->getPlayerId()]->getPseudo() ?></td>
 <td><?= $score->getMaxiSprint(); ?></td>
 <td><?= $score->getTourismeCup(); ?></td>

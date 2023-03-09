@@ -6,7 +6,7 @@ use App\Utils\Database;
 
 class Questions extends CoreGame {
     
-    public function addQuestions($ms, $tc, $sg, $bc, $js, $mt, $b16, $ss, $sb, $b1, $b2, $raceId) {
+    public function addQuestions($ms, $tc, $sg, $bc, $js, $mt, $b16, $ss, $sb, $b1, $b2, $raceId, $yearId) {
 
         $this->setMaxiSprint($ms);
         $this->setTourismeCup($tc);
@@ -20,10 +20,11 @@ class Questions extends CoreGame {
         $this->setBonus1($b1);
         $this->setBonus2($b2);
         $this->setRaceId($raceId);
+        $this->setYearId($yearId);
 
         $pdo = Database::getPDO();
 
-        $sql = "INSERT INTO `questions` (`maxiSprint`, `tourismeCup`, `sprintGirls`, `buggyCup`, `juniorSprint`, `maxiTourisme`, `buggy1600`, `superSprint`, `superBuggy`, `bonus1`, `bonus2`, `race_id`) VALUES (
+        $sql = "INSERT INTO `questions` (`maxiSprint`, `tourismeCup`, `sprintGirls`, `buggyCup`, `juniorSprint`, `maxiTourisme`, `buggy1600`, `superSprint`, `superBuggy`, `bonus1`, `bonus2`, `race_id`, `year_id`) VALUES (
             '{$this->getMaxiSprint()}', 
             '{$this->getTourismeCup()}', 
             '{$this->getSprintGirls()}',
@@ -35,7 +36,8 @@ class Questions extends CoreGame {
             '{$this->getSuperBuggy()}', 
             '{$this->getBonus1()}', 
             '{$this->getBonus2()}', 
-            '{$this->getRaceId()}')";
+            '{$this->getRaceId()}',
+            '{$this->getYearId()}'))";
 
         $pdoStatement = $pdo->exec($sql);
 

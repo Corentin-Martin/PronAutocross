@@ -6,7 +6,7 @@ use App\Utils\Database;
 
 class Verification extends CoreGame {
 
-    public function verif($msId, $tcId, $sgId, $bcId, $jsId, $mtId, $b16Id, $ssId, $sbId, $b1Id, $b2Id, $raceId) {
+    public function verif($msId, $tcId, $sgId, $bcId, $jsId, $mtId, $b16Id, $ssId, $sbId, $b1Id, $b2Id, $raceId, $yearId) {
 
         $this->setMaxiSprint($msId);
         $this->setTourismeCup($tcId);
@@ -20,10 +20,11 @@ class Verification extends CoreGame {
         $this->setBonus1($b1Id);
         $this->setBonus2($b2Id);
         $this->setRaceId($raceId);
+        $this->setYearId($yearId);
 
         $pdo = Database::getPDO();
 
-        $sql = "INSERT INTO `verification` (`maxiSprint`, `tourismeCup`, `sprintGirls`, `buggyCup`, `juniorSprint`, `maxiTourisme`, `buggy1600`, `superSprint`, `superBuggy`, `bonus1`, `bonus2`, `race_id`) VALUES (
+        $sql = "INSERT INTO `verification` (`maxiSprint`, `tourismeCup`, `sprintGirls`, `buggyCup`, `juniorSprint`, `maxiTourisme`, `buggy1600`, `superSprint`, `superBuggy`, `bonus1`, `bonus2`, `race_id`, `year_id`) VALUES (
             '{$this->getMaxiSprint()}', 
             '{$this->getTourismeCup()}', 
             '{$this->getSprintGirls()}',
@@ -35,7 +36,8 @@ class Verification extends CoreGame {
             '{$this->getSuperBuggy()}', 
             '{$this->getBonus1()}', 
             '{$this->getBonus2()}', 
-            '{$this->getRaceId()}')";
+            '{$this->getRaceId()}',
+            '{$this->getYearId()}')";
 
         $pdoStatement = $pdo->exec($sql);
 

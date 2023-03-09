@@ -7,16 +7,16 @@ use App\Models\Score;
 class StandingsController extends CoreController {
 
 
-    public function results($raceId) {
+    public function results($year, $raceId) {
 
         $scoreModel = new Score();
-        $score = $scoreModel->sortingByRace($raceId);
+        $score = $scoreModel->sortingByRace($year, $raceId);
 
 
         $this->show('results', ['race_id' => $raceId, 'score' => $score]);
     }
 
-    public function general() {
+    public function general($year) {
         $this->show('general');
     }
 }

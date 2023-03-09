@@ -16,7 +16,7 @@ class Participation extends CoreGame {
     public function getVerificationId(){ return $this->verification_id; }
     public function setVerificationId($verification_id): self { $this->verification_id = $verification_id; return $this; }
 
-    public function play($playerId, $msId, $tcId, $sgId, $bcId, $jsId, $mtId, $b16Id, $ssId, $sbId, $b1Id, $b2Id, $raceId) {
+    public function play($playerId, $msId, $tcId, $sgId, $bcId, $jsId, $mtId, $b16Id, $ssId, $sbId, $b1Id, $b2Id, $raceId, $yearId) {
 
         $this->setPlayerId($playerId);
         $this->setMaxiSprint($msId);
@@ -31,10 +31,11 @@ class Participation extends CoreGame {
         $this->setBonus1($b1Id);
         $this->setBonus2($b2Id);
         $this->setRaceId($raceId);
+        $this->setYearId($yearId);
 
         $pdo = Database::getPDO();
 
-        $sql = "INSERT INTO `participation` (`player_id`, `maxiSprint`, `tourismeCup`, `sprintGirls`, `buggyCup`, `juniorSprint`, `maxiTourisme`, `buggy1600`, `superSprint`, `superBuggy`, `bonus1`, `bonus2`, `race_id`) VALUES (
+        $sql = "INSERT INTO `participation` (`player_id`, `maxiSprint`, `tourismeCup`, `sprintGirls`, `buggyCup`, `juniorSprint`, `maxiTourisme`, `buggy1600`, `superSprint`, `superBuggy`, `bonus1`, `bonus2`, `race_id`, `year_id`) VALUES (
             '{$this->getPlayerId()}',
             '{$this->getMaxiSprint()}', 
             '{$this->getTourismeCup()}', 
@@ -47,7 +48,8 @@ class Participation extends CoreGame {
             '{$this->getSuperBuggy()}', 
             '{$this->getBonus1()}', 
             '{$this->getBonus2()}', 
-            '{$this->getRaceId()}')";
+            '{$this->getRaceId()}'),
+            '{$this->getYearId()}')";
 
         $pdoStatement = $pdo->exec($sql);
 
@@ -58,10 +60,10 @@ class Participation extends CoreGame {
         }
     }
 
-    public function showAllParticipations($raceId) {
+    public function showAllParticipations($yearId, $raceId) {
         $pdo = Database::getPDO();
 
-        $pdoStatement = $pdo->query("SELECT * FROM participation WHERE race_id=$raceId");
+        $pdoStatement = $pdo->query("SELECT * FROM participation WHERE year_id=$yearId AND race_id=$raceId");
 
         return $pdoStatement->fetchAll(PDO::FETCH_CLASS, Participation::class);
     }

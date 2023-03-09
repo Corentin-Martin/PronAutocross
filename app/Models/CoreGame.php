@@ -16,6 +16,7 @@ class CoreGame extends CoreModel {
     protected $bonus1;
     protected $bonus2;
     protected $race_id;
+    protected $year_id;
 
     public function getMaxiSprint(){ return $this->maxiSprint; }
     public function setMaxiSprint($maxiSprint): self { $this->maxiSprint = $maxiSprint; return $this; }
@@ -52,4 +53,7 @@ class CoreGame extends CoreModel {
 
     public function getRaceId(){ return $this->race_id; }
     public function setRaceId($race_id): self { $this->race_id = $race_id; return $this; }
+
+    public function getYearId(){ return $this->year_id; }
+    public function setYearId($year_id): self { $this->year_id = $year_id; return $this; }
 }
