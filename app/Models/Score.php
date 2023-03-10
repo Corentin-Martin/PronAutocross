@@ -40,8 +40,6 @@ class Score extends CoreGame {
             $verifModel = new Verification();
             $verif = $verifModel->showByRaceId($raceId, $yearId);
 
-            $rateModel = new Rate();
-
             $categoryModel = new Category();
             $categories = $categoryModel->findAll(Category::class);
 
@@ -50,9 +48,11 @@ class Score extends CoreGame {
 
                 if ($verif->{'get'.$categoryOnVerif}() === $participation->{'get'.$categoryOnVerif}()) {
 
-                    $rate = $rateModel->findRateByDriverId($verif->{'get'.$categoryOnVerif}(), $yearId);
+                    $rateModel = new Rate();
+                    $rate = $rateModel->findRateByDriverIdForScore($verif->{'get'.$categoryOnVerif}(), $yearId);
+                    
                     $pointsToAdd = 10 * $rate->getOverall();
-                    $this->{'set'.$categoryOnVerif}()($pointsToAdd);
+                    $this->{'set'.$categoryOnVerif}($pointsToAdd);
     
                 } else {
                     $this->{'set'.$categoryOnVerif}()(0);

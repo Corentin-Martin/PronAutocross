@@ -114,6 +114,19 @@ class Rate extends CoreModel
         $this->setRate1($driver->getRate1());
         $this->setRate2($driver->getRate2());
 
+
+    }
+
+    public function findRateByDriverIdForScore($driverId, $yearId) {
+
+        $pdo = Database::getPDO();
+
+        $sql = "SELECT * FROM rate WHERE year_id='$yearId' AND driver_id='$driverId'";
+
+        $pdoStatement = $pdo->query($sql);
+
+        $driver = $pdoStatement->fetchObject(Rate::class);
+
         return $driver;
 
     }
