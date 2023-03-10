@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Driver;
+use App\Utils\Database;
+use PDO;
+
 class EntryList extends CoreModel {
     
     private $race_id;
@@ -20,4 +24,37 @@ class EntryList extends CoreModel {
 
     public function getYearId(){ return $this->year_id; }
     public function setYearId($year_id): self { $this->year_id = $year_id; return $this; }
+
+    public function make($POST) {
+
+        $table = $POST;
+        $driverModel = new Driver();
+
+
+        foreach (array_slice(array_keys($table), 3) as $driverId) {
+
+            $driver = $driverModel->find($driverId, Driver::class);
+
+            if ($driver) {
+
+                $pdo = Database::getPDO();
+
+                $sql = "INSERT INTO entry_list (`race_id`, `category_id`, `driver_id`, `year_id`) VALUES ('{$table['race']}', '{$driver->getCategoryId()}', '{$driver->getId()}', '{$table['year']}')";
+
+                $pdoStatement = $pdo->exec($sql);
+            }
+
+        }
+    }
+
+    public function listByRaceAndCategory($yearId, $raceId, $categoryId) {
+
+        $pdo = Database::getPDO();
+
+        $sql = "SELECT * FROM entry_list WHERE race_id = '$raceId' AND category_id = '$categoryId' AND year_id = '$yearId'";
+
+        $pdoStatement = $pdo->query($sql);
+
+        return $pdoStatement->fetchAll(PDO::FETCH_CLASS, EntryList::class);
+    }
 }

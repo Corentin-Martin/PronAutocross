@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\AdminController;
 use App\Controllers\ErrorController;
 use App\Controllers\MainController;
 use App\Controllers\StandingsController;
@@ -38,6 +39,26 @@ $router->map(
     'method' => 'results'
     ],
     'results'
+);
+
+$router->map(
+    'GET',
+    '/entrylist',
+    [
+    'controller' => AdminController::class,
+    'method' => 'entrylist'
+    ],
+    'entrylist'
+);
+
+$router->map(
+    'GET',
+    '/driver',
+    [
+    'controller' => AdminController::class,
+    'method' => 'driver'
+    ],
+    'driver'
 );
 
 $router->map(
