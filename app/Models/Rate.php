@@ -114,6 +114,7 @@ class Rate extends CoreModel
         $this->setRate1($driver->getRate1());
         $this->setRate2($driver->getRate2());
 
+        return $driver;
 
     }
     

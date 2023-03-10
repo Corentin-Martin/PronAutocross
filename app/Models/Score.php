@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\Verification;
+use App\Models\Category;
+use App\Models\Rate;
 use App\Models\Participation;
 use App\Utils\Database;
 use PDO;
@@ -36,12 +38,42 @@ class Score extends CoreGame {
         foreach ($participations as $participation) {
 
             $verifModel = new Verification();
-            $verif = $verifModel->showByRaceId($raceId);
+            $verif = $verifModel->showByRaceId($raceId, $yearId);
 
-            if ($verif->getMaxiSprint() === $participation->getMaxiSprint()) {
-                $this->setMaxiSprint(10);
+            $rateModel = new Rate();
+
+            $categoryModel = new Category();
+            $categories = $categoryModel->findAll(Category::class);
+
+            foreach ($categories as $category) {
+                $categoryOnVerif = str_replace(" ", "", $category->getName());
+
+                if ($verif->{'get'.$categoryOnVerif}() === $participation->{'get'.$categoryOnVerif}()) {
+
+                    $rate = $rateModel->findRateByDriverId($verif->{'get'.$categoryOnVerif}(), $yearId);
+                    $pointsToAdd = 10 * $rate->getOverall();
+                    $this->{'set'.$categoryOnVerif}()($pointsToAdd);
+    
+                } else {
+                    $this->{'set'.$categoryOnVerif}()(0);
+                }
+
+            }
+
+            if ($verif->getBonus1() === $participation->getBonus1()) {
+
+                $this->setBonus1(20);
+                
             } else {
-                $this->setMaxiSprint(0);
+                $this->setBonus1(0);
+            }
+
+            if ($verif->getBonus2() === $participation->getBonus2()) {
+
+                $this->setBonus2(20);
+                
+            } else {
+                $this->setBonus2(0);
             }
 
             $this->setPlayerId($participation->getPlayerId());
@@ -49,7 +81,17 @@ class Score extends CoreGame {
             $this->setRaceId($participation->getRaceId());
             $this->setYearId($participation->getYearId());
             
-            $total = $this->getMaxiSprint();
+            $total =  $this->getMaxiSprint() +
+            $this->getTourismeCup() +
+            $this->getSprintGirls() +
+            $this->getBuggyCup() +
+            $this->getJuniorSprint() +
+            $this->getMaxiTourisme() +
+            $this->getBuggy1600() +
+            $this->getSuperSprint() +
+            $this->getSuperBuggy() +
+            $this->getBonus1() +
+            $this->getBonus2();
 
             $this->setTotal($total);
 
