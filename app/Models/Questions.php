@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Utils\Database;
+use PDO;
 
 class Questions extends CoreGame {
     
@@ -46,5 +47,16 @@ class Questions extends CoreGame {
         } else {
             exit("Erreur !");
         }
+    }
+
+    public function findQuestionsByRaceAndYear($yearId, $raceId) {
+
+        $pdo = Database::getPDO();
+
+        $sql = "SELECT * FROM questions WHERE year_id = '$yearId' AND race_id='$raceId'";
+
+        $pdoStatement = $pdo->query($sql);
+
+        return $pdoStatement->fetchObject(Questions::class);
     }
 }

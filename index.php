@@ -3,6 +3,7 @@
 use App\Controllers\AdminController;
 use App\Controllers\ErrorController;
 use App\Controllers\MainController;
+use App\Controllers\PlayingController;
 use App\Controllers\StandingsController;
 
 require_once __DIR__ . '/vendor/autoload.php';
@@ -39,6 +40,16 @@ $router->map(
     'method' => 'results'
     ],
     'results'
+);
+
+$router->map(
+    'GET',
+    '/play/[i:year]/[i:id]',
+    [
+    'controller' => PlayingController::class,
+    'method' => 'play'
+    ],
+    'play'
 );
 
 $router->map(
