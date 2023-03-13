@@ -60,8 +60,8 @@
 
         <select name="bonus1" id="bonus1" required>
 
-            <option value = "oui"> Oui </option>
-            <option value = "non"> Non </option>
+            <option value ="oui"> Oui </option>
+            <option value ="non"> Non </option>
 
         </select>
 
@@ -73,7 +73,7 @@
 
         <h4><?= $questions->getBonus2() ?></h4>
 
-        <select name="bonus1" id="bonus1" required>
+        <select name="bonus2" id="bonus2" required>
 
             <option value = "oui"> Oui </option>
             <option value = "non"> Non </option>

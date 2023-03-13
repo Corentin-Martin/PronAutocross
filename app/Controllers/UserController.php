@@ -48,14 +48,11 @@ class UserController extends CoreController
             $buggy1600 = filter_input(INPUT_GET, 'Buggy1600', FILTER_VALIDATE_INT);
             $superSprint = filter_input(INPUT_GET, 'SuperSprint', FILTER_VALIDATE_INT);
             $superBuggy = filter_input(INPUT_GET, 'SuperBuggy', FILTER_VALIDATE_INT);
-            $bonus1 = filter_input(INPUT_GET, 'Bonus1', FILTER_SANITIZE_SPECIAL_CHARS);
-            $bonus2 = filter_input(INPUT_GET, 'Bonus2', FILTER_SANITIZE_SPECIAL_CHARS);
+            $bonus1 = filter_input(INPUT_GET, 'bonus1', FILTER_SANITIZE_SPECIAL_CHARS);
+            $bonus2 = filter_input(INPUT_GET, 'bonus2', FILTER_SANITIZE_SPECIAL_CHARS);
             $raceId = filter_input(INPUT_GET, 'raceId', FILTER_VALIDATE_INT);
             $year = filter_input(INPUT_GET, 'year', FILTER_VALIDATE_INT);
-
-            // TO DO Attention, les bonus n'arrivent pas !
             
-        
         $participationModel = new Participation();
         $participation = $participationModel->play($playerId, $maxiSprint,$tourismeCup,$sprintGirls,$buggyCup, $juniorSprint, $maxiTourisme, $buggy1600, $superSprint, $superBuggy, $bonus1, $bonus2, $raceId, $year);
         

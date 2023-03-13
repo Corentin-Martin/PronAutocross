@@ -53,11 +53,7 @@ class Participation extends CoreGame {
 
         $pdoStatement = $pdo->exec($sql);
 
-        if ($pdoStatement === 1) {
-            exit("Participation validée");
-        } else {
-            exit("Erreur !");
-        }
+       return $pdoStatement;
     }
 
     public function showAllParticipations($yearId, $raceId) {
