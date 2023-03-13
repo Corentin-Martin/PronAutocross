@@ -64,6 +64,16 @@ $router->map(
 
 $router->map(
     'GET',
+    '/dashboard',
+    [
+    'controller' => UserController::class,
+    'method' => 'dashboard'
+    ],
+    'dashboard'
+);
+
+$router->map(
+    'GET',
     '/entrylist',
     [
     'controller' => AdminController::class,

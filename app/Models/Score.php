@@ -174,5 +174,16 @@ class Score extends CoreGame {
         return $pdoStatement->fetchObject(Score::class);
     }
 
+    public function findAllScoresbyPlayerId($playerId) {
+
+        $pdo = Database::getPDO();
+
+        $sql = "SELECT * FROM score WHERE player_id='$playerId'";
+
+        $pdoStatement = $pdo->query($sql);
+
+    return $pdoStatement->fetchAll(PDO::FETCH_CLASS, Score::class);
+    }
+
 
 }

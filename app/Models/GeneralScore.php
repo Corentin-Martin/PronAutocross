@@ -57,4 +57,16 @@ class GeneralScore extends CoreModel
         return $pdoStatement->fetchAll(PDO::FETCH_CLASS, GeneralScore::class);
     }
 
+    public function findGeneralForPlayer($playerId) {
+
+        $pdo = Database::getPDO();
+
+            $sql = "SELECT * FROM `general_score` WHERE player_id = '$playerId'";
+
+            $pdoStatement = $pdo->query($sql);
+
+        return $pdoStatement->fetchObject(GeneralScore::class);
+    }
+
+
 }

@@ -4,9 +4,11 @@ namespace App\Controllers;
 
 use App\Models\Category;
 use App\Models\EntryList;
+use App\Models\GeneralScore;
 use App\Models\Participation;
 use App\Models\Questions;
 use App\Models\Rate;
+use App\Models\Score;
 
 class UserController extends CoreController
 {
@@ -38,7 +40,7 @@ class UserController extends CoreController
 
         if (!empty($_GET['MaxiSprint'])) {
 
-            $playerId = 1;
+            $playerId = $_SESSION["playerId"];
             $maxiSprint = filter_input(INPUT_GET, 'MaxiSprint', FILTER_VALIDATE_INT);
             $tourismeCup = filter_input(INPUT_GET, 'TourismeCup', FILTER_VALIDATE_INT);
             $sprintGirls = filter_input(INPUT_GET, 'SprintGirls', FILTER_VALIDATE_INT);
@@ -74,5 +76,18 @@ class UserController extends CoreController
        
 
         $this->show('user/recap');
+    }
+
+    public function dashboard() {
+
+        $playerId = 1;
+
+       $scoreModel = new Score();
+       $scoreforPlayer = $scoreModel->findAllScoresbyPlayerId($playerId);
+
+       $generalModel = new GeneralScore();
+       $generalforPlayer = $generalModel->findGeneralForPlayer($playerId);
+
+        $this->show('user/dashboard', ['scores' => $scoreforPlayer, 'general' => $generalforPlayer]);
     }
 }
