@@ -48,7 +48,7 @@ class Participation extends CoreGame {
             '{$this->getSuperBuggy()}', 
             '{$this->getBonus1()}', 
             '{$this->getBonus2()}', 
-            '{$this->getRaceId()}'),
+            '{$this->getRaceId()}',
             '{$this->getYearId()}')";
 
         $pdoStatement = $pdo->exec($sql);

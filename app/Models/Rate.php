@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Utils\Database;
+use PDO;
 
 class Rate extends CoreModel
 {
@@ -44,7 +45,7 @@ class Rate extends CoreModel
             '{$this->getDriverId()}',
             '{$this->getYearId()}')";
 
-        $pdoStatement = $pdo->exec($sql);
+        return $pdoStatement = $pdo->exec($sql);
     }
 
 
@@ -128,6 +129,19 @@ class Rate extends CoreModel
         $driver = $pdoStatement->fetchObject(Rate::class);
 
         return $driver;
+
+    }
+
+    public function findAllRatesByYear($yearId) {
+
+        $pdo = Database::getPDO();
+
+        $sql = "SELECT * FROM rate WHERE year_id='$yearId'";
+
+        $pdoStatement = $pdo->query($sql);
+
+        return $pdoStatement->fetchAll(PDO::FETCH_CLASS, Rate::class);
+
 
     }
     

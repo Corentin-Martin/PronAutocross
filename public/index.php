@@ -54,6 +54,16 @@ $router->map(
 
 $router->map(
     'GET',
+    '/recap',
+    [
+    'controller' => UserController::class,
+    'method' => 'recap'
+    ],
+    'recap'
+);
+
+$router->map(
+    'GET',
     '/entrylist',
     [
     'controller' => AdminController::class,

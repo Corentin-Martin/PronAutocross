@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Rate;
 use App\Utils\Database;
 use PDO;
 
@@ -24,7 +25,7 @@ class Driver extends CoreUser {
     public function getStatus(){ return $this->status; }
     public function setStatus($status): self { $this->status = $status; return $this; }
 
-    public function newDriver($firstName, $lastName, $number, $vehicle, $categoryId, $status, $picture = null) {
+    public function newDriver($firstName, $lastName, $number, $vehicle, $categoryId, $status, $year, $picture) {
 
         $this->setFirstName($firstName);
         $this->setLastName($lastName);
@@ -38,7 +39,12 @@ class Driver extends CoreUser {
 
         $sql = "INSERT INTO driver (`firstName`, `lastName`, `number`, `vehicle`, `category_id`, `status`, `picture`) VALUES ('{$this->getFirstName()}', '{$this->getLastName()}', '{$this->getNumber()}', '{$this->getVehicle()}', '{$this->getCategoryId()}', '{$this->getStatus()}', '{$this->getPicture()}')";
 
-        return $pdoStatement = $pdo->exec($sql);
+        $pdoStatement = $pdo->exec($sql);
+
+        $driverId = $pdo->lastInsertId();
+
+        $rateModel = new Rate();
+        return $rateModel->makeRate($driverId, $year);
 
     }
 

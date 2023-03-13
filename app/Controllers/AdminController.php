@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Category;
 use App\Models\Driver;
 use App\Models\EntryList;
+use App\Models\Rate;
 
 class AdminController extends CoreController
 {
@@ -36,10 +37,6 @@ class AdminController extends CoreController
         $categoryModel = new Category();
         $categories = $categoryModel->findAll(Category::class);
 
-        $driverModel = new Driver();
-
-        global $router;
-
         if (!empty($_GET['firstName'])) {
 
             $firstName = filter_input(INPUT_GET, 'firstName', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -48,12 +45,14 @@ class AdminController extends CoreController
             $vehicle = filter_input(INPUT_GET, 'vehicle', FILTER_SANITIZE_SPECIAL_CHARS);
             $categoryId = filter_input(INPUT_GET, 'category', FILTER_VALIDATE_INT);
             $status = filter_input(INPUT_GET, 'status', FILTER_VALIDATE_INT);
-            $picture = isset($_GET['picture']) ? filter_input(INPUT_GET, 'picture', FILTER_SANITIZE_SPECIAL_CHARS) : null;
+            $picture = isset($_GET['picture']) ? filter_input(INPUT_GET, 'picture', FILTER_SANITIZE_SPECIAL_CHARS) : 'assets/images/damier-picto.png';
+            $year = filter_input(INPUT_GET, 'year', FILTER_VALIDATE_INT);
         
-        
-        $newDriver = $driverModel->newDriver($firstName, $lastName, $number, $vehicle, $categoryId, $status, $picture);
+        $driverModel = new Driver();
+        $newDriver = $driverModel->newDriver($firstName, $lastName, $number, $vehicle, $categoryId, $status, $year, $picture);
         
         if ($newDriver === 1) {
+            global $router;
             header("Location: {$router->generate('driver')}");
             exit; 
         } else {

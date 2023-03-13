@@ -55,6 +55,12 @@
 
     </label>
 
+    <label for="year"> Année
+
+        <input type="number" name="year" id="year" value="2023" min="2023" max="2040" step="1" required>
+
+    </label>
+
     <button type="submit">Valider ce nouveau pilote</button>
 
 </form>

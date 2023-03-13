@@ -13,6 +13,7 @@ class CoreController {
     protected function show($viewName, $viewData = [], $year = null) {
 
         global $router; 
+        global $dispatcher;
         $baseURI = $_SERVER['BASE_URI'] . "/";
 
         $playerModel = new Player();
@@ -46,10 +47,11 @@ class CoreController {
 
         extract($viewData);
 
+        $backIndic = ($dispatcher->getController() === AdminController::class) ? "_admin" : "";
 
-        require_once __DIR__ . "/../views/layout/header.tpl.php";
+        require_once __DIR__ . "/../views/layout/header" . $backIndic . ".tpl.php";
         require_once __DIR__ . "/../views/{$viewName}.tpl.php";
-        require_once __DIR__ . "/../views/layout/footer.tpl.php";
+        require_once __DIR__ . "/../views/layout/footer" . $backIndic . ".tpl.php";
 
     }
 }
