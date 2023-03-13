@@ -28,7 +28,7 @@ class AdminController extends CoreController
         } 
 
 
-        $this->show('entrylist', ['categories' => $categories, 'driverModel' => $driverModel]);
+        $this->show('admin/entrylist', ['categories' => $categories, 'driverModel' => $driverModel]);
     }
 
     public function driver() {
@@ -63,6 +63,6 @@ class AdminController extends CoreController
         }
 
 
-        $this->show('driver', ['categories' => $categories]);
+        $this->show('admin/driver', ['categories' => $categories]);
     }
 }

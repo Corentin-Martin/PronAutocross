@@ -6,7 +6,7 @@ use App\Models\Category;
 use App\Models\EntryList;
 use App\Models\Questions;
 
-class PlayingController extends CoreController
+class UserController extends CoreController
 {
 
     public function play($year, $raceId) {
@@ -26,6 +26,6 @@ class PlayingController extends CoreController
             $categoriesById[$category->getId()] = $category;
         }
 
-        $this->show('play', ['entrylist' => $entrylist, 'categories' => $categoriesById, 'questions' => $questions, 'raceId' => $raceId, 'year' => $year]);
+        $this->show('user/play', ['entrylist' => $entrylist, 'categories' => $categoriesById, 'questions' => $questions, 'raceId' => $raceId, 'year' => $year]);
     }
 }

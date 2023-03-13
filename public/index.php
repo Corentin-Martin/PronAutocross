@@ -3,10 +3,10 @@
 use App\Controllers\AdminController;
 use App\Controllers\ErrorController;
 use App\Controllers\MainController;
-use App\Controllers\PlayingController;
+use App\Controllers\UserController;
 use App\Controllers\StandingsController;
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 $router = new AltoRouter();
 
@@ -24,7 +24,7 @@ $router->map(
 
 $router->map(
     'GET',
-    '/results/[i:year]',
+    '/[i:year]/results',
     [
     'controller' => StandingsController::class,
     'method' => 'general'
@@ -34,7 +34,7 @@ $router->map(
 
 $router->map(
     'GET',
-    '/results/[i:year]/[i:id]',
+    '/[i:year]/results/[i:id]',
     [
     'controller' => StandingsController::class,
     'method' => 'results'
@@ -44,9 +44,9 @@ $router->map(
 
 $router->map(
     'GET',
-    '/play/[i:year]/[i:id]',
+    '/[i:year]/play/[i:id]',
     [
-    'controller' => PlayingController::class,
+    'controller' => UserController::class,
     'method' => 'play'
     ],
     'play'
@@ -84,28 +84,6 @@ $router->map(
 
 $match = $router->match();
 
-$dispatcher = new Dispatcher($match, ErrorController::error404());
+$dispatcher = new Dispatcher($match, 'App\Controllers\ErrorController::error404');
 
 $dispatcher->dispatch();
-
-
-// if ($match) {
-
-//     $year = $match['params']['year'] ?? null;
-//     $raceId = $match['params']['id'] ?? null;
-
-//     $controller = new $match['target']['controller']();
-//     $method = $match['target']['method'];
-
-//     if ($year !== null && $raceId !== null) {
-//         $controller->$method($year, $raceId);
-//     } else if ($year !== null && $raceId === null) {
-//         $controller->$method($year); 
-//     } else {
-//         $controller->$method();
-//     }
-
-// } else {
-//     $controller = new ErrorController();
-//     $controller->error404();
-// }

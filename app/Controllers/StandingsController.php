@@ -19,7 +19,7 @@ class StandingsController extends CoreController {
         $categories = $categoryModel->findAll(Category::class);
 
 
-        $this->show('results', ['race_id' => $raceId, 'score' => $score, 'categories' => $categories]);
+        $this->show('standings/results', ['race_id' => $raceId, 'score' => $score, 'categories' => $categories]);
     }
 
     public function general($year) {
@@ -27,6 +27,6 @@ class StandingsController extends CoreController {
         $generalModel = new GeneralScore();
         $general = $generalModel->sortingGeneral($year);
 
-        $this->show('general', ['general' => $general], $year);
+        $this->show('standings/general', ['general' => $general], $year);
     }
 }

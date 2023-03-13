@@ -13,7 +13,7 @@ class MainController extends CoreController {
     public function home() {
 
 
-        $this->show('home');
+        $this->show('main/home');
     }
     
 }

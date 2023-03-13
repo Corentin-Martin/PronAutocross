@@ -2,15 +2,15 @@
 
 <form action="" method="get">
 
-    <?php foreach ($viewData['categories'] as $category) :
+    <?php foreach ($categories as $category) :
 
             $categoryToGet = str_replace(" ", "", $category->getName()); ?>
 
-        <h3><?= $viewData['questions']->{'get'.$categoryToGet}() ?></h3>
+        <h3><?= $questions->{'get'.$categoryToGet}() ?></h3>
 
         <select value="">
 
-            <?php foreach ($viewData['entrylist'][$category->getId()] as $listForCategory) : ?>
+            <?php foreach ($entrylist[$category->getId()] as $listForCategory) : ?>
     
                 <option name="" id="">
 
