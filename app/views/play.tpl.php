@@ -16,6 +16,8 @@
 
                     <?= $driversById[$listForCategory->getDriverId()]->getNumber() . " - " . $driversById[$listForCategory->getDriverId()]->getFirstName() . " " . $driversById[$listForCategory->getDriverId()]->getLastName(); ?>
 
+                    <!-- TODO AFFICHER COTE ET PHOTO -->
+
                 </option>
 
 

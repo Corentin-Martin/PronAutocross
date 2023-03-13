@@ -3,6 +3,7 @@
 },
     "require": {
         "altorouter/altorouter": "^2.0",
-        "symfony/var-dumper": "^5.4"
+        "symfony/var-dumper": "^5.4",
+        "benoclock/alto-dispatcher": "^1.3"
     }
 }

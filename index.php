@@ -84,24 +84,28 @@ $router->map(
 
 $match = $router->match();
 
+$dispatcher = new Dispatcher($match, ErrorController::error404());
 
-if ($match) {
+$dispatcher->dispatch();
 
-    $year = $match['params']['year'] ?? null;
-    $raceId = $match['params']['id'] ?? null;
 
-    $controller = new $match['target']['controller']();
-    $method = $match['target']['method'];
+// if ($match) {
 
-    if ($year !== null && $raceId !== null) {
-        $controller->$method($year, $raceId);
-    } else if ($year !== null && $raceId === null) {
-        $controller->$method($year); 
-    } else {
-        $controller->$method();
-    }
+//     $year = $match['params']['year'] ?? null;
+//     $raceId = $match['params']['id'] ?? null;
 
-} else {
-    $controller = new ErrorController();
-    $controller->error404();
-}
+//     $controller = new $match['target']['controller']();
+//     $method = $match['target']['method'];
+
+//     if ($year !== null && $raceId !== null) {
+//         $controller->$method($year, $raceId);
+//     } else if ($year !== null && $raceId === null) {
+//         $controller->$method($year); 
+//     } else {
+//         $controller->$method();
+//     }
+
+// } else {
+//     $controller = new ErrorController();
+//     $controller->error404();
+// }
