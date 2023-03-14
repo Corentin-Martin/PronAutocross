@@ -54,10 +54,9 @@ class Rate extends CoreModel
 
         $this->findRateByDriverId($driverId, $yearId);
 
-        $participationModel = new Participation();
-        $participations = count($participationModel->showAllParticipations($yearId, $raceId));
+        $participations = count(Participation::showAllParticipations($yearId, $raceId));
 
-        $driverVotes = count($participationModel->showAllForADriver($yearId,$raceId,$driverId));
+        $driverVotes = count(Participation::showAllForADriver($yearId,$raceId,$driverId));
 
         $percentage = $driverVotes * 100 / $participations;
 

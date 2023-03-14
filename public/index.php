@@ -1,12 +1,11 @@
 <?php
 
 use App\Controllers\Admin\AdminQuestionController;
-use App\Controllers\AdminCategoryController;
-use App\Controllers\AdminController;
-use App\Controllers\AdminDriverController;
-use App\Controllers\AdminEntryListController;
-use App\Controllers\AdminRaceController;
-use App\Controllers\AdminVerificationController;
+use App\Controllers\Admin\AdminCategoryController;
+use App\Controllers\Admin\AdminDriverController;
+use App\Controllers\Admin\AdminEntryListController;
+use App\Controllers\Admin\AdminRaceController;
+use App\Controllers\Admin\AdminVerificationController;
 use App\Controllers\ErrorController;
 use App\Controllers\MainController;
 use App\Controllers\UserController;

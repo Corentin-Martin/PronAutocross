@@ -53,9 +53,7 @@ class Player extends CoreUser {
 
         $player = $this->findByPseudo($this->getPseudo());
 
-        $generalModel = new GeneralScore();
-
-        $generalModel->createGeneral($player->getId(), 2023);
+        $makeGeneral = GeneralScore::createGeneral($player->getId(), 2023);
 
     }
 
