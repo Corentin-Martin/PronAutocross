@@ -84,7 +84,7 @@ class Driver extends CoreUser {
 
     }
 
-    public function update($thingToUpdate, $table, $driverId) {
+    static public function edit($thingToUpdate, $table, $driverId) {
 
         $pdo = Database::getPDO();
 
@@ -97,6 +97,18 @@ class Driver extends CoreUser {
         } else {
             exit("Erreur !");
         }
+    }
+
+    static public function sortAllByForCategory($categoryId, $name) {
+
+        $pdo = Database::getPDO();
+
+        $sql = "SELECT * FROM driver WHERE `category_id` = '$categoryId' ORDER BY $name ASC";
+
+        $pdoStatement = $pdo->query($sql);
+
+        return $pdoStatement->fetchAll(PDO::FETCH_CLASS, self::class);
+
     }
 
 }

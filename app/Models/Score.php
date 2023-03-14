@@ -32,24 +32,20 @@ class Score extends CoreGame {
      */
     public function calcul($yearId, $raceId) {
 
-        $participationModel = new Participation();
-        $participations = $participationModel->showAllParticipations($yearId, $raceId);
+        $participations = Participation::showAllParticipations($yearId, $raceId);
 
         foreach ($participations as $participation) {
 
-            $verifModel = new Verification();
-            $verif = $verifModel->showByRaceId($raceId, $yearId);
+            $verif = Verification::showByRaceId($raceId, $yearId);
 
-            $categoryModel = new Category();
-            $categories = $categoryModel->findAll(Category::class);
+            $categories = Category::findAll(Category::class);
 
             foreach ($categories as $category) {
                 $categoryOnVerif = str_replace(" ", "", $category->getName());
 
                 if ($verif->{'get'.$categoryOnVerif}() === $participation->{'get'.$categoryOnVerif}()) {
 
-                    $rateModel = new Rate();
-                    $rate = $rateModel->findRateByDriverIdForScore($verif->{'get'.$categoryOnVerif}(), $yearId);
+                    $rate = Rate::findRateByDriverIdForScore($verif->{'get'.$categoryOnVerif}(), $yearId);
                     
                     $pointsToAdd = 10 * $rate->getOverall();
                     $this->{'set'.$categoryOnVerif}($pointsToAdd);
@@ -135,8 +131,7 @@ class Score extends CoreGame {
     
             $pdoStatement = $pdo->exec($sql);
 
-            $playerModel = new GeneralScore();
-            $player = $playerModel->updateTotal($this->getYearId(), $this->getPlayerId(), $this->getTotal());
+            $general = GeneralScore::updateTotal($this->getYearId(), $this->getPlayerId(), $this->getTotal());
         }
     }
 

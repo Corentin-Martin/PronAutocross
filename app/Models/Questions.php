@@ -49,7 +49,7 @@ class Questions extends CoreGame {
         }
     }
 
-    public function findQuestionsByRaceAndYear($yearId, $raceId) {
+    static public function findQuestionsByRaceAndYear($yearId, $raceId) {
 
         $pdo = Database::getPDO();
 

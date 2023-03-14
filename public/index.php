@@ -1,6 +1,12 @@
 <?php
 
+use App\Controllers\Admin\AdminQuestionController;
+use App\Controllers\AdminCategoryController;
 use App\Controllers\AdminController;
+use App\Controllers\AdminDriverController;
+use App\Controllers\AdminEntryListController;
+use App\Controllers\AdminRaceController;
+use App\Controllers\AdminVerificationController;
 use App\Controllers\ErrorController;
 use App\Controllers\MainController;
 use App\Controllers\UserController;
@@ -72,26 +78,184 @@ $router->map(
     'dashboard'
 );
 
+// ADMIN //
+// DRIVER //
 $router->map(
     'GET',
-    '/entrylist',
+    '/admin/driver',
     [
-    'controller' => AdminController::class,
-    'method' => 'entrylist'
+    'controller' => AdminDriverController::class,
+    'method' => 'home'
     ],
-    'entrylist'
+    'driver-home'
 );
 
 $router->map(
     'GET',
-    '/driver',
+    '/admin/driver/[i:id]/[a:action]',
     [
-    'controller' => AdminController::class,
-    'method' => 'driver'
+    'controller' => AdminDriverController::class,
+    'method' => 'list'
     ],
-    'driver'
+    'driver-list'
 );
 
+$router->map(
+    'GET',
+    '/admin/driver/add',
+    [
+    'controller' => AdminDriverController::class,
+    'method' => 'add'
+    ],
+    'driver-add'
+);
+
+$router->map(
+    'GET',
+    '/admin/driver/edit/[i:id]',
+    [
+    'controller' => AdminDriverController::class,
+    'method' => 'edit'
+    ],
+    'driver-edit'
+);
+
+// ENTRY LIST
+$router->map(
+    'GET',
+    '/admin/entrylist',
+    [
+    'controller' => AdminEntryListController::class,
+    'method' => 'home'
+    ],
+    'entrylist-home'
+);
+
+$router->map(
+    'GET',
+    '/admin/entrylist/add',
+    [
+    'controller' => AdminEntryListController::class,
+    'method' => 'add'
+    ],
+    'entrylist-add'
+);
+
+$router->map(
+    'GET',
+    '/admin/entrylist/[i:year]/[i:id]',
+    [
+    'controller' => AdminEntryListController::class,
+    'method' => 'list'
+    ],
+    'entrylist-list'
+);
+
+// VERIFICATION
+$router->map(
+    'GET',
+    '/admin/verification',
+    [
+    'controller' => AdminVerificationController::class,
+    'method' => 'home'
+    ],
+    'verification-home'
+);
+
+$router->map(
+    'GET',
+    '/admin/verification/add',
+    [
+    'controller' => AdminVerificationController::class,
+    'method' => 'add'
+    ],
+    'verification-add'
+);
+
+$router->map(
+    'GET',
+    '/admin/verification/[i:year]/[i:id]',
+    [
+    'controller' => AdminVerificationController::class,
+    'method' => 'list'
+    ],
+    'verification-list'
+);
+
+// CATEGORY
+$router->map(
+    'GET',
+    '/admin/category',
+    [
+    'controller' => AdminCategoryController::class,
+    'method' => 'list'
+    ],
+    'category-list'
+);
+
+$router->map(
+    'GET',
+    '/admin/category/add',
+    [
+    'controller' => AdminCategoryController::class,
+    'method' => 'add'
+    ],
+    'category-add'
+);
+
+// RACES
+$router->map(
+    'GET',
+    '/admin/race',
+    [
+    'controller' => AdminRaceController::class,
+    'method' => 'list'
+    ],
+    'race-list'
+);
+
+$router->map(
+    'GET',
+    '/admin/race/add',
+    [
+    'controller' => AdminRaceController::class,
+    'method' => 'add'
+    ],
+    'race-add'
+);
+
+// QUESTIONS
+$router->map(
+    'GET',
+    '/admin/question',
+    [
+    'controller' => AdminQuestionController::class,
+    'method' => 'home'
+    ],
+    'question-home'
+);
+
+$router->map(
+    'GET',
+    '/admin/question/add',
+    [
+    'controller' => AdminQuestionController::class,
+    'method' => 'add'
+    ],
+    'question-add'
+);
+
+$router->map(
+    'GET',
+    '/admin/question/[i:year]/[i:id]',
+    [
+    'controller' => AdminQuestionController::class,
+    'method' => 'list'
+    ],
+    'question-list'
+);
+
+// ERROR 404
 $router->map(
     'GET',
     '/error404',

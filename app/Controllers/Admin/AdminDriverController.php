@@ -1,41 +1,29 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Admin;
 
 use App\Models\Category;
 use App\Models\Driver;
-use App\Models\EntryList;
-use App\Models\Rate;
 
-class AdminController extends CoreController
+
+class AdminDriverController extends AdminCoreController
 {
 
-    public function entrylist() {
+    public function home() {
 
-        global $router;
-
-        $categoryModel = new Category();
-        $categories = $categoryModel->findAll(Category::class);
-
-        $entryModel = new EntryList();
-
-        $driverModel = new Driver();
-
-        if (!empty($_GET['year'])) {
-            $entryModel->make($_GET);
-
-            header("Location: {$router->generate('entrylist')}");
-            exit; 
-        } 
-
-
-        $this->show('admin/entrylist', ['categories' => $categories, 'driverModel' => $driverModel]);
+        $this->show('admin/driver/home');
     }
 
-    public function driver() {
+    public function list($id, $action) {
 
-        $categoryModel = new Category();
-        $categories = $categoryModel->findAll(Category::class);
+        $drivers = Driver::sortAllByForCategory($id,$action);
+
+        $this->show('admin/driver/list', ['drivers' => $drivers]);
+    }
+
+    public function add() {
+
+        $categories = Category::findAll(Category::class);
 
         if (!empty($_GET['firstName'])) {
 
@@ -53,7 +41,7 @@ class AdminController extends CoreController
         
         if ($newDriver === 1) {
             global $router;
-            header("Location: {$router->generate('driver')}");
+            header("Location: {$router->generate('driver-add')}");
             exit; 
         } else {
             echo "<p> Erreur, pilote non ajouté </p>";
@@ -62,6 +50,15 @@ class AdminController extends CoreController
         }
 
 
-        $this->show('admin/driver', ['categories' => $categories]);
+        $this->show('admin/driver/add', ['categories' => $categories]);
+    }
+
+    public function edit($driverId) {
+
+        $driver = Driver::find($driverId, Driver::class);
+
+        // $driversToEdit = Driver::edit($thingToUpdate, $table, $driverId);
+
+        $this->show('admin/driver/edit', ['driver' => $driver]);
     }
 }

@@ -12,7 +12,7 @@ class CoreModel {
     public function getId(){ return $this->id; }
     public function setId($id): self { $this->id = $id; return $this; }
 
-    public function findAll($className) {
+    static public function findAll($className) {
         $pdo = Database::getPDO();
 
         $tableOnDB = lcfirst(substr($className, 11)); //11 comme App\Models
@@ -23,7 +23,7 @@ class CoreModel {
         return $pdoStatement->fetchAll(PDO::FETCH_CLASS, $className);
     }
 
-    public function find($id, $className) {
+    static public function find($id, $className) {
         $pdo = Database::getPDO();
 
         $tableOnDB = lcfirst(substr($className, 11));

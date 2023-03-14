@@ -25,15 +25,13 @@ class EntryList extends CoreModel {
     public function getYearId(){ return $this->year_id; }
     public function setYearId($year_id): self { $this->year_id = $year_id; return $this; }
 
-    public function make($POST) {
+    static public function make($POST) {
 
         $table = $POST;
-        $driverModel = new Driver();
-
 
         foreach (array_slice(array_keys($table), 3) as $driverId) {
 
-            $driver = $driverModel->find($driverId, Driver::class);
+            $driver = Driver::find($driverId, Driver::class);
 
             if ($driver) {
 
@@ -52,6 +50,17 @@ class EntryList extends CoreModel {
         $pdo = Database::getPDO();
 
         $sql = "SELECT * FROM entry_list WHERE race_id = '$raceId' AND category_id = '$categoryId' AND year_id = '$yearId'";
+
+        $pdoStatement = $pdo->query($sql);
+
+        return $pdoStatement->fetchAll(PDO::FETCH_CLASS, EntryList::class);
+    }
+
+    static public function listByRace($yearId, $raceId) {
+
+        $pdo = Database::getPDO();
+
+        $sql = "SELECT * FROM entry_list WHERE race_id = '$raceId' AND year_id = '$yearId'";
 
         $pdoStatement = $pdo->query($sql);
 

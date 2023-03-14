@@ -1,0 +1,3 @@
+LISTE
+
+<?php dump($entrylist);

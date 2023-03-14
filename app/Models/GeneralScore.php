@@ -30,7 +30,7 @@ class GeneralScore extends CoreModel
 
     }
 
-    public function updateTotal($yearId, $playerId, $points) {
+    static public function updateTotal($yearId, $playerId, $points) {
 
         $pdo = Database::getPDO();
 

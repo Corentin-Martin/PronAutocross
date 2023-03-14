@@ -27,7 +27,7 @@
                 <option value="<?= $category->getId() ?>"><?= $category->getName() ?>
             </summary>
 
-    <?php $drivers1 = $viewData['driverModel']->findAllByCategoryAndStatus1($category->getId());
+    <?php $drivers1 = $driverModel->findAllByCategoryAndStatus1($category->getId());
 
             foreach ($drivers1 as $driver) : ?>
 
@@ -39,7 +39,7 @@
             
     <?php   endforeach; ?>
 
-    <?php $drivers1 = $viewData['driverModel']->findAllByCategoryAndStatus0($category->getId());
+    <?php $drivers1 = $driverModel->findAllByCategoryAndStatus0($category->getId());
 
             foreach ($drivers1 as $driver) : ?>
 

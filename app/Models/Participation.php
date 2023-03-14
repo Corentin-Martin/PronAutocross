@@ -56,7 +56,7 @@ class Participation extends CoreGame {
        return $pdoStatement;
     }
 
-    public function showAllParticipations($yearId, $raceId) {
+    static public function showAllParticipations($yearId, $raceId) {
         $pdo = Database::getPDO();
 
         $pdoStatement = $pdo->query("SELECT * FROM participation WHERE year_id='$yearId' AND race_id='$raceId'");

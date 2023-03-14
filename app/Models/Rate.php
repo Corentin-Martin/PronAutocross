@@ -85,8 +85,7 @@ class Rate extends CoreModel
     }
 
     public function updateRate($yearId, $raceId) {
-        $driverModel = new Driver();
-        $drivers = $driverModel->findAll(Driver::class);
+        $drivers = Driver::findAll(Driver::class);
 
         foreach ($drivers as $driver) {
             $this->setDriverId($driver->getId());
@@ -118,7 +117,7 @@ class Rate extends CoreModel
 
     }
 
-    public function findRateByDriverIdForScore($driverId, $yearId) {
+    static public function findRateByDriverIdForScore($driverId, $yearId) {
 
         $pdo = Database::getPDO();
 

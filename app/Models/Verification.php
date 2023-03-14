@@ -41,14 +41,11 @@ class Verification extends CoreGame {
 
         $pdoStatement = $pdo->exec($sql);
 
-        if ($pdoStatement === 1) {
-            exit("Vérification insérée en BDD");
-        } else {
-            exit("Erreur !");
-        }
+        $scoreModel = new Score();
+        $makeScore = $scoreModel->calcul($this->getYearId(), $this->getRaceId());
     }
 
-    public function showByRaceId($raceId, $yearId) {
+    static public function showByRaceId($raceId, $yearId) {
         $pdo = Database::getPDO();
 
         $pdoStatement = $pdo->query("SELECT * FROM verification WHERE race_id='$raceId' AND year_id='$yearId'");
