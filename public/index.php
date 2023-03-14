@@ -2,6 +2,7 @@
 
 use App\Controllers\Admin\AdminQuestionController;
 use App\Controllers\Admin\AdminCategoryController;
+use App\Controllers\Admin\AdminCoreController;
 use App\Controllers\Admin\AdminDriverController;
 use App\Controllers\Admin\AdminEntryListController;
 use App\Controllers\Admin\AdminRaceController;
@@ -77,7 +78,48 @@ $router->map(
     'dashboard'
 );
 
-// ADMIN //
+// -----------------------------------ADMIN----------------------------------- //
+$router->map(
+    'GET',
+    '/admin',
+    [
+    'controller' => AdminCoreController::class,
+    'method' => 'home'
+    ],
+    'admin'
+);
+
+// CATEGORY
+$router->map(
+    'GET',
+    '/admin/category',
+    [
+    'controller' => AdminCategoryController::class,
+    'method' => 'list'
+    ],
+    'category-list'
+);
+
+$router->map(
+    'GET',
+    '/admin/category/add',
+    [
+    'controller' => AdminCategoryController::class,
+    'method' => 'add'
+    ],
+    'category-add'
+);
+
+$router->map(
+    'POST',
+    '/admin/category/add',
+    [
+    'controller' => AdminCategoryController::class,
+    'method' => 'create'
+    ],
+    'category-create'
+);
+
 // DRIVER //
 $router->map(
     'GET',
@@ -91,7 +133,7 @@ $router->map(
 
 $router->map(
     'GET',
-    '/admin/driver/[i:id]/[a:action]',
+    '/admin/driver/[i:categoryId]/[a:action]',
     [
     'controller' => AdminDriverController::class,
     'method' => 'list'
@@ -110,6 +152,16 @@ $router->map(
 );
 
 $router->map(
+    'POST',
+    '/admin/driver/add',
+    [
+    'controller' => AdminDriverController::class,
+    'method' => 'create'
+    ],
+    'driver-create'
+);
+
+$router->map(
     'GET',
     '/admin/driver/edit/[i:id]',
     [
@@ -117,6 +169,16 @@ $router->map(
     'method' => 'edit'
     ],
     'driver-edit'
+);
+
+$router->map(
+    'POST',
+    '/admin/driver/edit/[i:driverId]',
+    [
+    'controller' => AdminDriverController::class,
+    'method' => 'makeEdit'
+    ],
+    'driver-makeEdit'
 );
 
 // ENTRY LIST
@@ -181,26 +243,7 @@ $router->map(
     'verification-list'
 );
 
-// CATEGORY
-$router->map(
-    'GET',
-    '/admin/category',
-    [
-    'controller' => AdminCategoryController::class,
-    'method' => 'list'
-    ],
-    'category-list'
-);
 
-$router->map(
-    'GET',
-    '/admin/category/add',
-    [
-    'controller' => AdminCategoryController::class,
-    'method' => 'add'
-    ],
-    'category-add'
-);
 
 // RACES
 $router->map(

@@ -1,6 +1,6 @@
 <h3>ICI ON CREE UN PILOTE</h3>
 
-<form action="" method="get">
+<form action="" method="post">
 
     <label for="firstName"> Prénom
 

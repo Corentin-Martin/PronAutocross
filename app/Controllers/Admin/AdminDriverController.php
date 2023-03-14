@@ -14,43 +14,51 @@ class AdminDriverController extends AdminCoreController
         $this->show('admin/driver/home');
     }
 
-    public function list($id, $action) {
+    public function list($categoryId, $action) {
 
-        $drivers = Driver::sortAllByForCategory($id,$action);
+        $drivers = Driver::sortAllByForCategory($categoryId,$action);
 
-        $this->show('admin/driver/list', ['drivers' => $drivers]);
+        $categories = Category::findAll(Category::class);
+        $categoriesById = [];
+        foreach ($categories as $category) {
+            $categoriesById[$category->getId()] = $category;
+        }
+
+        $this->show('admin/driver/list', ['drivers' => $drivers, 'categoriesById' => $categoriesById, 'action' => $action, 'categoryId' => $categoryId]);
     }
 
     public function add() {
 
         $categories = Category::findAll(Category::class);
 
-        if (!empty($_GET['firstName'])) {
+        $this->show('admin/driver/add', ['categories' => $categories]);
+    }
 
-            $firstName = filter_input(INPUT_GET, 'firstName', FILTER_SANITIZE_SPECIAL_CHARS);
-            $lastName = filter_input(INPUT_GET, 'lastName', FILTER_SANITIZE_SPECIAL_CHARS);
-            $number = filter_input(INPUT_GET, 'number', FILTER_VALIDATE_INT);
-            $vehicle = filter_input(INPUT_GET, 'vehicle', FILTER_SANITIZE_SPECIAL_CHARS);
-            $categoryId = filter_input(INPUT_GET, 'category', FILTER_VALIDATE_INT);
-            $status = filter_input(INPUT_GET, 'status', FILTER_VALIDATE_INT);
-            $picture = isset($_GET['picture']) ? filter_input(INPUT_GET, 'picture', FILTER_SANITIZE_SPECIAL_CHARS) : 'assets/images/damier-picto.png';
-            $year = filter_input(INPUT_GET, 'year', FILTER_VALIDATE_INT);
+    public function create() {
+
+        if (isset($_POST)) {
+
+            $firstName = filter_input(INPUT_POST, 'firstName', FILTER_SANITIZE_SPECIAL_CHARS);
+            $lastName = filter_input(INPUT_POST, 'lastName', FILTER_SANITIZE_SPECIAL_CHARS);
+            $number = filter_input(INPUT_POST, 'number', FILTER_VALIDATE_INT);
+            $vehicle = filter_input(INPUT_POST, 'vehicle', FILTER_SANITIZE_SPECIAL_CHARS);
+            $categoryId = filter_input(INPUT_POST, 'category', FILTER_VALIDATE_INT);
+            $status = filter_input(INPUT_POST, 'status', FILTER_VALIDATE_INT);
+            $picture = isset($_POST['picture']) ? filter_input(INPUT_POST, 'picture', FILTER_SANITIZE_SPECIAL_CHARS) : 'assets/images/damier-picto.png';
+            $year = filter_input(INPUT_POST, 'year', FILTER_VALIDATE_INT);
         
         $driverModel = new Driver();
         $newDriver = $driverModel->newDriver($firstName, $lastName, $number, $vehicle, $categoryId, $status, $year, $picture);
         
         if ($newDriver === 1) {
             global $router;
-            header("Location: {$router->generate('driver-add')}");
+            header("Location: {$router->generate('driver-list', ['categoryId' => $categoryId, 'action' => 'number'])}");
             exit; 
         } else {
             echo "<p> Erreur, pilote non ajouté </p>";
         }
         
         }
-
-
-        $this->show('admin/driver/add', ['categories' => $categories]);
     }
 
     public function edit($driverId) {
@@ -59,6 +67,41 @@ class AdminDriverController extends AdminCoreController
 
         // $driversToEdit = Driver::edit($thingToUpdate, $table, $driverId);
 
-        $this->show('admin/driver/edit', ['driver' => $driver]);
+        $categories = Category::findAll(Category::class);
+        $categoriesById = [];
+        foreach ($categories as $category) {
+            $categoriesById[$category->getId()] = $category;
+        }
+
+        $this->show('admin/driver/edit', ['driver' => $driver, 'categoriesById' => $categoriesById]);
     }
+
+    public function makeEdit($driverId) {
+
+        if (isset($_POST)) {
+            $firstName = filter_input(INPUT_POST, 'firstName', FILTER_SANITIZE_SPECIAL_CHARS);
+            $lastName = filter_input(INPUT_POST, 'lastName', FILTER_SANITIZE_SPECIAL_CHARS);
+            $number = filter_input(INPUT_POST, 'number', FILTER_VALIDATE_INT);
+            $vehicle = filter_input(INPUT_POST, 'vehicle', FILTER_SANITIZE_SPECIAL_CHARS);
+            $categoryId = filter_input(INPUT_POST, 'category', FILTER_VALIDATE_INT);
+            $status = filter_input(INPUT_POST, 'status', FILTER_VALIDATE_INT);
+            $picture = isset($_POST['picture']) ? filter_input(INPUT_POST, 'picture', FILTER_SANITIZE_SPECIAL_CHARS) : 'assets/images/damier-picto.png';
+
+            $driverModel = new Driver();
+            $DriverEdited = $driverModel->edit($firstName, $lastName, $number, $vehicle, $categoryId, $status, $picture, $driverId);
+
+            // TO DO REGARDER POURQUOI LA REQUETE BLOQUE !
+        
+        if ($DriverEdited === 1) {
+            global $router;
+            header("Location: {$router->generate('driver-list', ['categoryId' => $categoryId, 'action' => 'number'])}");
+            exit; 
+        } else {
+            echo "<p> Erreur, pilote non édité </p>";
+        }
+        
+        }
+    }
+
+
 }

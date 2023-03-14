@@ -9,12 +9,27 @@ class AdminCategoryController extends AdminCoreController
 
     public function add() {
 
-        global $router;
-
-        // TO DO TRAITER FORMULAIRE DE VALIDATION
 
 
         $this->show('admin/category/add');
+    }
+
+    public function create() {
+
+        if (isset($_POST) && !empty($_POST['name'])) {
+            $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
+
+            $category = new Category();
+            $insertion = $category->insert($name);
+
+            if ($insertion) {
+                global $router;
+                header("Location: {$router->generate('category-list')}");
+            } else {
+                exit("erreur");
+            }
+        }
+        
     }
 
     public function list() {

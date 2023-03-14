@@ -84,18 +84,37 @@ class Driver extends CoreUser {
 
     }
 
-    static public function edit($thingToUpdate, $table, $driverId) {
+    public function edit($firstName, $lastName, $number, $vehicle, $picture, $categoryId, $status, $driverId) {
+
+        $this->setFirstName($firstName);
+        $this->setLastName($lastName);
+        $this->setNumber($number);
+        $this->setVehicle($vehicle);
+        $this->setCategoryId($categoryId);
+        $this->setStatus($status);
+        $this->setPicture($picture);
+        $this->setId($driverId); 
 
         $pdo = Database::getPDO();
 
-        $sql = "UPDATE driver SET $table = '$thingToUpdate' WHERE id = '$driverId'";
+        $sql = "UPDATE `driver` 
+        SET 
+        `firstName` = '{$this->getFirstName()}',
+        `lastName` = '{$this->getLastName()}',
+        `number` = {$this->getNumber()},
+        `vehicle` = '{$this->getVehicle()}',
+        `picture` = '{$this->getPicture()}',
+        `category_id` = {$this->getCategoryId()},
+        `status` = {$this->getStatus()} 
+        WHERE `driver`.`id` = {$this->getId()}
+        ";
 
-        $pdoStatement = $pdo->exec($sql);
+        $editedRow = $pdo->exec($sql);
 
-        if ($pdoStatement === 1) {
-            exit("Modification effectuée, {$table} a maintenant la valeur {$thingToUpdate} pour le pilote ayant l'id {$driverId}");
+        if ($editedRow === 1) {
+            return true;
         } else {
-            exit("Erreur !");
+            return false;
         }
     }
 
@@ -104,6 +123,18 @@ class Driver extends CoreUser {
         $pdo = Database::getPDO();
 
         $sql = "SELECT * FROM driver WHERE `category_id` = '$categoryId' ORDER BY $name ASC";
+
+        $pdoStatement = $pdo->query($sql);
+
+        return $pdoStatement->fetchAll(PDO::FETCH_CLASS, self::class);
+
+    }
+
+    static public function sortAllBy($name) {
+
+        $pdo = Database::getPDO();
+
+        $sql = "SELECT * FROM driver ORDER BY $name ASC";
 
         $pdoStatement = $pdo->query($sql);
 
