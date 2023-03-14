@@ -1,6 +1,6 @@
 <h1>ICI ON GENERE LES LISTE DES ENGAGES</h1>
 
-<form method="get" action="">
+<form method="post" action="">
 
     <select name="year">
 
@@ -58,6 +58,8 @@
     <button type="submit">VALIDER LA LISTE DES ENGAGEES</button>
     
 </form>
+
+<button><a href="<?= $router->generate('entrylist-home') ?>">RETOUR</a></button>
 
 
 

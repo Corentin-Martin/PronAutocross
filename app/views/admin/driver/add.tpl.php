@@ -64,3 +64,5 @@
     <button type="submit">Valider ce nouveau pilote</button>
 
 </form>
+
+<button><a href="<?= $router->generate('driver-home') ?>">RETOUR</a></button>

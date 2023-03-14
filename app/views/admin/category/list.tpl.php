@@ -25,3 +25,5 @@ HOME CATEGORY
 
 <a href="<?= $router->generate('category-add')?>">CREER UNE CATEGORIE</a>
 </div>
+
+<button><a href="<?= $router->generate('admin') ?>">RETOUR AU TABLEAU DE BORD GENERAL</a></button>

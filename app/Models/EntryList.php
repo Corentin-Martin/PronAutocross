@@ -27,17 +27,14 @@ class EntryList extends CoreModel {
 
     static public function make($POST) {
 
-        $table = $POST;
-
-        foreach (array_slice(array_keys($table), 3) as $driverId) {
-
+        foreach (array_slice(array_keys($POST), 2) as $driverId) {
             $driver = Driver::find($driverId, Driver::class);
 
             if ($driver) {
 
                 $pdo = Database::getPDO();
 
-                $sql = "INSERT INTO entry_list (`race_id`, `category_id`, `driver_id`, `year_id`) VALUES ('{$table['race']}', '{$driver->getCategoryId()}', '{$driver->getId()}', '{$table['year']}')";
+                $sql = "INSERT INTO entry_list (`race_id`, `category_id`, `driver_id`, `year_id`) VALUES ('{$POST['race']}', '{$driver->getCategoryId()}', '{$driver->getId()}', '{$POST['year']}')";
 
                 $pdoStatement = $pdo->exec($sql);
             }

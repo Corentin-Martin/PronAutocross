@@ -203,6 +203,16 @@ $router->map(
 );
 
 $router->map(
+    'POST',
+    '/admin/entrylist/add',
+    [
+    'controller' => AdminEntryListController::class,
+    'method' => 'create'
+    ],
+    'entrylist-create'
+);
+
+$router->map(
     'GET',
     '/admin/entrylist/[i:year]/[i:id]',
     [

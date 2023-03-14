@@ -59,3 +59,5 @@
     <button type="submit">Modifier ce pilote</button>
 
 </form>
+
+<button><a href="<?= $router->generate('driver-list', ['categoryId' => 1, 'action' => 'number']) ?>">RETOUR</a></button>
