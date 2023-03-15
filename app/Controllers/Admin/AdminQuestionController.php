@@ -12,8 +12,6 @@ class AdminQuestionController extends AdminCoreController
 
     public function add() {
 
-        global $router;
-
         $categories = Category::findAll(Category::class);
         $categoriesById = [];
         foreach ($categories as $category) {

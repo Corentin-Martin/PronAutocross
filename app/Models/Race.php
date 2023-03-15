@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Utils\Database;
+use PDO;
 
 class Race extends CoreModel {
     
@@ -32,9 +33,19 @@ class Race extends CoreModel {
 
         $pdo = Database::getPDO();
 
-        $sql = "INSERT INTO race (`name`, `date`, `poster`) VALUES ('{$this->getName()}', '{$this->getDate()}', '{$this->getPoster()}', '{$this->getYearId()}')";
+        $sql = "INSERT INTO race (`name`, `date`, `poster`, `year_id`) VALUES ('{$this->getName()}', '{$this->getDate()}', '{$this->getPoster()}', '{$this->getYearId()}')";
 
         return $pdoStatement = $pdo->exec($sql);
+    }
+
+    static public function findbyYear($yearId) {
+        $pdo = Database::getPDO();
+
+        $sql = "SELECT * FROM race WHERE year_id = '$yearId'";
+
+        $pdoStatement = $pdo->query($sql);
+
+        return $pdoStatement->fetchAll(PDO::FETCH_CLASS, Race::class);
     }
 
 

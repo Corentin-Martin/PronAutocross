@@ -263,6 +263,47 @@ $router->map(
     'question-list'
 );
 
+// RACES
+$router->map(
+    'GET',
+    '/admin/race',
+    [
+    'controller' => AdminRaceController::class,
+    'method' => 'home'
+    ],
+    'race-home'
+);
+
+$router->map(
+    'GET',
+    '/admin/race/add',
+    [
+    'controller' => AdminRaceController::class,
+    'method' => 'add'
+    ],
+    'race-add'
+);
+
+$router->map(
+    'POST',
+    '/admin/race/add',
+    [
+    'controller' => AdminRaceController::class,
+    'method' => 'create'
+    ],
+    'race-create'
+);
+$router->map(
+    'GET',
+    '/admin/race/list/[i:year]',
+    [
+    'controller' => AdminRaceController::class,
+    'method' => 'list'
+    ],
+    'race-list'
+);
+
+
 // VERIFICATION
 $router->map(
     'GET',
@@ -296,26 +337,6 @@ $router->map(
 
 
 
-// RACES
-$router->map(
-    'GET',
-    '/admin/race',
-    [
-    'controller' => AdminRaceController::class,
-    'method' => 'list'
-    ],
-    'race-list'
-);
-
-$router->map(
-    'GET',
-    '/admin/race/add',
-    [
-    'controller' => AdminRaceController::class,
-    'method' => 'add'
-    ],
-    'race-add'
-);
 
 
 
