@@ -37,7 +37,15 @@
         <li><a href="<?= $router->generate('race-add') ?>">Créer une épreuve</a></li>
     </ul>
 </div>
-    <div class="admin__home__container_div"><h3>Vérification</h3></div>
-    <div class="admin__home__container_div"><h3>Gestion des côtes</h3></div>
+    <div class="admin__home__container_div"><h3>
+        <a href="<?= $router->generate('verification-home') ?>">Vérifications</a></h3>
+        <ul>
+        <li><a href="<?= $router->generate('verification-list', ['year' => 2023]) ?>">Parcourir les Vérifications</a></li>
+        <li><a href="<?= $router->generate('verification-add') ?>">Créer une vérification</a></li>
+    </ul></div>
+    <div class="admin__home__container_div">
+        <h3>Gestion des utilisateurs</h3>
+        <h5>TO DO LATER</h5>
+    </div>
     <div class="admin__home__container_div"><h3>Retour au site général</h3></div>
 </div>

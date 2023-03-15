@@ -59,6 +59,7 @@ input[type="radio"].radio:checked + .card{
     height: 49%;
     background-color: gray;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }

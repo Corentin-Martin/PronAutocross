@@ -42,7 +42,7 @@ class EntryList extends CoreModel {
         }
     }
 
-    public function listByRaceAndCategory($yearId, $raceId, $categoryId) {
+    static public function listByRaceAndCategory($yearId, $raceId, $categoryId) {
 
         $pdo = Database::getPDO();
 

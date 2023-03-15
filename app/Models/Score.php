@@ -51,7 +51,7 @@ class Score extends CoreGame {
                     $this->{'set'.$categoryOnVerif}($pointsToAdd);
     
                 } else {
-                    $this->{'set'.$categoryOnVerif}()(0);
+                    $this->{'set'.$categoryOnVerif}(0);
                 }
 
             }
@@ -132,6 +132,7 @@ class Score extends CoreGame {
             $pdoStatement = $pdo->exec($sql);
 
             $general = GeneralScore::updateTotal($this->getYearId(), $this->getPlayerId(), $this->getTotal());
+            
         }
     }
 

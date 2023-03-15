@@ -317,7 +317,27 @@ $router->map(
 
 $router->map(
     'GET',
-    '/admin/verification/add',
+    '/admin/verification/edit/[i:id]',
+    [
+    'controller' => AdminVerificationController::class,
+    'method' => 'edit'
+    ],
+    'verification-edit'
+);
+
+$router->map(
+    'POST',
+    '/admin/verification/edit/[i:id]',
+    [
+    'controller' => AdminVerificationController::class,
+    'method' => 'update'
+    ],
+    'verification-update'
+);
+
+$router->map(
+    'GET',
+    '/admin/verification/add/[i:year]/[i:raceId]',
     [
     'controller' => AdminVerificationController::class,
     'method' => 'add'
@@ -326,8 +346,38 @@ $router->map(
 );
 
 $router->map(
+    'POST',
+    '/admin/verification/add/[i:year]/[i:raceId]',
+    [
+    'controller' => AdminVerificationController::class,
+    'method' => 'create'
+    ],
+    'verification-create'
+);
+
+$router->map(
     'GET',
-    '/admin/verification/[i:year]/[i:id]',
+    '/admin/verification/validation/[i:id]',
+    [
+    'controller' => AdminVerificationController::class,
+    'method' => 'validation'
+    ],
+    'verification-validation'
+);
+
+$router->map(
+    'POST',
+    '/admin/verification/validation/[i:id]',
+    [
+    'controller' => AdminVerificationController::class,
+    'method' => 'makevalidation'
+    ],
+    'verification-makevalidation'
+);
+
+$router->map(
+    'GET',
+    '/admin/verification/[i:year]',
     [
     'controller' => AdminVerificationController::class,
     'method' => 'list'
