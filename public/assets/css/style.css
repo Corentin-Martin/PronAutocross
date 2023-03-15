@@ -55,11 +55,42 @@ input[type="radio"].radio:checked + .card{
 }
 
 .admin__home__container_div {
+    border: 0.3rem solid black;
+    margin: 0.2rem;
     width : 23%;
     height: 49%;
     background-color: gray;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    box-shadow: 0.2rem 0.2rem 0.2rem black;
+}
+
+.admin__home__container__div__title {
+    height: 30%;
+    padding: 0.8rem;
+}
+
+.admin__home__container__div__title a {
+    color : black;
+    font-weight: bold;
+    text-shadow: 0.2rem 0.2rem 0.2rem white;
+    text-decoration: none;
+}
+
+.admin__home__container__div__menu {
+    height: 70%;
+}
+
+.admin__home__container__div__menu a {
+    color : white;
+    font-style: italic;
+    text-shadow: 0.2rem 0.2rem 0.2rem black;
+    text-decoration: none;
+}
+
+.admin__home__container__div__menu a:hover {
+    color : red;
+    font-weight: bold;
 }
