@@ -23,7 +23,13 @@
 
 
     </div>
-    <div class="admin__home__container_div"><h3>Questions</h3></div>
+    <div class="admin__home__container_div">
+    <h3><a href="<?= $router->generate('question-home') ?>">Questions</a></h3>
+        <ul>
+        <li><a href="<?= $router->generate('question-list', ['year' => 2023]) ?>">Parcourir les questionnaires</a></li>
+        <li><a href="<?= $router->generate('question-add') ?>">Générer un questionnaire</a></li>
+    </ul>
+    </div>
     <div class="admin__home__container_div"><h3>Courses</h3></div>
     <div class="admin__home__container_div"><h3>Vérification</h3></div>
     <div class="admin__home__container_div"><h3>Gestion des côtes</h3></div>

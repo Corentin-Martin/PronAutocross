@@ -7,7 +7,7 @@ use PDO;
 
 class Questions extends CoreGame {
     
-    public function addQuestions($ms, $tc, $sg, $bc, $js, $mt, $b16, $ss, $sb, $b1, $b2, $raceId, $yearId) {
+    public function add($ms, $tc, $sg, $bc, $js, $mt, $b16, $ss, $sb, $b1, $b2, $raceId, $yearId) {
 
         $this->setMaxiSprint($ms);
         $this->setTourismeCup($tc);
@@ -37,16 +37,11 @@ class Questions extends CoreGame {
             '{$this->getSuperBuggy()}', 
             '{$this->getBonus1()}', 
             '{$this->getBonus2()}', 
-            '{$this->getRaceId()}',
-            '{$this->getYearId()}'))";
+            {$this->getRaceId()},
+            {$this->getYearId()})";
 
-        $pdoStatement = $pdo->exec($sql);
-
-        if ($pdoStatement === 1) {
-            exit("Vérification insérée en BDD");
-        } else {
-            exit("Erreur !");
-        }
+        return $pdoStatement = $pdo->exec($sql);
+        
     }
 
     static public function findQuestionsByRaceAndYear($yearId, $raceId) {
@@ -58,5 +53,16 @@ class Questions extends CoreGame {
         $pdoStatement = $pdo->query($sql);
 
         return $pdoStatement->fetchObject(Questions::class);
+    }
+
+    static public function findQuestionsByYear($yearId) {
+
+        $pdo = Database::getPDO();
+
+        $sql = "SELECT * FROM questions WHERE year_id = '$yearId'";
+
+        $pdoStatement = $pdo->query($sql);
+
+        return $pdoStatement->fetchAll(PDO::FETCH_CLASS, Questions::class);
     }
 }

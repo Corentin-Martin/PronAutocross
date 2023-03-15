@@ -222,6 +222,47 @@ $router->map(
     'entrylist-list'
 );
 
+// QUESTIONS
+$router->map(
+    'GET',
+    '/admin/question',
+    [
+    'controller' => AdminQuestionController::class,
+    'method' => 'home'
+    ],
+    'question-home'
+);
+
+$router->map(
+    'GET',
+    '/admin/question/add',
+    [
+    'controller' => AdminQuestionController::class,
+    'method' => 'add'
+    ],
+    'question-add'
+);
+
+$router->map(
+    'POST',
+    '/admin/question/add',
+    [
+    'controller' => AdminQuestionController::class,
+    'method' => 'create'
+    ],
+    'question-create'
+);
+
+$router->map(
+    'GET',
+    '/admin/question/[i:year]',
+    [
+    'controller' => AdminQuestionController::class,
+    'method' => 'list'
+    ],
+    'question-list'
+);
+
 // VERIFICATION
 $router->map(
     'GET',
@@ -276,36 +317,7 @@ $router->map(
     'race-add'
 );
 
-// QUESTIONS
-$router->map(
-    'GET',
-    '/admin/question',
-    [
-    'controller' => AdminQuestionController::class,
-    'method' => 'home'
-    ],
-    'question-home'
-);
 
-$router->map(
-    'GET',
-    '/admin/question/add',
-    [
-    'controller' => AdminQuestionController::class,
-    'method' => 'add'
-    ],
-    'question-add'
-);
-
-$router->map(
-    'GET',
-    '/admin/question/[i:year]/[i:id]',
-    [
-    'controller' => AdminQuestionController::class,
-    'method' => 'list'
-    ],
-    'question-list'
-);
 
 // ERROR 404
 $router->map(
