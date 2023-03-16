@@ -26,7 +26,11 @@ abstract class CoreModel {
     static public function find($id, $className) {
         $pdo = Database::getPDO();
 
-        $tableOnDB = lcfirst(substr($className, 11));
+        if ($className === EntryList::class) {
+            $tableOnDB = 'entry_list';
+        } else {
+            $tableOnDB = lcfirst(substr($className, 11));
+        }
 
         $pdoStatement = $pdo->query("SELECT * FROM $tableOnDB WHERE id=$id");
 

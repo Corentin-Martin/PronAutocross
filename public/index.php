@@ -222,6 +222,26 @@ $router->map(
     'entrylist-list'
 );
 
+$router->map(
+    'GET',
+    '/admin/entrylist/delete/[i:year]/[i:id]',
+    [
+    'controller' => AdminEntryListController::class,
+    'method' => 'deletelist'
+    ],
+    'entrylist-deletelist'
+);
+
+$router->map(
+    'GET',
+    '/admin/entrylist/deletedriver/[i:id]',
+    [
+    'controller' => AdminEntryListController::class,
+    'method' => 'deleteentry'
+    ],
+    'entrylist-deleteentry'
+);
+
 // QUESTIONS
 $router->map(
     'GET',

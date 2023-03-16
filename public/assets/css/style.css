@@ -104,6 +104,7 @@ input[type="radio"].radio:checked + .card{
 
 .admin__container {
     height: 100%;
+    width: 90%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -135,7 +136,7 @@ input[type="radio"].radio:checked + .card{
 
 .questionnaire__title {
     background-color: rgba(0, 102, 255, 0.623);
-    border-radius: 20rem;
+    border-radius: 2rem;
     color: white;
     text-shadow: 0.2rem 0.2rem 0.2rem black;
 }

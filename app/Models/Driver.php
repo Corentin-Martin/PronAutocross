@@ -60,29 +60,34 @@ class Driver extends CoreUser {
 
     }
 
-    public function findAllByCategoryAndStatus1($categoryId) {
+    static public function findAllByCategoryAndStatus($categoryId, $status) {
 
         $pdo = Database::getPDO();
 
-        $sql = "SELECT * FROM driver WHERE category_id = '$categoryId' AND `status` = 1";
+        $sql = "SELECT * FROM driver WHERE category_id = :categoryId AND `status` = :status";
 
-        $pdoStatement = $pdo->query($sql);
+        $query = $pdo->prepare($sql);
 
-        return $pdoStatement->fetchAll(PDO::FETCH_CLASS, Driver::class);
+        $query->bindValue(":categoryId",        $categoryId,         PDO::PARAM_INT);
+        $query->bindValue(":status",        $status,       PDO::PARAM_INT);
 
-    }
+        $query->execute();
 
-    public function findAllByCategoryAndStatus0($categoryId) {
-
-        $pdo = Database::getPDO();
-
-        $sql = "SELECT * FROM driver WHERE category_id = '$categoryId' AND `status` = 0";
-
-        $pdoStatement = $pdo->query($sql);
-
-        return $pdoStatement->fetchAll(PDO::FETCH_CLASS, Driver::class);
+        return $query->fetchAll(PDO::FETCH_CLASS, Driver::class);
 
     }
+
+    // public function findAllByCategoryAndStatus0($categoryId) {
+
+    //     $pdo = Database::getPDO();
+
+    //     $sql = "SELECT * FROM driver WHERE category_id = '$categoryId' AND `status` = 0";
+
+    //     $pdoStatement = $pdo->query($sql);
+
+    //     return $pdoStatement->fetchAll(PDO::FETCH_CLASS, Driver::class);
+
+    // }
 
     public function edit($firstName, $lastName, $number, $vehicle, $picture, $categoryId, $status, $driverId) {
 

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Driver;
 use App\Utils\Database;
 use PDO;
 
@@ -25,42 +24,88 @@ class EntryList extends CoreModel {
     public function getYearId(){ return $this->year_id; }
     public function setYearId($year_id): self { $this->year_id = $year_id; return $this; }
 
-    static public function make($POST) {
+    public function add() {
 
-        foreach (array_slice(array_keys($POST), 2) as $driverId) {
-            $driver = Driver::find($driverId, Driver::class);
+        $pdo = Database::getPDO();
 
-            if ($driver) {
+        $sql = "INSERT INTO entry_list (`race_id`, `category_id`, `driver_id`, `year_id`) VALUES (:raceId, :categoryId, :driverId, :yearId)";
 
-                $pdo = Database::getPDO();
+        $query = $pdo->prepare($sql);
 
-                $sql = "INSERT INTO entry_list (`race_id`, `category_id`, `driver_id`, `year_id`) VALUES ('{$POST['race']}', '{$driver->getCategoryId()}', '{$driver->getId()}', '{$POST['year']}')";
+        $query->bindValue(":raceId",        $this->race_id,       PDO::PARAM_INT);
+        $query->bindValue(":categoryId",    $this->category_id,   PDO::PARAM_INT);
+        $query->bindValue(":driverId",      $this->driver_id,     PDO::PARAM_INT);
+        $query->bindValue(":yearId",        $this->year_id,       PDO::PARAM_INT);
 
-                $pdoStatement = $pdo->exec($sql);
-            }
+        $query->execute();
 
-        }
+        return ($query->rowCount() === 1);
+
     }
 
     static public function listByRaceAndCategory($yearId, $raceId, $categoryId) {
 
         $pdo = Database::getPDO();
 
-        $sql = "SELECT * FROM entry_list WHERE race_id = '$raceId' AND category_id = '$categoryId' AND year_id = '$yearId'";
+        $sql = "SELECT * FROM entry_list WHERE race_id = :raceId AND category_id = :categoryId AND year_id = :yearId";
 
-        $pdoStatement = $pdo->query($sql);
+        $query = $pdo->prepare($sql);
 
-        return $pdoStatement->fetchAll(PDO::FETCH_CLASS, EntryList::class);
+        $query->bindValue(":raceId",        $raceId,       PDO::PARAM_INT);
+        $query->bindValue(":categoryId",    $categoryId,   PDO::PARAM_INT);
+        $query->bindValue(":yearId",        $yearId,       PDO::PARAM_INT);
+
+        $query->execute();
+
+        return $query->fetchAll(PDO::FETCH_CLASS, EntryList::class);
     }
 
     static public function listByRace($yearId, $raceId) {
 
         $pdo = Database::getPDO();
 
-        $sql = "SELECT * FROM entry_list WHERE race_id = '$raceId' AND year_id = '$yearId'";
+        $sql = "SELECT * FROM entry_list WHERE race_id = :raceId AND year_id = :yearId";
 
-        $pdoStatement = $pdo->query($sql);
+        $query = $pdo->prepare($sql);
 
-        return $pdoStatement->fetchAll(PDO::FETCH_CLASS, EntryList::class);
+        $query->bindValue(":raceId",        $raceId,       PDO::PARAM_INT);
+        $query->bindValue(":yearId",        $yearId,       PDO::PARAM_INT);
+
+        $query->execute();
+
+        return $query->fetchAll(PDO::FETCH_CLASS, EntryList::class);
+    }
+
+    public function deleteList($year, $raceId){
+
+        $pdo = Database::getPDO();
+
+        $sql = "DELETE FROM entry_list WHERE `race_id` = :raceId AND `year_id` = :yearId";
+
+        $query = $pdo->prepare($sql);
+
+        $query->bindValue(":yearId",        $year,         PDO::PARAM_INT);
+        $query->bindValue(":raceId",        $raceId,       PDO::PARAM_INT);
+
+        $query->execute();
+
+        return $query->rowCount();
+
+    }
+
+    public function deleteEntry(){
+
+        $pdo = Database::getPDO();
+
+        $sql = "DELETE FROM entry_list WHERE id = :id";
+
+        $query = $pdo->prepare($sql);
+
+        $query->bindValue(":id",        $this->id,         PDO::PARAM_INT);
+
+        $query->execute();
+
+        return ($query->rowCount() === 1);
+
     }
 }
