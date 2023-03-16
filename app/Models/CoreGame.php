@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
-class CoreGame extends CoreModel {
+use App\Utils\Database;
+use PDO;
+
+abstract class CoreGame extends CoreModel {
 
     protected $maxiSprint;
     protected $tourismeCup;
@@ -56,4 +59,62 @@ class CoreGame extends CoreModel {
 
     public function getYearId(){ return $this->year_id; }
     public function setYearId($year_id): self { $this->year_id = $year_id; return $this; }
+
+    public function addOrUpdate($table) {
+
+        $pdo = Database::getPDO();
+
+        if ($this->id > 0) {
+            $sql = 
+            "UPDATE `$table` SET `maxiSprint`= :maxiSprint, `tourismeCup` = :tourismeCup, `sprintGirls` = :sprintGirls, `buggyCup` = :buggyCup, `juniorSprint` = :juniorSprint, `maxiTourisme` = :maxiTourisme, `buggy1600` = :buggy1600, `superSprint` = :superSprint, `superBuggy` = :superBuggy, `bonus1` = :bonus1, `bonus2` = :bonus2, `race_id` = :raceId, `year_id` = :yearId WHERE id = :id";
+        } else {
+            $sql = "INSERT INTO `$table` 
+            (`maxiSprint`, `tourismeCup`, `sprintGirls`, `buggyCup`, `juniorSprint`, `maxiTourisme`, `buggy1600`, `superSprint`,
+            `superBuggy`, `bonus1`, `bonus2`, `race_id`, `year_id`) 
+            VALUES 
+            ( :maxiSprint, :tourismeCup, :sprintGirls, :buggyCup, :juniorSprint, :maxiTourisme, :buggy1600, :superSprint, :superBuggy, :bonus1, :bonus2, :raceId, :yearId)";
+        }
+        
+        $query = $pdo->prepare($sql);
+
+        if ($table === 'questions') {
+            $arg = PDO::PARAM_STR;
+        } else {
+            $arg = PDO::PARAM_INT;
+        }
+
+        $query->bindValue(":maxiSprint",    $this->maxiSprint,      $arg);
+        $query->bindValue(":tourismeCup",   $this->tourismeCup,     $arg);
+        $query->bindValue(":sprintGirls",   $this->sprintGirls,     $arg);
+        $query->bindValue(":buggyCup",      $this->buggyCup,        $arg);
+        $query->bindValue(":juniorSprint",  $this->juniorSprint,    $arg);
+        $query->bindValue(":maxiTourisme",  $this->maxiTourisme,    $arg);
+        $query->bindValue(":buggy1600",     $this->buggy1600,       $arg);
+        $query->bindValue(":superSprint",   $this->superSprint,     $arg);
+        $query->bindValue(":superBuggy",    $this->superBuggy,      $arg);
+        $query->bindValue(":bonus1",        $this->bonus1,          PDO::PARAM_STR);
+        $query->bindValue(":bonus2",        $this->bonus2,          PDO::PARAM_STR);
+        $query->bindValue(":raceId",        $this->race_id,         PDO::PARAM_INT);
+        $query->bindValue(":yearId",        $this->year_id,         PDO::PARAM_INT);
+
+        if ($this->id > 0) {
+
+        $query->bindValue(":id",            $this->id,              PDO::PARAM_INT);
+
+        }
+
+        $query->execute();
+
+        if ($query->rowCount() === 1) {
+
+        if (is_null($this->id)) {
+
+            $this->id = $pdo->lastInsertId();
+        }
+            return true;
+
+        } else {
+            return false;
+        }
+    }
 }

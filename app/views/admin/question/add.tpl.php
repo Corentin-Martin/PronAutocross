@@ -1,27 +1,39 @@
-<h2>Générer les questions</h2>
+<div class="admin__container">
 
-<div class="btn-group" role="group">
-    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-      Année
-    </button>
-    <ul class="dropdown-menu">
-        <?php foreach ($years as $year) : ?>
-            <li><a class="dropdown-item" href="<?= $year->getId() ?>"><?= $year->getId() ?></a></li>
-        <?php endforeach; ?>
-    </ul>
-  </div>
-</div>
-<div>
-    <h4><?=$currentYear ?></h4>
-</div>
+<?php if ($questionnaire) : ?>
+    <h2 class="admin__container__title">Editer le questionnaire</h2>
+<?php else : ?>
+    <h2 class="admin__container__title">Générer un questionnaire</h2>
+<?php endif; ?>
 
-<form action="" method="post">
+    <div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Année</button>
+            
+            <ul class="dropdown-menu">
+            <?php foreach ($years as $year) : ?>
+                <li><a class="dropdown-item" href="<?= $year->getId() ?>"><?= $year->getId() ?></a></li>
+            <?php endforeach; ?>
+            </ul>
+        </div>
+
+        <div>
+            <h4><?=$currentYear ?></h4>
+        </div>
+    </div>
+    
+
+    <div>
+    <form action="" method="post">
     <input type="hidden" name="year" value="<?= $currentYear ?>">
 
     <div>
         <label for="raceId">
-            <h4>Course</h4>
+            <h4 class="questionnaire__title">Course</h4>
             <select name="raceId" id="raceId" required>
+                <?php if ($questionnaire) : ?>
+                    <option value="<?= $questionnaire->getRaceId() ?>" selected><?= $racesById[$questionnaire->getRaceId()]->getName() ?></option>
+                <?php endif; ?>
                 <?php foreach ($races as $race) : ?>
                     <option value="<?= $race->getId() ?>"><?= $race->getName() ?></option>
                 <?php endforeach; ?>
@@ -30,28 +42,42 @@
     </div>
 
     <?php foreach ($categories as $category) : ?>
+
         <div>
             <label for="<?= $category->getId() ?>">
-                <h4><?= $category->getName() ?></h4>
-                <input type="text" name="<?= $category->getName() ?>" id="<?= $category->getId() ?>" placeholder="Question pour <?= $category->getName() ?>" size="60" required>
+                <h4 class="questionnaire__title"><?= $category->getName() ?></h4>
+                <input type="text" name="<?= $category->getName() ?>" id="<?= $category->getId() ?>" placeholder="Question pour <?= $category->getName() ?>" size="60" <?= ($questionnaire) ? "value = \" {$questionnaire->{'get'.str_replace(" ", "", $category->getName())}()} \"" : "" ?> required>
             </label>
         </div>
     <?php endforeach; ?>
         <div>
             <label for="bonus1">
-                <h4>Bonus 1</h4>
-                <input type="text" name="bonus1" id="bonus1" placeholder="Question Bonus 1" size="60" required>
+                <h4 class="questionnaire__title">Bonus 1</h4>
+                <input type="text" name="bonus1" id="bonus1" placeholder="Question Bonus 1" size="60" <?= ($questionnaire) ? "value = \" {$questionnaire->getBonus1()} \"" : "" ?>required>
             </label>
         </div>
         <div>
             <label for="bonus2">
-                <h4>Bonus 2</h4>
-                <input type="text" name="bonus2" id="bonus2" placeholder="Question Bonus 2" size="60" required>
+                <h4 class="questionnaire__title">Bonus 2</h4>
+                <input type="text" name="bonus2" id="bonus2" placeholder="Question Bonus 2" size="60" <?= ($questionnaire) ? "value = \" {$questionnaire->getBonus2()} \"" : "" ?>required>
             </label>
         </div>
         <div>
-            <button type="submit">Générer les questions</button>
+            <button class="btn btn-success btn-lg" type="submit">
+                <?php if ($questionnaire) : ?>
+                    Editer le questionnaire
+                <?php else : ?>
+                    Générer le questionnaire
+                <?php endif; ?></button>
         </div>
 </form>
 
-<button><a href="<?= $router->generate('question-home') ?>">RETOUR</a></button>
+    </div>
+    
+
+    <div>
+        <a type="button" class="btn btn-warning btn-lg"  href="<?= $router->generate('admin') ?>">RETOUR AU TABLEAU DE BORD GENERAL</a>
+    </div>
+
+
+</div>

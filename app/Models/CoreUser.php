@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class CoreUser extends CoreModel {
+abstract class CoreUser extends CoreModel {
 
     protected $firstName;
     protected $lastName;

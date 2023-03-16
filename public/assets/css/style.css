@@ -132,3 +132,14 @@ input[type="radio"].radio:checked + .card{
     justify-content: space-between;
     align-items: center;
 }
+
+.questionnaire__title {
+    background-color: rgba(0, 102, 255, 0.623);
+    border-radius: 20rem;
+    color: white;
+    text-shadow: 0.2rem 0.2rem 0.2rem black;
+}
+
+input::placeholder {
+    text-align: center;
+}

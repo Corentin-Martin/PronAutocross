@@ -9,7 +9,7 @@ use App\Models\Race;
 use App\Models\Score;
 use App\Models\Year;
 
-class CoreController {
+abstract class CoreController {
 
     protected function show($viewName, $viewData = [], $year = null) {
 

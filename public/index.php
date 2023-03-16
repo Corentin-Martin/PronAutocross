@@ -238,7 +238,7 @@ $router->map(
     '/admin/question/add/[i:year]',
     [
     'controller' => AdminQuestionController::class,
-    'method' => 'add'
+    'method' => 'addOrEdit'
     ],
     'question-add'
 );
@@ -248,9 +248,29 @@ $router->map(
     '/admin/question/add/[i:year]',
     [
     'controller' => AdminQuestionController::class,
-    'method' => 'create'
+    'method' => 'createOrUpdate'
     ],
     'question-create'
+);
+
+$router->map(
+    'GET',
+    '/admin/question/[i:year]/edit/[i:id]',
+    [
+    'controller' => AdminQuestionController::class,
+    'method' => 'addOrEdit'
+    ],
+    'question-edit'
+);
+
+$router->map(
+    'POST',
+    '/admin/question/[i:year]/edit/[i:id]',
+    [
+    'controller' => AdminQuestionController::class,
+    'method' => 'createOrUpdate'
+    ],
+    'question-update'
 );
 
 $router->map(
@@ -261,6 +281,16 @@ $router->map(
     'method' => 'list'
     ],
     'question-list'
+);
+
+$router->map(
+    'GET',
+    '/admin/question/delete/[i:id]',
+    [
+    'controller' => AdminQuestionController::class,
+    'method' => 'delete'
+    ],
+    'question-delete'
 );
 
 // RACES

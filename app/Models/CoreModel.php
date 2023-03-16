@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Utils\Database;
 use PDO;
 
-class CoreModel {
+abstract class CoreModel {
 
     protected $id;
     
