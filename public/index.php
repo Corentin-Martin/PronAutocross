@@ -235,7 +235,7 @@ $router->map(
 
 $router->map(
     'GET',
-    '/admin/question/add',
+    '/admin/question/add/[i:year]',
     [
     'controller' => AdminQuestionController::class,
     'method' => 'add'
@@ -245,7 +245,7 @@ $router->map(
 
 $router->map(
     'POST',
-    '/admin/question/add',
+    '/admin/question/add/[i:year]',
     [
     'controller' => AdminQuestionController::class,
     'method' => 'create'

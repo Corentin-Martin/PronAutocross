@@ -1,10 +1,17 @@
-<h2>QUESTIONS</h2>
+<div class="admin__container">
+    
 
-<ul>
-    <li><a href="<?= $router->generate('question-add') ?>">Générer une liste des questions</a>
-</li>
-    <li><a href="<?= $router->generate('question-list', ['year' => 2023]) ?>">Parcourir les questionnaires</a></li>
-</ul>
+    <h2 class="admin__container__title">QUESTIONS</h2>
+
+    
+    <div>
+        <a type="button" class="btn btn-secondary btn-lg" href="<?= $router->generate('question-add', ['year' => 2023]) ?>">GENERER UNE LISTE DE QUESTIONS</a>
+        <a type="button" class="btn btn-dark btn-lg" href="<?= $router->generate('question-list', ['year' => 2023]) ?>">PARCOURIR LES QUESTIONNAIRES</a>
+    </div>
+
+    <div>
+        <a type="button" class="btn btn-warning btn-lg"  href="<?= $router->generate('admin') ?>">RETOUR AU TABLEAU DE BORD GENERAL</a>
+    </div>
 
 
-<button><a href="<?= $router->generate('admin') ?>">RETOUR AU TABLEAU DE BORD GENERAL</a></button>
+</div>

@@ -9,6 +9,30 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>HEADER PARTIE BACK OFFICE</h1>
-</body>
-</html>
+<header class="admin_header">
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="<?= $router->generate('admin'); ?>">Admin Pron'Autocross</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-link" aria-current="page" href="<?= $router->generate('admin'); ?>">QG</a>
+                <a class="nav-link" href="<?= $router->generate('question-home'); ?>">Questions</a>
+                <a class="nav-link" href="<?= $router->generate('entrylist-home'); ?>">Liste des engagés</a>
+                <a class="nav-link" href="<?= $router->generate('verification-home'); ?>">Vérifications</a>
+                <a class="nav-link" href="<?= $router->generate('driver-home'); ?>">Pilotes</a>
+                <a class="nav-link" href="<?= $router->generate('category-list'); ?>">Catégories</a>
+                <a class="nav-link" href="<?= $router->generate('race-home'); ?>">Courses</a>
+            </div>
+            </div>
+        </div>
+    </nav>
+
+</header>
+
+<main class="main__admin">
+
+

@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Controllers\Admin\AdminCoreController;
 use App\Models\Driver;
 use App\Models\Player;
 use App\Models\Race;
@@ -47,7 +48,7 @@ class CoreController {
 
         extract($viewData);
 
-        $backIndic = ($dispatcher->getController() === AdminController::class) ? "_admin" : "";
+        $backIndic = (str_starts_with($dispatcher->getController(), "App\Controllers\Admin\Admin")) ? "_admin" : "";
 
         require_once __DIR__ . "/../views/layout/header" . $backIndic . ".tpl.php";
         require_once __DIR__ . "/../views/{$viewName}.tpl.php";

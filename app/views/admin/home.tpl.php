@@ -1,39 +1,21 @@
+<h2 class="admin__container__title">QG ADMIN</h2>
+
 <div class="admin__home__container">
-
+    
     <div class="admin__home__container_div">
-
         <div class="admin__home__container__div__title">
             <h3>
-                <a href="<?= $router->generate('category-list') ?>">Catégories</a>
+                <a href="<?= $router->generate('question-home') ?>">Questions</a>
             </h3>
         </div>
+    
         <div class="admin__home__container__div__menu">
             <ul>
                 <li>
-                    <a href="<?= $router->generate('category-list')?>">Liste des catégories</a>
+                    <a href="<?= $router->generate('question-list', ['year' => 2023]) ?>">Parcourir les questionnaires</a>
                 </li>
                 <li>
-                    <a href="<?= $router->generate('category-add')?>">Créer une catégorie</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="admin__home__container_div">
-
-        <div class="admin__home__container__div__title">
-            <h3>
-                <a href="<?= $router->generate('driver-home') ?>">Pilotes</a>
-            </h3>
-        </div>
-
-        <div class="admin__home__container__div__menu">
-            <ul>
-                <li>
-                    <a href="<?= $router->generate('driver-list', ['categoryId' => 1, 'action' => 'number']) ?>">Parcourir les pilotes</a>
-                </li>
-                <li>
-                    <a href="<?= $router->generate('driver-add') ?>">Ajouter un pilote</a>
+                    <a href="<?= $router->generate('question-add', ['year' => 2023]) ?>">Générer un questionnaire</a>
                 </li>
             </ul>
         </div>
@@ -58,25 +40,67 @@
         </div>
 
     </div>
-
+    
     <div class="admin__home__container_div">
         <div class="admin__home__container__div__title">
             <h3>
-                <a href="<?= $router->generate('question-home') ?>">Questions</a>
+                <a href="<?= $router->generate('verification-home') ?>">Vérifications</a>
             </h3>
         </div>
 
         <div class="admin__home__container__div__menu">
             <ul>
                 <li>
-                    <a href="<?= $router->generate('question-list', ['year' => 2023]) ?>">Parcourir les questionnaires</a>
+                    <a href="<?= $router->generate('verification-list', ['year' => 2023]) ?>">Parcourir les Vérifications</a>
                 </li>
                 <li>
-                    <a href="<?= $router->generate('question-add') ?>">Générer un questionnaire</a>
+                    <a href="<?= $router->generate('verification-add', ['year' => 2023, 'raceId' => 1]) ?>">Créer une vérification</a>
                 </li>
             </ul>
         </div>
     </div>
+    
+    <div class="admin__home__container_div">
+
+        <div class="admin__home__container__div__title">
+            <h3>
+                <a href="<?= $router->generate('driver-home') ?>">Pilotes</a>
+            </h3>
+        </div>
+
+        <div class="admin__home__container__div__menu">
+            <ul>
+                <li>
+                    <a href="<?= $router->generate('driver-list', ['categoryId' => 1, 'action' => 'number']) ?>">Parcourir les pilotes</a>
+                </li>
+                <li>
+                    <a href="<?= $router->generate('driver-add') ?>">Ajouter un pilote</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="admin__home__container_div">
+        
+        <div class="admin__home__container__div__title">
+            <h3>
+                <a href="<?= $router->generate('category-list') ?>">Catégories</a>
+            </h3>
+        </div>
+        <div class="admin__home__container__div__menu">
+            <ul>
+                <li>
+                    <a href="<?= $router->generate('category-list')?>">Liste des catégories</a>
+                </li>
+                <li>
+                    <a href="<?= $router->generate('category-add')?>">Créer une catégorie</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+
 
     <div class="admin__home__container_div"> 
         <div class="admin__home__container__div__title">
@@ -97,24 +121,6 @@
         </div>
     </div>
 
-    <div class="admin__home__container_div">
-        <div class="admin__home__container__div__title">
-            <h3>
-                <a href="<?= $router->generate('verification-home') ?>">Vérifications</a>
-            </h3>
-        </div>
-
-        <div class="admin__home__container__div__menu">
-            <ul>
-                <li>
-                    <a href="<?= $router->generate('verification-list', ['year' => 2023]) ?>">Parcourir les Vérifications</a>
-                </li>
-                <li>
-                    <a href="<?= $router->generate('verification-add') ?>">Créer une vérification</a>
-                </li>
-            </ul>
-        </div>
-    </div>
 
     <div class="admin__home__container_div">
         <div class="admin__home__container__div__title">
@@ -126,13 +132,8 @@
         </div>
     </div>
 
-    <div class="admin__home__container_div">
-        <div class="admin__home__container__div__title">
-            <h3>Retour au site général</h3>
-        </div>
+</div>
 
-        <div class="admin__home__container__div__menu">
-
-        </div>
-    </div>
+<div>
+    <a type="button" class="btn btn-warning btn-lg"  href="<?= $router->generate('home') ?>">RETOUR AU SITE GENERAL</a>
 </div>

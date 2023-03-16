@@ -49,9 +49,9 @@ input[type="radio"].radio:checked + .card{
 .admin__home__container {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
     margin: 0 auto;
-    height: 80vh;
-    width: 80%;
 }
 
 .admin__home__container_div {
@@ -69,7 +69,10 @@ input[type="radio"].radio:checked + .card{
 
 .admin__home__container__div__title {
     height: 30%;
-    padding: 0.8rem;
+}
+
+.admin__home__container__div__title h3 {
+    margin: auto;
 }
 
 .admin__home__container__div__title a {
@@ -93,4 +96,39 @@ input[type="radio"].radio:checked + .card{
 .admin__home__container__div__menu a:hover {
     color : red;
     font-weight: bold;
+}
+
+.admin_header {
+    height: 6.5vh;
+}
+
+.admin__container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: scroll;
+}
+
+.admin__container__title {
+    background-color: rgba(255, 51, 0, 0.349);
+    font-weight: bold;
+    font-style: italic;
+    color: white;
+    text-shadow: 0.2rem 0.2rem 0.1rem black;
+    font-size: 3rem;
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 15rem;
+    box-shadow: 0.3rem 0.3rem 0.3rem black;
+}
+
+.main__admin {
+    background-image: url("../images/backgroundadmin.jpg");
+    height: 93.5vh;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 }

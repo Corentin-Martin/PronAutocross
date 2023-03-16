@@ -1,26 +1,33 @@
 <h2>Générer les questions</h2>
 
+<div class="btn-group" role="group">
+    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+      Année
+    </button>
+    <ul class="dropdown-menu">
+        <?php foreach ($years as $year) : ?>
+            <li><a class="dropdown-item" href="<?= $year->getId() ?>"><?= $year->getId() ?></a></li>
+        <?php endforeach; ?>
+    </ul>
+  </div>
+</div>
+<div>
+    <h4><?=$currentYear ?></h4>
+</div>
+
 <form action="" method="post">
-        <div>
-            <label for="year">
-                <h4>Année</h4>
-                <select name="year" id="year" required>
-                    <?php foreach ($years as $year) : ?>
-                        <option value="<?= $year->getId() ?>"><?= $year->getId() ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </label>
-        </div>
-        <div>
-            <label for="raceId">
-                <h4>Course</h4>
-                <select name="raceId" id="raceId" required>
-                    <?php foreach ($races as $race) : ?>
-                        <option value="<?= $race->getId() ?>"><?= $race->getName() ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </label>
-        </div>
+    <input type="hidden" name="year" value="<?= $currentYear ?>">
+
+    <div>
+        <label for="raceId">
+            <h4>Course</h4>
+            <select name="raceId" id="raceId" required>
+                <?php foreach ($races as $race) : ?>
+                    <option value="<?= $race->getId() ?>"><?= $race->getName() ?></option>
+                <?php endforeach; ?>
+            </select>
+        </label>
+    </div>
 
     <?php foreach ($categories as $category) : ?>
         <div>

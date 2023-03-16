@@ -1,10 +1,18 @@
-<h2>COURSES</h2>
 
-<ul>
-    <li><a href="<?= $router->generate('race-add') ?>">Créer une nouvelle épreuve</a>
-</li>
-    <li><a href="<?= $router->generate('race-list', ['year' => 2023]) ?>">Parcourir les courses</a></li>
-</ul>
+<div class="admin__container">
+    
+
+    <h2 class="admin__container__title">COURSES</h2>
+
+    
+    <div>
+        <a type="button" class="btn btn-secondary btn-lg" href="<?= $router->generate('race-add') ?>">CREER UNE NOUVELLE EPREUVE</a>
+        <a type="button" class="btn btn-dark btn-lg" href="<?= $router->generate('race-list', ['year' => 2023]) ?>">PARCOURIR LES EPREUVES</a>
+    </div>
+
+    <div>
+        <a type="button" class="btn btn-warning btn-lg"  href="<?= $router->generate('admin') ?>">RETOUR AU TABLEAU DE BORD GENERAL</a>
+    </div>
 
 
-<button><a href="<?= $router->generate('admin') ?>">RETOUR AU TABLEAU DE BORD GENERAL</a></button>
+</div>

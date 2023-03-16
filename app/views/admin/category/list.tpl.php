@@ -1,31 +1,42 @@
-<h2>Catégories</h2>
-<div>
-<a href="<?= $router->generate('category-add')?>">CREER UNE CATEGORIE</a>
-<table>
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Nom de la catégorie</th>
-            <th>Ordre de passage</th>
-        </tr>
-    </thead>
+
+<div class="admin__container">
     
-    <tbody>
 
-    <?php foreach ($categories as $category) : ?>
+    <h2 class="admin__container__title">CATEGORIES</h2>
 
-    <tr>
-        <td><?= $category->getId() ?></td>
-        <td><?= $category->getName() ?></td>
-        <td><?= $category->getRunningOrder() ?></td>
-    </tr>
+    <div>
+        <table class="table table-light table-stripped table-striped-columns table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nom de la catégorie</th>
+                    <th>Ordre de passage</th>
+                </tr>
+            </thead>
+            
+            <tbody>
 
-    <?php endforeach; ?>
+                <?php foreach ($categories as $category) : ?>
 
-    </tbody>
-</table>
+                <tr>
+                    <td><?= $category->getId() ?></td>
+                    <td><?= $category->getName() ?></td>
+                    <td><?= $category->getRunningOrder() ?></td>
+                </tr>
+
+                <?php endforeach; ?>
+
+            </tbody>
+        </table>
+    </div>
+    
+    <div>
+        <a type="button" class="btn btn-dark btn-lg" href="<?= $router->generate('category-add')?>">AJOUTER UNE CATEGORIE</a>
+    </div>
+
+    <div>
+        <a type="button" class="btn btn-warning btn-lg"  href="<?= $router->generate('admin') ?>">RETOUR AU TABLEAU DE BORD GENERAL</a>
+    </div>
 
 
 </div>
-
-<button><a href="<?= $router->generate('admin') ?>">RETOUR AU TABLEAU DE BORD GENERAL</a></button>
