@@ -23,10 +23,10 @@ abstract class CoreController {
 
         $drivers = Driver::findAll();
 
-        $driversById = [];
-        foreach ($drivers as $driver) {
-            $driversById[$driver->getId()] = $driver;
-        }
+        // $driversById = [];
+        // foreach ($drivers as $driver) {
+        //     $driversById[$driver->getId()] = $driver;
+        // }
 
         $playersById = [];
         foreach ($players as $player) {

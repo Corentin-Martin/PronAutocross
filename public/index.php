@@ -146,19 +146,9 @@ $router->map(
     '/admin/driver/add',
     [
     'controller' => AdminDriverController::class,
-    'method' => 'add'
+    'method' => 'addOrEdit'
     ],
     'driver-add'
-);
-
-$router->map(
-    'POST',
-    '/admin/driver/add',
-    [
-    'controller' => AdminDriverController::class,
-    'method' => 'create'
-    ],
-    'driver-create'
 );
 
 $router->map(
@@ -166,10 +156,40 @@ $router->map(
     '/admin/driver/edit/[i:id]',
     [
     'controller' => AdminDriverController::class,
-    'method' => 'edit'
+    'method' => 'addOrEdit'
     ],
     'driver-edit'
 );
+
+$router->map(
+    'POST',
+    '/admin/driver/add',
+    [
+    'controller' => AdminDriverController::class,
+    'method' => 'createOrUpdate'
+    ],
+    'driver-create'
+);
+
+$router->map(
+    'POST',
+    '/admin/driver/edit/[i:id]',
+    [
+    'controller' => AdminDriverController::class,
+    'method' => 'createOrUpdate'
+    ],
+    'driver-update'
+);
+
+// $router->map(
+//     'GET',
+//     '/admin/driver/edit/[i:id]',
+//     [
+//     'controller' => AdminDriverController::class,
+//     'method' => 'edit'
+//     ],
+//     'driver-edit'
+// );
 
 $router->map(
     'POST',
@@ -179,6 +199,16 @@ $router->map(
     'method' => 'makeEdit'
     ],
     'driver-makeEdit'
+);
+
+$router->map(
+    'GET',
+    '/admin/driver/delete/[i:id]',
+    [
+    'controller' => AdminDriverController::class,
+    'method' => 'delete'
+    ],
+    'driver-delete'
 );
 
 // ENTRY LIST
