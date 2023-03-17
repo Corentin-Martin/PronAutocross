@@ -24,115 +24,59 @@ class Score extends CoreGame {
     public function getParticipationId(){ return $this->participation_id; }
     public function setParticipationId($participation_id): self { $this->participation_id = $participation_id; return $this; }
 
-    /**
-     * Undocumented function
-     *
-     * @param int $raceId // L'id de la course
-     * @return void
-     */
-    public function calcul($yearId, $raceId) {
+    public function createOrUpdate() {
 
-        $participations = Participation::showAllParticipations($yearId, $raceId);
+        $pdo = Database::getPDO();
 
-        foreach ($participations as $participation) {
+        if ($this->id > 0) {
+            $sql = 
+            "UPDATE `score` SET `maxiSprint`= :maxiSprint, `tourismeCup` = :tourismeCup, `sprintGirls` = :sprintGirls, `buggyCup` = :buggyCup, `juniorSprint` = :juniorSprint, `maxiTourisme` = :maxiTourisme, `buggy1600` = :buggy1600, `superSprint` = :superSprint, `superBuggy` = :superBuggy, `bonus1` = :bonus1, `bonus2` = :bonus2, `race_id` = :raceId, `year_id` = :yearId, `participation_id` = :participationId, `total` = :total, `player_id` = :playerId WHERE id = :id";
+        } else {
+            $sql = "INSERT INTO `score` 
+            (`maxiSprint`, `tourismeCup`, `sprintGirls`, `buggyCup`, `juniorSprint`, `maxiTourisme`, `buggy1600`, `superSprint`,
+            `superBuggy`, `bonus1`, `bonus2`, `race_id`, `year_id`, `participation_id`, `total`, `player_id`) 
+            VALUES 
+            ( :maxiSprint, :tourismeCup, :sprintGirls, :buggyCup, :juniorSprint, :maxiTourisme, :buggy1600, :superSprint, :superBuggy, :bonus1, :bonus2, :raceId, :yearId, :participationId, :total, :playerId)";
+        }
+        
+        $query = $pdo->prepare($sql);
 
-            $verif = Verification::showByRaceId($raceId, $yearId);
 
-            $categories = Category::findAll(Category::class);
+        $query->bindValue(":maxiSprint",        $this->maxiSprint,          PDO::PARAM_INT);
+        $query->bindValue(":tourismeCup",       $this->tourismeCup,         PDO::PARAM_INT);
+        $query->bindValue(":sprintGirls",       $this->sprintGirls,         PDO::PARAM_INT);
+        $query->bindValue(":buggyCup",          $this->buggyCup,            PDO::PARAM_INT);
+        $query->bindValue(":juniorSprint",      $this->juniorSprint,        PDO::PARAM_INT);
+        $query->bindValue(":maxiTourisme",      $this->maxiTourisme,        PDO::PARAM_INT);
+        $query->bindValue(":buggy1600",         $this->buggy1600,           PDO::PARAM_INT);
+        $query->bindValue(":superSprint",       $this->superSprint,         PDO::PARAM_INT);
+        $query->bindValue(":superBuggy",        $this->superBuggy,          PDO::PARAM_INT);
+        $query->bindValue(":bonus1",            $this->bonus1,              PDO::PARAM_INT);
+        $query->bindValue(":bonus2",            $this->bonus2,              PDO::PARAM_INT);
+        $query->bindValue(":raceId",            $this->race_id,             PDO::PARAM_INT);
+        $query->bindValue(":yearId",            $this->year_id,             PDO::PARAM_INT);
+        $query->bindValue(":participationId",   $this->participation_id,    PDO::PARAM_INT);
+        $query->bindValue(":total",             $this->total,               PDO::PARAM_INT);
+        $query->bindValue(":playerId",          $this->player_id,           PDO::PARAM_INT);
 
-            foreach ($categories as $category) {
-                $categoryOnVerif = str_replace(" ", "", $category->getName());
+        if ($this->id > 0) {
 
-                if ($verif->{'get'.$categoryOnVerif}() === $participation->{'get'.$categoryOnVerif}()) {
+        $query->bindValue(":id",                $this->id,                  PDO::PARAM_INT);
 
-                    $rate = Rate::findRateByDriverIdForScore($verif->{'get'.$categoryOnVerif}(), $yearId);
-                    
-                    $pointsToAdd = 10 * $rate->getOverall();
-                    $this->{'set'.$categoryOnVerif}($pointsToAdd);
-    
-                } else {
-                    $this->{'set'.$categoryOnVerif}(0);
-                }
+        }
 
-            }
+        $query->execute();
 
-            if ($verif->getBonus1() === $participation->getBonus1()) {
+        if ($query->rowCount() === 1) {
 
-                $this->setBonus1(20);
-                
-            } else {
-                $this->setBonus1(0);
-            }
+        if (is_null($this->id)) {
 
-            if ($verif->getBonus2() === $participation->getBonus2()) {
+            $this->id = $pdo->lastInsertId();
+        }
+            return true;
 
-                $this->setBonus2(20);
-                
-            } else {
-                $this->setBonus2(0);
-            }
-
-            $this->setPlayerId($participation->getPlayerId());
-            $this->setParticipationId($participation->getId());
-            $this->setRaceId($participation->getRaceId());
-            $this->setYearId($participation->getYearId());
-            
-            $total =  $this->getMaxiSprint() +
-            $this->getTourismeCup() +
-            $this->getSprintGirls() +
-            $this->getBuggyCup() +
-            $this->getJuniorSprint() +
-            $this->getMaxiTourisme() +
-            $this->getBuggy1600() +
-            $this->getSuperSprint() +
-            $this->getSuperBuggy() +
-            $this->getBonus1() +
-            $this->getBonus2();
-
-            $this->setTotal($total);
-
-            $pdo = Database::getPDO();
-
-            $sql = "INSERT INTO `score` (
-                `player_id`,
-                `maxiSprint`,
-                `tourismeCup`,
-                `sprintGirls`,
-                `buggyCup`,
-                `juniorSprint`, 
-                `maxiTourisme`,
-                `buggy1600`,
-                `superSprint`,
-                `superBuggy`, 
-                `bonus1`,
-                `bonus2`,
-                `total`,
-                `race_id`,
-                `participation_id`,
-                `year_id`) 
-                VALUES (
-                '{$this->getPlayerId()}',
-                '{$this->getMaxiSprint()}', 
-                '{$this->getTourismeCup()}', 
-                '{$this->getSprintGirls()}',
-                '{$this->getBuggyCup()}', 
-                '{$this->getJuniorSprint()}', 
-                '{$this->getMaxiTourisme()}', 
-                '{$this->getBuggy1600()}', 
-                '{$this->getSuperSprint()}', 
-                '{$this->getSuperBuggy()}', 
-                '{$this->getBonus1()}', 
-                '{$this->getBonus2()}',
-                '{$this->getTotal()}', 
-                '{$this->getRaceId()}',
-                '{$this->getParticipationId()}',
-                '{$this->getYearId()}'
-                )";
-    
-            $pdoStatement = $pdo->exec($sql);
-
-            $general = GeneralScore::updateTotal($this->getYearId(), $this->getPlayerId(), $this->getTotal());
-            
+        } else {
+            return false;
         }
     }
 
@@ -157,28 +101,44 @@ class Score extends CoreGame {
      * Tri les scores des participants pour une course
      *
      * @param int $raceId // L'id de la course
-     * @return Score[]
+     * @return Score
      */
     public function findForGeneral($year, $raceId, $playerId) {
 
         $pdo = Database::getPDO();
 
-            $sql = "SELECT * FROM score WHERE year_id='$year' AND race_id='$raceId' AND player_id='$playerId'";
+        $sql = "SELECT * FROM score WHERE year_id= :yearId AND race_id= :raceId AND player_id= :playerId";
 
-            $pdoStatement = $pdo->query($sql);
+        $query = $pdo->prepare($sql);
 
-        return $pdoStatement->fetchObject(Score::class);
+        $query->bindValue(":yearId",       $this->year_id,         PDO::PARAM_INT);
+        $query->bindValue(":raceId",       $this->race_id,         PDO::PARAM_INT);
+        $query->bindValue(":playerId",     $this->player_id,       PDO::PARAM_INT);
+
+        $query->execute();
+
+        return $query->fetchObject(Score::class);
     }
 
+    /**
+     * Tri les scores des participants pour une course
+     *
+     * @param int $raceId // L'id de la course
+     * @return Score[]
+     */
     public function findAllScoresbyPlayerId($playerId) {
 
         $pdo = Database::getPDO();
 
-        $sql = "SELECT * FROM score WHERE player_id='$playerId'";
+        $sql = "SELECT * FROM score WHERE player_id= :playerId";
 
-        $pdoStatement = $pdo->query($sql);
+        $query = $pdo->prepare($sql);
 
-    return $pdoStatement->fetchAll(PDO::FETCH_CLASS, Score::class);
+        $query->bindValue(":playerId", $this->player_id, PDO::PARAM_INT);
+
+        $query->execute();
+
+        return $query->fetchAll(PDO::FETCH_CLASS, Score::class);
     }
 
 

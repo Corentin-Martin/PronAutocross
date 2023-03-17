@@ -108,7 +108,7 @@ input[type="radio"].radio:checked + .card{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    overflow: scroll;
+    overflow: auto;
 }
 
 .admin__container__title {

@@ -28,119 +28,132 @@ class Rate extends CoreModel
     public function getYearId(){ return $this->year_id; }
     public function setYearId($year_id): self { $this->year_id = $year_id; return $this; }
 
-    public function makeRate($driverId, $yearId) {
-
-        $this->setDriverId($driverId);
-        $this->setYearId($yearId);
-        $this->setRate1(10);
-        $this->setRate2(10);
-        $this->setOverall(10);
-
+    public function createOrUpdate() {
         $pdo = Database::getPDO();
 
-        $sql = "INSERT INTO rate (`rate1`, `rate2`, `overall`, `driver_id`, `year_id`) VALUES (
-            '{$this->getRate1()}',
-            '{$this->getRate2()}',
-            '{$this->getOverall()}',
-            '{$this->getDriverId()}',
-            '{$this->getYearId()}')";
-
-        return $pdoStatement = $pdo->exec($sql);
-    }
-
-
-
-    public function calculRate($yearId, $raceId, $driverId) {
-
-        $this->findRateByDriverId($driverId, $yearId);
-
-        $participations = count(Participation::showAllParticipations($yearId, $raceId));
-
-        $driverVotes = count(Participation::showAllForADriver($yearId,$raceId,$driverId));
-
-        $percentage = $driverVotes * 100 / $participations;
-
-        $rate = 70 / $percentage;
-
-        if ($rate > 20) 
-        {
-            $rate = 20;
+        if ($this->id > 0) {
+            $sql = 
+            "UPDATE `rate` SET `rate1`= :rate1, `rate2` = :rate2, `overall` = :overall, `driver_id` = :driverId `year_id` = :yearId WHERE id = :id";
+        } else {
+            $sql = "INSERT INTO `rate` (`rate1`, `rate2`, `overall`, `driver_id`, `year_id`) VALUES ( :rate1, :rate2, :overall, :driverId, :yearId)";
         } 
-        else if ($rate <= 1) 
-        {
-            $rate = 1.01;
+
+        $query = $pdo->prepare($sql);
+
+        $query->bindValue(":rate1",       $this->rate1,        PDO::PARAM_STR);
+        $query->bindValue(":rate2",       $this->rate2,        PDO::PARAM_STR);
+        $query->bindValue(":overall",     $this->overall,      PDO::PARAM_STR);
+        $query->bindValue(":driverId",    $this->driver_id,    PDO::PARAM_INT);
+        $query->bindValue(":yearId",      $this->year_id,      PDO::PARAM_INT);
+
+        if ($this->id > 0) {
+
+        $query->bindValue(":id",          $this->id,           PDO::PARAM_INT);
+
         }
-
-        $this->setRate1($this->getRate2());
-        $this->setRate2($rate);
-
-        $averageRate = ($this->getRate1() + $this->getRate2()) / 2;
-
-        $this->setOverall($averageRate);
-
-        return $this;
-
-
-    }
-
-    public function updateRate($yearId, $raceId) {
-        $drivers = Driver::findAll(Driver::class);
-
-        foreach ($drivers as $driver) {
-            $this->setDriverId($driver->getId());
-            $this->setYearId($yearId);
-
-            $this->calculRate($yearId, $raceId, $this->getDriverId());
-
-            $pdo = Database::getPDO();
-
-            $sql = "UPDATE rate SET `rate1` = '{$this->getRate1()}' , `rate2` = '{$this->getRate2()}' , `overall` = '{$this->getOverall()}' WHERE `driver_id` = '{$this->getDriverId()}' AND `year_id` = '{$this->getYearId()}'";
-
-            $pdoStatement = $pdo->exec($sql);
-        }
-    }
-
-    public function findRateByDriverId($driverId, $yearId) {
-
-        $pdo = Database::getPDO();
-
-        $sql = "SELECT * FROM rate WHERE year_id='$yearId' AND driver_id='$driverId'";
-
-        $pdoStatement = $pdo->query($sql);
-
-        $driver = $pdoStatement->fetchObject(Rate::class);
-
-        $this->setRate1($driver->getRate1());
-        $this->setRate2($driver->getRate2());
-
-
-    }
-
-    static public function findRateByDriverIdForScore($driverId, $yearId) {
-
-        $pdo = Database::getPDO();
-
-        $sql = "SELECT * FROM rate WHERE year_id='$yearId' AND driver_id='$driverId'";
-
-        $pdoStatement = $pdo->query($sql);
-
-        $driver = $pdoStatement->fetchObject(Rate::class);
-
-        return $driver;
-
-    }
-
-    public function findAllRatesByYear($yearId) {
-
-        $pdo = Database::getPDO();
-
-        $sql = "SELECT * FROM rate WHERE year_id='$yearId'";
-
-        $pdoStatement = $pdo->query($sql);
-
-        return $pdoStatement->fetchAll(PDO::FETCH_CLASS, Rate::class);
-
-
-    }
     
+        $query->execute();
+
+        if ($query->rowCount() === 1) {
+
+        if (is_null($this->id)) {
+
+            $this->id = $pdo->lastInsertId();
+        }
+            return true;
+
+        } else {
+            return false;
+        }
+    }
+
+
+    // public function calculRate($yearId, $raceId, $driverId) {
+
+    //     $this->findRateByDriverId($driverId, $yearId);
+
+    //     $participations = count(Participation::showAllParticipations($yearId, $raceId));
+
+    //     $driverVotes = count(Participation::showAllForADriver($yearId,$raceId,$driverId));
+
+    //     $percentage = $driverVotes * 100 / $participations;
+
+    //     $rate = 70 / $percentage;
+
+    //     if ($rate > 20) 
+    //     {
+    //         $rate = 20;
+    //     } 
+    //     else if ($rate <= 1) 
+    //     {
+    //         $rate = 1.01;
+    //     }
+
+    //     $this->setRate1($this->getRate2());
+    //     $this->setRate2($rate);
+
+    //     $averageRate = ($this->getRate1() + $this->getRate2()) / 2;
+
+    //     $this->setOverall($averageRate);
+
+    //     return $this;
+
+
+    // }
+
+    // public function updateRate($yearId, $raceId) {
+    //     $drivers = Driver::findAll(Driver::class);
+
+    //     foreach ($drivers as $driver) {
+    //         $this->setDriverId($driver->getId());
+    //         $this->setYearId($yearId);
+
+    //         $this->calculRate($yearId, $raceId, $this->getDriverId());
+
+    //         $pdo = Database::getPDO();
+
+    //         $sql = "UPDATE rate SET `rate1` = '{$this->getRate1()}' , `rate2` = '{$this->getRate2()}' , `overall` = '{$this->getOverall()}' WHERE `driver_id` = '{$this->getDriverId()}' AND `year_id` = '{$this->getYearId()}'";
+
+    //         $pdoStatement = $pdo->exec($sql);
+    //     }
+    // }
+
+    // public function findRateByDriverId($driverId, $yearId) {
+
+    //     $pdo = Database::getPDO();
+
+    //     $sql = "SELECT * FROM rate WHERE year_id='$yearId' AND driver_id='$driverId'";
+
+    //     $pdoStatement = $pdo->query($sql);
+
+    //     $driver = $pdoStatement->fetchObject(Rate::class);
+
+    //     $this->setRate1($driver->getRate1());
+    //     $this->setRate2($driver->getRate2());
+
+
+    // }
+
+    /**
+     * Undocumented function
+     *
+     * @return Rate
+     */
+    static public function findRateByDriverId($driverId, $yearId) {
+
+        $pdo = Database::getPDO();
+
+        $sql = "SELECT * FROM rate WHERE year_id='$yearId' AND driver_id='$driverId'";
+
+        $query = $pdo->prepare($sql);
+
+        $query->bindValue(":yearId",       $yearId,        PDO::PARAM_INT);
+        $query->bindValue(":driverId",     $driverId,      PDO::PARAM_INT);
+
+        $query->execute();
+
+        return $query->fetchObject(Rate::class);
+
+    }
+
 }

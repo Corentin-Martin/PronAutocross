@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Rate;
 use App\Utils\Database;
 use PDO;
 
@@ -25,42 +24,72 @@ class Driver extends CoreUser {
     public function getStatus(){ return $this->status; }
     public function setStatus($status): self { $this->status = $status; return $this; }
 
-    public function newDriver($firstName, $lastName, $number, $vehicle, $categoryId, $status, $year, $picture) {
-
-        $this->setFirstName($firstName);
-        $this->setLastName($lastName);
-        $this->setNumber($number);
-        $this->setVehicle($vehicle);
-        $this->setCategoryId($categoryId);
-        $this->setStatus($status);
-        $this->setPicture($picture);
-
+    public function createOrUpdate() {
         $pdo = Database::getPDO();
 
-        $sql = "INSERT INTO driver (`firstName`, `lastName`, `number`, `vehicle`, `category_id`, `status`, `picture`) VALUES ('{$this->getFirstName()}', '{$this->getLastName()}', '{$this->getNumber()}', '{$this->getVehicle()}', '{$this->getCategoryId()}', '{$this->getStatus()}', '{$this->getPicture()}')";
+        if ($this->id > 0) {
+            $sql = 
+            "UPDATE `driver` SET `firstName`= :firstName, `lastName` = :lastName, `number` = :number, `vehicle` = :vehicle, `category_id` = :categoryId, `status` = :status, `picture` = :picture WHERE id = :id";
+        } else {
+            $sql = "INSERT INTO `driver` (`firstName`, `lastName`, `number`, `vehicle`, `category_id`, `status`, `picture`) VALUES (:firstName, :lastName, :number, :vehicle, :categoryId, :status, :picture)";
+        }
 
-        $pdoStatement = $pdo->exec($sql);
+        $query = $pdo->prepare($sql);
 
-        $driverId = $pdo->lastInsertId();
+        $query->bindValue(":firstName",  $this->firstName,   PDO::PARAM_STR);
+        $query->bindValue(":lastName",   $this->lastName,    PDO::PARAM_STR);
+        $query->bindValue(":number",     $this->number,      PDO::PARAM_INT);
+        $query->bindValue(":vehicle",    $this->vehicle,     PDO::PARAM_STR);
+        $query->bindValue(":categoryId", $this->category_id, PDO::PARAM_INT);
+        $query->bindValue(":status",     $this->status,      PDO::PARAM_INT);
+        $query->bindValue(":picture",    $this->picture,     PDO::PARAM_STR);
 
-        $rateModel = new Rate();
-        return $rateModel->makeRate($driverId, $year);
+        if ($this->id > 0) {
+
+        $query->bindValue(":id",         $this->id,          PDO::PARAM_INT);
+    
+        }
+    
+        $query->execute();
+    
+        if ($query->rowCount() === 1) 
+        {
+            if (is_null($this->id)) { $this->id = $pdo->lastInsertId();}
+            return true;
+        } else 
+        {
+            return false;
+        }
 
     }
 
-    public function findAllByCategory($categoryId) {
+    /**
+     * Undocumented function
+     *
+     * @return static::class[]
+     */
+    static public function findAllByCategory($categoryId) {
 
         $pdo = Database::getPDO();
 
-        $sql = "SELECT * FROM driver WHERE category_id = '$categoryId'";
+        $sql = "SELECT * FROM driver WHERE category_id = :categoryId";
 
-        $pdoStatement = $pdo->query($sql);
+        $query = $pdo->prepare($sql);
 
-        return $pdoStatement->fetchAll(PDO::FETCH_CLASS, Driver::class);
+        $query->bindValue(":categoryId",  $categoryId,   PDO::PARAM_INT);
+
+        $query->execute();
+
+        return $query->fetchAll(PDO::FETCH_CLASS, Driver::class);
 
     }
 
-    static public function findAllByCategoryAndStatus($categoryId, $status) {
+    /**
+     * Undocumented function
+     *
+     * @return static::class[]
+     */
+    static public function findByCategoryAndStatus($categoryId, $status) {
 
         $pdo = Database::getPDO();
 
@@ -68,7 +97,7 @@ class Driver extends CoreUser {
 
         $query = $pdo->prepare($sql);
 
-        $query->bindValue(":categoryId",        $categoryId,         PDO::PARAM_INT);
+        $query->bindValue(":categoryId",    $categoryId,   PDO::PARAM_INT);
         $query->bindValue(":status",        $status,       PDO::PARAM_INT);
 
         $query->execute();
@@ -77,73 +106,24 @@ class Driver extends CoreUser {
 
     }
 
-    // public function findAllByCategoryAndStatus0($categoryId) {
-
-    //     $pdo = Database::getPDO();
-
-    //     $sql = "SELECT * FROM driver WHERE category_id = '$categoryId' AND `status` = 0";
-
-    //     $pdoStatement = $pdo->query($sql);
-
-    //     return $pdoStatement->fetchAll(PDO::FETCH_CLASS, Driver::class);
-
-    // }
-
-    public function edit($firstName, $lastName, $number, $vehicle, $picture, $categoryId, $status, $driverId) {
-
-        $this->setFirstName($firstName);
-        $this->setLastName($lastName);
-        $this->setNumber($number);
-        $this->setVehicle($vehicle);
-        $this->setCategoryId($categoryId);
-        $this->setStatus($status);
-        $this->setPicture($picture);
-        $this->setId($driverId); 
+    /**
+     * Undocumented function
+     *
+     * @return static::class[]
+     */
+    static public function sortAllByForCategory($categoryId, $order) {
 
         $pdo = Database::getPDO();
 
-        $sql = "UPDATE `driver` 
-        SET 
-        `firstName` = '{$this->getFirstName()}',
-        `lastName` = '{$this->getLastName()}',
-        `number` = {$this->getNumber()},
-        `vehicle` = '{$this->getVehicle()}',
-        `picture` = '{$this->getPicture()}',
-        `category_id` = {$this->getCategoryId()},
-        `status` = {$this->getStatus()} 
-        WHERE `driver`.`id` = {$this->getId()}
-        ";
+        $sql = "SELECT * FROM driver WHERE `category_id` = :categoryId ORDER BY $order";
 
-        $editedRow = $pdo->exec($sql);
+        $query = $pdo->prepare($sql);
 
-        if ($editedRow === 1) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+        $query->bindValue(":categoryId",   $categoryId,  PDO::PARAM_INT);
 
-    static public function sortAllByForCategory($categoryId, $name) {
+        $query->execute();
 
-        $pdo = Database::getPDO();
-
-        $sql = "SELECT * FROM driver WHERE `category_id` = '$categoryId' ORDER BY $name ASC";
-
-        $pdoStatement = $pdo->query($sql);
-
-        return $pdoStatement->fetchAll(PDO::FETCH_CLASS, self::class);
-
-    }
-
-    static public function sortAllBy($name) {
-
-        $pdo = Database::getPDO();
-
-        $sql = "SELECT * FROM driver ORDER BY $name ASC";
-
-        $pdoStatement = $pdo->query($sql);
-
-        return $pdoStatement->fetchAll(PDO::FETCH_CLASS, self::class);
+        return $query->fetchAll(PDO::FETCH_CLASS, self::class);
 
     }
 

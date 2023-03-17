@@ -18,7 +18,7 @@ class AdminDriverController extends AdminCoreController
 
         $drivers = Driver::sortAllByForCategory($categoryId,$action);
 
-        $categories = Category::findAll(Category::class);
+        $categories = Category::findAll();
         $categoriesById = [];
         foreach ($categories as $category) {
             $categoriesById[$category->getId()] = $category;
@@ -29,7 +29,7 @@ class AdminDriverController extends AdminCoreController
 
     public function add() {
 
-        $categories = Category::findAll(Category::class);
+        $categories = Category::findAll();
 
         $this->show('admin/driver/add', ['categories' => $categories]);
     }
@@ -45,12 +45,20 @@ class AdminDriverController extends AdminCoreController
             $categoryId = filter_input(INPUT_POST, 'category', FILTER_VALIDATE_INT);
             $status = filter_input(INPUT_POST, 'status', FILTER_VALIDATE_INT);
             $picture = isset($_POST['picture']) ? filter_input(INPUT_POST, 'picture', FILTER_SANITIZE_SPECIAL_CHARS) : 'assets/images/damier-picto.png';
-            $year = filter_input(INPUT_POST, 'year', FILTER_VALIDATE_INT);
         
-        $driverModel = new Driver();
-        $newDriver = $driverModel->newDriver($firstName, $lastName, $number, $vehicle, $categoryId, $status, $year, $picture);
+        $driver = new Driver();
+
+        $driver->setFirstName($firstName);
+        $driver->setLastName($lastName);
+        $driver->setNumber($number);
+        $driver->setVehicle($vehicle);
+        $driver->setCategoryId($categoryId);
+        $driver->setStatus($status);
+        $driver->setPicture($picture);
         
-        if ($newDriver === 1) {
+        if ($driver->createOrUpdate()) {
+
+            // TO DO APPELER RATE CREATE
             global $router;
             header("Location: {$router->generate('driver-list', ['categoryId' => $categoryId, 'action' => 'number'])}");
             exit; 
@@ -63,11 +71,11 @@ class AdminDriverController extends AdminCoreController
 
     public function edit($driverId) {
 
-        $driver = Driver::find($driverId, Driver::class);
+        $driver = Driver::find($driverId);
 
         // $driversToEdit = Driver::edit($thingToUpdate, $table, $driverId);
 
-        $categories = Category::findAll(Category::class);
+        $categories = Category::findAll();
         $categoriesById = [];
         foreach ($categories as $category) {
             $categoriesById[$category->getId()] = $category;

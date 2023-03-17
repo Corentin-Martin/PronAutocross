@@ -18,11 +18,14 @@ class AdminCategoryController extends AdminCoreController
 
         if (isset($_POST) && !empty($_POST['name'])) {
             $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
+            $running_order = filter_input(INPUT_POST, 'running_order', FILTER_VALIDATE_INT);
 
             $category = new Category();
-            $insertion = $category->insert($name);
 
-            if ($insertion) {
+            $category->setName($name);
+            $category->setRunningOrder($running_order);
+
+            if ($category->createOrUpdate()) {
                 global $router;
                 header("Location: {$router->generate('category-list')}");
             } else {
@@ -34,7 +37,7 @@ class AdminCategoryController extends AdminCoreController
 
     public function list() {
 
-        $categories = Category::findAll(Category::class);
+        $categories = Category::findAll();
 
         $this->show('admin/category/list', ['categories' => $categories]);
     }

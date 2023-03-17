@@ -17,7 +17,7 @@ class AdminRaceController extends AdminCoreController
     public function add() {
 
 
-        $years = Year::findAll(Year::class);
+        $years = Year::findAll();
 
 
         $this->show('admin/race/add', ['years' => $years]);
@@ -50,9 +50,9 @@ class AdminRaceController extends AdminCoreController
 
     public function list($year) {
 
-        $races = Race::findbyYear($year);
+        $races = Race::findByYear($year);
 
-        $years = Year::findAll(Year::class);
+        $years = Year::findAll();
 
         $this->show('admin/race/list', ['races' => $races, 'currentYear' => $year, 'years' => $years]);
     }

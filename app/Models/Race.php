@@ -24,28 +24,42 @@ class Race extends CoreModel {
     public function getYearId(){ return $this->year_id; }
     public function setYearId($year_id): self { $this->year_id = $year_id; return $this; }
 
-    public function insertRace($name, $date, $poster = null, $year_id) {
-
-        $this->setName($name);
-        $this->setDate($date);
-        $this->setPoster($poster);
-        $this->setYearId($year_id);
-
+    public function createOrUpdate() {
         $pdo = Database::getPDO();
 
-        $sql = "INSERT INTO race (`name`, `date`, `poster`, `year_id`) VALUES ('{$this->getName()}', '{$this->getDate()}', '{$this->getPoster()}', '{$this->getYearId()}')";
+        if ($this->id > 0) {
+            $sql = 
+            "UPDATE `race` SET `name`= :name, `date` = :date, `poster` = :poster, `year_id` = :yearId WHERE id = :id";
+        } else {
+            $sql = "INSERT INTO `race` (`name`, `date`, `poster`, `year_id`) VALUES ( :name, :date, :poster, :yearId)";
+        } 
 
-        return $pdoStatement = $pdo->exec($sql);
-    }
+        $query = $pdo->prepare($sql);
 
-    static public function findbyYear($yearId) {
-        $pdo = Database::getPDO();
+        $query->bindValue(":name",        $this->name,          PDO::PARAM_STR);
+        $query->bindValue(":date",        $this->date,          PDO::PARAM_STR);
+        $query->bindValue(":poster",      $this->poster,        PDO::PARAM_STR);
+        $query->bindValue(":yearId",      $this->year_id,       PDO::PARAM_INT);
 
-        $sql = "SELECT * FROM race WHERE year_id = '$yearId'";
+        if ($this->id > 0) {
 
-        $pdoStatement = $pdo->query($sql);
+        $query->bindValue(":id",          $this->id,            PDO::PARAM_INT);
 
-        return $pdoStatement->fetchAll(PDO::FETCH_CLASS, Race::class);
+        }
+    
+        $query->execute();
+
+        if ($query->rowCount() === 1) {
+
+        if (is_null($this->id)) {
+
+            $this->id = $pdo->lastInsertId();
+        }
+            return true;
+
+        } else {
+            return false;
+        }
     }
 
 

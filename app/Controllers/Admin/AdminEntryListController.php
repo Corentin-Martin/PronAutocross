@@ -13,13 +13,13 @@ class AdminEntryListController extends AdminCoreController
 
     public function add() {
 
-        $categories = Category::findAll(Category::class);
+        $categories = Category::findAll();
 
         $availablePrio = [];
         $availableInvit = [];
         foreach ($categories as $category) {
-            $driversPrio = Driver::findAllByCategoryAndStatus($category->getId(), 1);
-            $driversInvit = Driver::findAllByCategoryAndStatus($category->getId(), 0);
+            $driversPrio = Driver::findByCategoryAndStatus($category->getId(), 1);
+            $driversInvit = Driver::findByCategoryAndStatus($category->getId(), 0);
 
             $availablePrio[$category->getId()] = $driversPrio;
             $availableInvit[$category->getId()] = $driversInvit;
@@ -34,7 +34,7 @@ class AdminEntryListController extends AdminCoreController
             $raceId = filter_input(INPUT_POST, 'race', FILTER_VALIDATE_INT);
 
             foreach (array_slice(array_keys($_POST), 2) as $driverId) {
-                $driver = Driver::find($driverId, Driver::class);
+                $driver = Driver::find($driverId);
 
                 if ($driver) {
                     $newEntry = new EntryList();
@@ -44,7 +44,7 @@ class AdminEntryListController extends AdminCoreController
                     $newEntry->setCategoryId($driver->getCategoryId());
                     $newEntry->setDriverId($driver->getId());
 
-                    $newEntry->add();
+                    $newEntry->create();
                 }
             }
             global $router;
@@ -72,9 +72,9 @@ class AdminEntryListController extends AdminCoreController
 
     public function deleteentry($id) {
 
-        $entry = EntryList::find($id, EntryList::class);
+        $entry = EntryList::find($id);
 
-        if ($entry->deleteEntry()) {
+        if ($entry->delete()) {
 
             global $router;
             header("Location :  {$router->generate('entrylist-home')}");
@@ -95,21 +95,21 @@ class AdminEntryListController extends AdminCoreController
 
         global $router;
 
-        $years = Year::findAll(Year::class);
+        $years = Year::findAll();
 
-        $categories = Category::findAll(Category::class);
+        $categories = Category::findAll();
         $categoriesById = [];
         foreach ($categories as $category) {
             $categoriesById[$category->getId()] = $category;
         }
 
-        $races = Race::findbyYear($year);
+        $races = Race::findByYear($year);
         $racesById = [];
         foreach ($races as $race) {
             $racesById[$race->getId()] = $race;
         }
 
-        $drivers = Driver::findAll(Driver::class);
+        $drivers = Driver::findAll();
         $driversById = [];
         foreach ($drivers as $driver) {
             $driversById[$driver->getId()] = $driver;

@@ -60,15 +60,23 @@ abstract class CoreGame extends CoreModel {
     public function getYearId(){ return $this->year_id; }
     public function setYearId($year_id): self { $this->year_id = $year_id; return $this; }
 
-    public function addOrUpdate($table) {
+    public function createOrUpdate() {
+
+        if (get_class($this) === EntryList::class) {
+            $classname = 'entry_list';
+        } else if (static::class === GeneralScore::class) {
+            $classname = 'general_score';
+        } else {
+            $classname = lcfirst(substr(static::class, 11));
+        }
 
         $pdo = Database::getPDO();
 
         if ($this->id > 0) {
             $sql = 
-            "UPDATE `$table` SET `maxiSprint`= :maxiSprint, `tourismeCup` = :tourismeCup, `sprintGirls` = :sprintGirls, `buggyCup` = :buggyCup, `juniorSprint` = :juniorSprint, `maxiTourisme` = :maxiTourisme, `buggy1600` = :buggy1600, `superSprint` = :superSprint, `superBuggy` = :superBuggy, `bonus1` = :bonus1, `bonus2` = :bonus2, `race_id` = :raceId, `year_id` = :yearId WHERE id = :id";
+            "UPDATE `$classname` SET `maxiSprint`= :maxiSprint, `tourismeCup` = :tourismeCup, `sprintGirls` = :sprintGirls, `buggyCup` = :buggyCup, `juniorSprint` = :juniorSprint, `maxiTourisme` = :maxiTourisme, `buggy1600` = :buggy1600, `superSprint` = :superSprint, `superBuggy` = :superBuggy, `bonus1` = :bonus1, `bonus2` = :bonus2, `race_id` = :raceId, `year_id` = :yearId WHERE id = :id";
         } else {
-            $sql = "INSERT INTO `$table` 
+            $sql = "INSERT INTO `$classname` 
             (`maxiSprint`, `tourismeCup`, `sprintGirls`, `buggyCup`, `juniorSprint`, `maxiTourisme`, `buggy1600`, `superSprint`,
             `superBuggy`, `bonus1`, `bonus2`, `race_id`, `year_id`) 
             VALUES 
@@ -77,7 +85,7 @@ abstract class CoreGame extends CoreModel {
         
         $query = $pdo->prepare($sql);
 
-        if ($table === 'questions') {
+        if ($classname === 'questions') {
             $arg = PDO::PARAM_STR;
         } else {
             $arg = PDO::PARAM_INT;

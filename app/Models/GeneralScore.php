@@ -20,52 +20,80 @@ class GeneralScore extends CoreModel
     public function getTotal(){ return $this->total; }
     public function setTotal($total): self { $this->total = $total; return $this; }
 
-    static public function createGeneral($playerId, $yearId, $total = 0) {
-
+    public function createOrUpdate() {
         $pdo = Database::getPDO();
 
-        $sql = "INSERT INTO general_score (`player_id`, `year_id`, `total`) VALUES ('$playerId', '$yearId', '$total')";
+        if ($this->id > 0) {
+            $sql = 
+            "UPDATE `general_score` SET `player_id`= :playerId, `year_id` = :yearId, `total` = :total WHERE id = :id";
+        } else {
+            $sql = "INSERT INTO `general_score` (`player_id`, `year_id`, `total`) VALUES (:playerId, :yearId, 0)";
+        }
 
-        return $pdoStatement = $pdo->exec($sql);
+        $query = $pdo->prepare($sql);
 
+        $query->bindValue(":playerId",   $this->player_id,   PDO::PARAM_INT);
+        $query->bindValue(":yearId",     $this->year_id,     PDO::PARAM_INT);
+
+        if ($this->id > 0) {
+
+        $query->bindValue(":id",         $this->id,          PDO::PARAM_INT);
+        $query->bindValue(":total",      $this->total,       PDO::PARAM_INT);
+
+        }
+    
+        $query->execute();
+    
+        if ($query->rowCount() === 1) 
+        {
+            if (is_null($this->id)) { $this->id = $pdo->lastInsertId();}
+            return true;
+        } else 
+        {
+            return false;
+        }
     }
 
-    static public function updateTotal($yearId, $playerId, $points) {
-
-        $pdo = Database::getPDO();
-
-        $sql = "UPDATE general_score SET total = $points WHERE player_id = $playerId AND year_id = $yearId";
-
-        return $pdoStatement = $pdo->exec($sql);
-
-    }
-
-            /**
+    /**
      * Tri les scores des participants pour une course
      *
      * @param int $raceId // L'id de la course
-     * @return Score[]
+     * @return GeneralScore[]
      */
-    public function sortingGeneral($yearId) {
+    static public function sortingGeneral($yearId) {
 
         $pdo = Database::getPDO();
 
-            $sql = "SELECT general_score.*, player.pseudo FROM `general_score` JOIN `player` ON player.id = general_score.player_id WHERE general_score.year_id = $yearId ORDER BY general_score.total DESC, player.pseudo ASC";
+        $sql = "SELECT general_score.*, player.pseudo FROM `general_score` JOIN `player` ON player.id = general_score.player_id WHERE general_score.year_id = :yearId ORDER BY general_score.total DESC, player.pseudo ASC";
 
-            $pdoStatement = $pdo->query($sql);
+        $query = $pdo->prepare($sql);
 
-        return $pdoStatement->fetchAll(PDO::FETCH_CLASS, GeneralScore::class);
+        $query->bindValue(":yearId",   $yearId,   PDO::PARAM_INT);
+
+        $query->execute();
+
+        return $query->fetchAll(PDO::FETCH_CLASS, GeneralScore::class);
     }
 
-    public function findGeneralForPlayer($playerId) {
+
+    /**
+     * Undocumented function
+     *
+     * @return GeneralScore
+     */
+    static public function findGeneralForPlayer($playerId) {
 
         $pdo = Database::getPDO();
 
-            $sql = "SELECT * FROM `general_score` WHERE player_id = '$playerId'";
+        $sql = "SELECT * FROM `general_score` WHERE player_id = :playerId";
 
-            $pdoStatement = $pdo->query($sql);
+        $query = $pdo->prepare($sql);
 
-        return $pdoStatement->fetchObject(GeneralScore::class);
+        $query->bindValue(":playerId",   $playerId,   PDO::PARAM_INT);
+
+        $query->execute();
+
+        return $query->fetchObject(GeneralScore::class);
     }
 
 

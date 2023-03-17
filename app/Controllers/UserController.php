@@ -17,8 +17,7 @@ class UserController extends CoreController
 
         $entryModel = new EntryList();
 
-        $categoryModel = new Category();
-        $categories = $categoryModel->findAll(Category::class);
+        $categories = Category::findAll();
 
         $questionsModel = new Questions();
         $questions = $questionsModel->findQuestionsByRaceAndYear($year,$raceId);
@@ -30,8 +29,7 @@ class UserController extends CoreController
             $categoriesById[$category->getId()] = $category;
         }
 
-        $rateModel = new Rate();
-        $rates = $rateModel->findAllRatesByYear($year);
+        $rates = Rate::findByYear($year);
 
         $ratesByDriverId = [];
         foreach ($rates as $rate) {
@@ -85,8 +83,7 @@ class UserController extends CoreController
        $scoreModel = new Score();
        $scoreforPlayer = $scoreModel->findAllScoresbyPlayerId($playerId);
 
-       $generalModel = new GeneralScore();
-       $generalforPlayer = $generalModel->findGeneralForPlayer($playerId);
+       $generalforPlayer = GeneralScore::findGeneralForPlayer($playerId);
 
         $this->show('user/dashboard', ['scores' => $scoreforPlayer, 'general' => $generalforPlayer]);
     }

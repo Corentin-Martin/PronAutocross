@@ -24,7 +24,7 @@ class EntryList extends CoreModel {
     public function getYearId(){ return $this->year_id; }
     public function setYearId($year_id): self { $this->year_id = $year_id; return $this; }
 
-    public function add() {
+    public function create() {
 
         $pdo = Database::getPDO();
 
@@ -93,19 +93,4 @@ class EntryList extends CoreModel {
 
     }
 
-    public function deleteEntry(){
-
-        $pdo = Database::getPDO();
-
-        $sql = "DELETE FROM entry_list WHERE id = :id";
-
-        $query = $pdo->prepare($sql);
-
-        $query->bindValue(":id",        $this->id,         PDO::PARAM_INT);
-
-        $query->execute();
-
-        return ($query->rowCount() === 1);
-
-    }
 }

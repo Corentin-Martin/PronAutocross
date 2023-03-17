@@ -12,22 +12,22 @@ class AdminQuestionController extends AdminCoreController
 
     public function addOrEdit($year, $id = null) {
 
-        $categories = Category::findAll(Category::class);
+        $categories = Category::findAll();
         $categoriesById = [];
         foreach ($categories as $category) {
             $categoriesById[$category->getId()] = $category;
         }
 
-        $races = Race::findbyYear($year);
+        $races = Race::findByYear($year);
         $racesById = [];
         foreach ($races as $race) {
             $racesById[$race->getId()] =  $race;
         }
 
-        $years = Year::findAll(Year::class);
+        $years = Year::findAll();
 
         if ($id) {
-            $questionnaire = Questions::find($id, Questions::class);
+            $questionnaire = Questions::find($id);
         } else {
             $questionnaire = null;
         }
@@ -55,7 +55,7 @@ class AdminQuestionController extends AdminCoreController
             $year = filter_input(INPUT_POST, 'year', FILTER_VALIDATE_INT);
     
             if ($id) {
-                $questionnaire = Questions::find($id, Questions::class);
+                $questionnaire = Questions::find($id);
             } else {
                 $questionnaire = new Questions();  
             }
@@ -78,7 +78,7 @@ class AdminQuestionController extends AdminCoreController
                 $questionnaire->setId($id);
             }
             
-            if ($questionnaire->addOrUpdate('questions')) {
+            if ($questionnaire->createOrUpdate('questions')) {
                 global $router;
                 header("Location: {$router->generate('question-list', ['year' => $year])}");
                 exit; 
@@ -91,21 +91,21 @@ class AdminQuestionController extends AdminCoreController
 
     public function list($year) {
 
-        $questions = Questions::findQuestionsByYear($year);
+        $questions = Questions::findByYear($year);
 
-        $races = Race::findAll(Race::class);
+        $races = Race::findAll();
         $racesById = [];
         foreach ($races as $race) {
             $racesById[$race->getId()] = $race;
         }
 
-        $categories = Category::findAll(Category::class);
+        $categories = Category::findAll();
         $categoriesById = [];
         foreach ($categories as $category) {
             $categoriesById[$category->getId()] = $category;
         }
 
-        $years = Year::findAll(Year::class);
+        $years = Year::findAll();
 
         $this->show('admin/question/list', ['questions' => $questions, 'currentYear' => $year, 'races' => $racesById, 'categories' => $categoriesById, 'years' => $years]);
     }
@@ -117,7 +117,7 @@ class AdminQuestionController extends AdminCoreController
 
     public function delete($id) {
 
-        $questions = Questions::find($id, Questions::class);
+        $questions = Questions::find($id);
 
         $year = $questions->getYearId();
 

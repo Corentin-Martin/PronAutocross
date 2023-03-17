@@ -17,14 +17,11 @@ abstract class CoreController {
         global $dispatcher;
         $baseURI = $_SERVER['BASE_URI'] . "/";
 
-        $playerModel = new Player();
-        $players = $playerModel->findAll(Player::class);
+        $players = Player::findAll();
 
-        $raceModel = new Race();
-        $races = $raceModel->findAll(Race::class);
+        $races = Race::findAll();
 
-        $driverModel = new Driver();
-        $drivers = $driverModel->findAll(Driver::class);
+        $drivers = Driver::findAll();
 
         $driversById = [];
         foreach ($drivers as $driver) {
@@ -41,8 +38,7 @@ abstract class CoreController {
             $racesById[$race->getId()] = $race;
         }
 
-        $yearModel = new Year();
-        $years = $yearModel->findAll(Year::class);
+        $years = Year::findAll();
 
         $scoreModel = new Score();
 

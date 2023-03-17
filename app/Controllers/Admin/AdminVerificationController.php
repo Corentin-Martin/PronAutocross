@@ -6,8 +6,10 @@ use App\Models\Category;
 use App\Models\Driver;
 use App\Models\EntryList;
 use App\Models\GeneralScore;
+use App\Models\Participation;
 use App\Models\Questions;
 use App\Models\Race;
+use App\Models\Rate;
 use App\Models\Score;
 use App\Models\Verification;
 use App\Models\Year;
@@ -18,9 +20,9 @@ class AdminVerificationController extends AdminCoreController
     public function add($year, $raceId) {
 
 
-        $years = Year::findAll(Year::class);
+        $years = Year::findAll();
 
-        $races = Race::findbyYear($year);
+        $races = Race::findByYear($year);
 
         $racesById = [];
         foreach ($races as $race) {
@@ -28,7 +30,7 @@ class AdminVerificationController extends AdminCoreController
         }
 
 
-        $categories = Category::findAll(Category::class);
+        $categories = Category::findAll();
 
         $categoriesOnDB = [];
         foreach ($categories as $category) {
@@ -40,7 +42,7 @@ class AdminVerificationController extends AdminCoreController
             $entryList[$category->getId()] = EntryList::listByRaceAndCategory($year, $raceId, $category->getId());
         }
 
-        $drivers = Driver::findAll(Driver::class);
+        $drivers = Driver::findAll();
         $driversById = [];
         foreach ($drivers as $driver) {
             $driversById[$driver->getId()] = $driver;
@@ -90,7 +92,7 @@ class AdminVerificationController extends AdminCoreController
         $verification->setRaceId($raceId);
         $verification->setYearId($yearId);
 
-        $verif = $verification->verif();
+        $verif = $verification->createOrUpdate();
 
         if ($verif) {
 
@@ -107,13 +109,13 @@ class AdminVerificationController extends AdminCoreController
 
     public function validation($id) {
 
-        $drivers = Driver::findAll(Driver::class);
+        $drivers = Driver::findAll();
         $driversById = [];
         foreach ($drivers as $driver) {
             $driversById[$driver->getId()] = $driver;
         }
 
-        $verification = Verification::find($id, Verification::class);
+        $verification = Verification::find($id);
 
         $questions = Questions::findQuestionsByRaceAndYear($verification->getYearId(), $verification->getRaceId());
 
@@ -124,7 +126,7 @@ class AdminVerificationController extends AdminCoreController
             $racesById[$race->getId()] = $race;
         }
 
-        $categories = Category::findAll(Category::class);
+        $categories = Category::findAll();
 
         $categoriesOnDB = [];
         foreach ($categories as $category) {
@@ -136,14 +138,82 @@ class AdminVerificationController extends AdminCoreController
 
     public function makevalidation() {
 
-        
-
         if (isset($_POST)) {
             $yearId = filter_input(INPUT_POST, 'yearId', FILTER_VALIDATE_INT);
             $raceId = filter_input(INPUT_POST, 'raceId', FILTER_VALIDATE_INT);
 
-            $scoreModel = new Score();
-            $scoreModel->calcul($yearId, $raceId);
+            $verification = Verification::showByRaceId($raceId, $yearId);
+
+            $participations = Participation::showAllParticipations($yearId, $raceId);
+
+            foreach ($participations as $participation) {
+                $score = new Score();
+
+                $categories = Category::findAll(Category::class);
+
+                foreach ($categories as $category) {
+                    $categoryOnVerif = str_replace(" ", "", $category->getName());
+    
+                    if ($verification->{'get'.$categoryOnVerif}() === $participation->{'get'.$categoryOnVerif}()) {
+    
+                        $rate = Rate::findRateByDriverId($verification->{'get'.$categoryOnVerif}(), $yearId);
+                        
+                        $pointsToAdd = 10 * $rate->getOverall();
+                        $score->{'set'.$categoryOnVerif}($pointsToAdd);
+        
+                    } else {
+                        $score->{'set'.$categoryOnVerif}(0);
+                    }
+    
+                }
+    
+                if ($verification->getBonus1() === $participation->getBonus1()) {
+    
+                    $score->setBonus1(20);
+                    
+                } else {
+                    $score->setBonus1(0);
+                }
+    
+                if ($verification->getBonus2() === $participation->getBonus2()) {
+    
+                    $score->setBonus2(20);
+                    
+                } else {
+                    $score->setBonus2(0);
+                }
+    
+                $score->setPlayerId($participation->getPlayerId());
+                $score->setParticipationId($participation->getId());
+                $score->setRaceId($participation->getRaceId());
+                $score->setYearId($participation->getYearId());
+                
+                $total =  $score->getMaxiSprint() +
+                $score->getTourismeCup() +
+                $score->getSprintGirls() +
+                $score->getBuggyCup() +
+                $score->getJuniorSprint() +
+                $score->getMaxiTourisme() +
+                $score->getBuggy1600() +
+                $score->getSuperSprint() +
+                $score->getSuperBuggy() +
+                $score->getBonus1() +
+                $score->getBonus2();
+    
+                $score->setTotal($total);
+
+
+                if ($score->createOrUpdate()) {
+                    $general = GeneralScore::findGeneralForPlayer($score->getPlayerId());
+
+                    $newTotal = $general->getTotal() + $score->getTotal();
+
+                    $general->setTotal($newTotal);
+
+                    $general->createOrUpdate();
+
+                }
+            }
 
             global $router;
 
@@ -155,11 +225,11 @@ class AdminVerificationController extends AdminCoreController
 
     public function edit($id) {
 
-        $verification = Verification::find($id, Verification::class);
+        $verification = Verification::find($id);
 
-        $years = Year::findAll(Year::class);
+        $years = Year::findAll();
 
-        $races = Race::findbyYear($verification->getYearId());
+        $races = Race::findByYear($verification->getYearId());
 
         $racesById = [];
         foreach ($races as $race) {
@@ -167,7 +237,7 @@ class AdminVerificationController extends AdminCoreController
         }
 
 
-        $categories = Category::findAll(Category::class);
+        $categories = Category::findAll();
 
         $categoriesOnDB = [];
         foreach ($categories as $category) {
@@ -179,7 +249,7 @@ class AdminVerificationController extends AdminCoreController
             $entryList[$category->getId()] = EntryList::listByRaceAndCategory($verification->getYearId(), $verification->getRaceId(), $category->getId());
         }
 
-        $drivers = Driver::findAll(Driver::class);
+        $drivers = Driver::findAll();
         $driversById = [];
         foreach ($drivers as $driver) {
             $driversById[$driver->getId()] = $driver;
@@ -210,7 +280,7 @@ class AdminVerificationController extends AdminCoreController
             $raceId = filter_input(INPUT_POST, 'raceId', FILTER_VALIDATE_INT);
             $yearId = filter_input(INPUT_POST, 'yearId', FILTER_VALIDATE_INT);
     
-            $verification = Verification::find($id, Verification::class);
+            $verification = Verification::find($id);
 
             $verification->setMaxiSprint($MaxiSprint);
             $verification->setTourismeCup($TourismeCup);
@@ -245,25 +315,25 @@ class AdminVerificationController extends AdminCoreController
 
         $verifications = Verification::findByYear($year);
 
-        $races = Race::findAll(Race::class);
+        $races = Race::findAll();
         $racesById = [];
         foreach ($races as $race) {
             $racesById[$race->getId()] = $race;
         }
 
-        $categories = Category::findAll(Category::class);
+        $categories = Category::findAll();
         $categoriesById = [];
         foreach ($categories as $category) {
             $categoriesById[$category->getId()] = $category;
         }
 
-        $drivers = Driver::findAll(Driver::class);
+        $drivers = Driver::findAll();
         $driversById = [];
         foreach ($drivers as $driver) {
             $driversById[$driver->getId()] = $driver;
         }
 
-        $years = Year::findAll(Year::class);
+        $years = Year::findAll();
 
         $this->show('admin/verification/list', ['verifications' => $verifications, 'year' => $year, 'races' => $racesById, 'categories' => $categoriesById, 'years' => $years, 'driversById' => $driversById]);
     }
