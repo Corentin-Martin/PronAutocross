@@ -435,7 +435,15 @@ $router->map(
     'verification-list'
 );
 
-
+$router->map(
+    'GET',
+    '/admin/verification/delete/[i:id]',
+    [
+    'controller' => AdminVerificationController::class,
+    'method' => 'delete'
+    ],
+    'verification-delete'
+);
 
 
 

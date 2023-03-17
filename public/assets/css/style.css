@@ -141,6 +141,24 @@ input[type="radio"].radio:checked + .card{
     text-shadow: 0.2rem 0.2rem 0.2rem black;
 }
 
+.questionnaire__subtitle {
+    background-color: rgba(251, 255, 0, 0.623);
+    border-radius: 0.2rem;
+    color: black;
+    font-style: italic;
+    text-shadow: 0.2rem 0.2rem 0.2rem white;
+}
+
+.validation__driver {
+    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.534);
+    color: rgb(75, 75, 75);
+    font-style: italic;
+    font-size: 1.5rem;
+    border: 1px solid black;
+    text-shadow: 0.1rem 0.1rem 0.1rem white;
+}
+
 input::placeholder {
     text-align: center;
 }

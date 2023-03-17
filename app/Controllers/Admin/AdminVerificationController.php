@@ -19,6 +19,13 @@ class AdminVerificationController extends AdminCoreController
 
     public function add($year, $raceId) {
 
+        $questions = Questions::findQuestionsByRaceAndYear($year, $raceId);
+
+        if ($questions === false) {
+            global $router;
+            header("Location: {$router->generate('verification-home')}");
+            exit;
+        }
 
         $years = Year::findAll();
 
@@ -296,7 +303,7 @@ class AdminVerificationController extends AdminCoreController
             $verification->setRaceId($raceId);
             $verification->setYearId($yearId);
     
-            $update = $verification->update();
+            $update = $verification->createOrUpdate();
     
             if ($update) {
     
@@ -335,6 +342,25 @@ class AdminVerificationController extends AdminCoreController
 
         $years = Year::findAll();
 
-        $this->show('admin/verification/list', ['verifications' => $verifications, 'year' => $year, 'races' => $racesById, 'categories' => $categoriesById, 'years' => $years, 'driversById' => $driversById]);
+        $this->show('admin/verification/list', ['verifications' => $verifications, 'currentYear' => $year, 'races' => $racesById, 'categories' => $categoriesById, 'years' => $years, 'driversById' => $driversById]);
+    }
+
+    public function delete($id) {
+
+        $verification = Verification::find($id);
+
+        $year = $verification->getYearId();
+
+        if ($verification->delete()) {
+    
+            global $router;
+
+            header("Location: {$router->generate('verification-list', ['year' => $year])}");
+            exit;
+
+        } else {
+            exit ("erreur");
+        }
+        
     }
 }

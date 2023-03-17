@@ -1,36 +1,44 @@
-<h2>Pour la course de <?= $racesById[$verification->getRaceId()]->getName() ?> - <?= $verification->getYearId() ?></h2>
 
-Vous avez validé les résultats suivants :
+<div class="admin__container">
 
-<?php foreach ($categories as $category) : ?>
+    <h2 class="admin__container__title">Validation de <?= $racesById[$verification->getRaceId()]->getName() ?> - <?= $verification->getYearId() ?></h2>
+
+    <?php foreach ($categories as $category) : ?>
+
+        <div>
+            <h4 class="questionnaire__title"><?= $category->getName() ?></h4>
+            <h5 class="questionnaire__subtitle"><?= $questions->{'get'.$categoriesOnDB[$category->getId()]}()?></h5>
+            <h6 class="validation__driver"><?= $driversById[$verification->{'get'.$categoriesOnDB[$category->getId()]}()]->getFirstName() . " " . $driversById[$verification->{'get'.$categoriesOnDB[$category->getId()]}()]->getLastName() ?></h6>
+        </div>
+
+    <?php endforeach; ?>
 
     <div>
-        <h4><?= $category->getName() ?></h4>
-        <h5><?= $questions->{'get'.$categoriesOnDB[$category->getId()]}()?></h5>
-        <h6><?= $driversById[$verification->{'get'.$categoriesOnDB[$category->getId()]}()]->getFirstName() . " " . $driversById[$verification->{'get'.$categoriesOnDB[$category->getId()]}()]->getLastName() ?></h6>
-    </div>
-
-<?php endforeach; ?>
-
-    <div>
-        <h4>Bonus 1</h4>
+        <h4 class="questionnaire__title">Bonus 1</h4>
         <h5><?= $questions->getBonus1() ?></h5>
         <h6><?= $verification->getBonus1() ?></h6>
     </div>
 
     <div>
-        <h4>Bonus 2</h4>
+        <h4 class="questionnaire__title">Bonus 2</h4>
         <h5><?= $questions->getBonus2() ?></h5>
         <h6><?= $verification->getBonus2() ?></h6>
     </div>
 
-<div>
-    <a href="<?= $router->generate('verification-edit', ['id' => $verification->getId()]) ?>">Je veux éditer cette vérification</a>
-</div>
-<div>
-    <form action="" method="post">
-        <input type="hidden" name="yearId" value="<?= $verification->getYearId()?>">
-        <input type="hidden" name="raceId" value="<?= $verification->getRaceId()?>">
-        <button type="submit">C'EST OK, je veux lancer le calcul du score !</button>
-    </form>
+    <div>
+        <a type="button" class="btn btn-info btn-lg"  href="<?= $router->generate('verification-edit', ['id' => $verification->getId()]) ?>">Je veux éditer cette vérification</a>
+    </div>
+
+    <div>
+        <form action="" method="post">
+            <input type="hidden" name="yearId" value="<?= $verification->getYearId()?>">
+            <input type="hidden" name="raceId" value="<?= $verification->getRaceId()?>">
+            <button class="btn btn-success btn-lg"type="submit">C'EST OK, je veux lancer le calcul du score !</button>
+        </form>
+    </div>
+    
+    <div>
+        <a type="button" class="btn btn-warning btn-lg"  href="<?= $router->generate('verification-home') ?>">Retour</a>
+    </div>
+
 </div>
