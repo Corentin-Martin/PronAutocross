@@ -50,6 +50,10 @@ class AdminEntryListController extends AdminCoreController
             global $router;
             header("Location: {$router->generate('entrylist-home')}");
             exit;
+        } else {
+            global $router;
+            header("Location: {$router->generate('entrylist-home')}");
+            exit; 
         }
     }
 
@@ -57,12 +61,10 @@ class AdminEntryListController extends AdminCoreController
 
         $entries = new EntryList();
 
-        $count = $entries->deleteList($year, $raceId);
+        if ($entries->deleteList($year, $raceId)) {
 
-        if ($count > 0) {
-
-            global $router;
-            header("Location :  {$router->generate('entrylist-home')}");
+            global $router; 
+            header("Location:  {$router->generate('entrylist-home')}");
             exit;
 
         } else {
@@ -74,13 +76,14 @@ class AdminEntryListController extends AdminCoreController
 
         $entry = EntryList::find($id);
 
+        $year = $entry->getYearId();
+        $race = $entry->getRaceId();
+
         if ($entry->delete()) {
 
             global $router;
-            header("Location :  {$router->generate('entrylist-home')}");
+            header("Location:  {$router->generate('entrylist-list', ['year' => $year, 'id' => $race])}");
             exit;
-
-            // TO DO ATTENTION ERREUR MAIS EXEC OK
 
         } else {
             exit ("erreur");
@@ -93,7 +96,13 @@ class AdminEntryListController extends AdminCoreController
 
     public function list($year, $id) {
 
-        global $router;
+        $entry = EntryList::listByRace($year, $id);
+
+        if (empty($entry)) {
+            global $router;
+            header("Location: {$router->generate('entrylist-home')}");
+            exit;
+        }
 
         $years = Year::findAll();
 

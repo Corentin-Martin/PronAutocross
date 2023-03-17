@@ -86,7 +86,11 @@ class AdminQuestionController extends AdminCoreController
                 echo "<p> ERREUR </p>";
             }
     
-         }
+        } else {
+            global $router;
+            header("Location: {$router->generate('question-home')}");
+            exit; 
+        }
     }
 
     public function list($year) {

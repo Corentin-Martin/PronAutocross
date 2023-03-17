@@ -42,21 +42,21 @@ class Score extends CoreGame {
         $query = $pdo->prepare($sql);
 
 
-        $query->bindValue(":maxiSprint",        $this->maxiSprint,          PDO::PARAM_INT);
-        $query->bindValue(":tourismeCup",       $this->tourismeCup,         PDO::PARAM_INT);
-        $query->bindValue(":sprintGirls",       $this->sprintGirls,         PDO::PARAM_INT);
-        $query->bindValue(":buggyCup",          $this->buggyCup,            PDO::PARAM_INT);
-        $query->bindValue(":juniorSprint",      $this->juniorSprint,        PDO::PARAM_INT);
-        $query->bindValue(":maxiTourisme",      $this->maxiTourisme,        PDO::PARAM_INT);
-        $query->bindValue(":buggy1600",         $this->buggy1600,           PDO::PARAM_INT);
-        $query->bindValue(":superSprint",       $this->superSprint,         PDO::PARAM_INT);
-        $query->bindValue(":superBuggy",        $this->superBuggy,          PDO::PARAM_INT);
-        $query->bindValue(":bonus1",            $this->bonus1,              PDO::PARAM_INT);
-        $query->bindValue(":bonus2",            $this->bonus2,              PDO::PARAM_INT);
+        $query->bindValue(":maxiSprint",        $this->maxiSprint,          PDO::PARAM_STR);
+        $query->bindValue(":tourismeCup",       $this->tourismeCup,         PDO::PARAM_STR);
+        $query->bindValue(":sprintGirls",       $this->sprintGirls,         PDO::PARAM_STR);
+        $query->bindValue(":buggyCup",          $this->buggyCup,            PDO::PARAM_STR);
+        $query->bindValue(":juniorSprint",      $this->juniorSprint,        PDO::PARAM_STR);
+        $query->bindValue(":maxiTourisme",      $this->maxiTourisme,        PDO::PARAM_STR);
+        $query->bindValue(":buggy1600",         $this->buggy1600,           PDO::PARAM_STR);
+        $query->bindValue(":superSprint",       $this->superSprint,         PDO::PARAM_STR);
+        $query->bindValue(":superBuggy",        $this->superBuggy,          PDO::PARAM_STR);
+        $query->bindValue(":bonus1",            $this->bonus1,              PDO::PARAM_STR);
+        $query->bindValue(":bonus2",            $this->bonus2,              PDO::PARAM_STR);
         $query->bindValue(":raceId",            $this->race_id,             PDO::PARAM_INT);
         $query->bindValue(":yearId",            $this->year_id,             PDO::PARAM_INT);
         $query->bindValue(":participationId",   $this->participation_id,    PDO::PARAM_INT);
-        $query->bindValue(":total",             $this->total,               PDO::PARAM_INT);
+        $query->bindValue(":total",             $this->total,               PDO::PARAM_STR);
         $query->bindValue(":playerId",          $this->player_id,           PDO::PARAM_INT);
 
         if ($this->id > 0) {

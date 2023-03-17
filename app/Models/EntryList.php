@@ -89,7 +89,11 @@ class EntryList extends CoreModel {
 
         $query->execute();
 
-        return $query->rowCount();
+        if ($query->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
 
     }
 

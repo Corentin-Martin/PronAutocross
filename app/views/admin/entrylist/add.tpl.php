@@ -80,7 +80,7 @@
     </div>
 
     <div>
-        <a type="button" class="btn btn-warning btn-lg"  href="<?= $router->generate('admin') ?>">RETOUR AU TABLEAU DE BORD GENERAL</a>
+        <a type="button" class="btn btn-warning btn-lg"  href="<?= $router->generate('entrylist-home') ?>">Retour</a>
     </div>
 
 </div>

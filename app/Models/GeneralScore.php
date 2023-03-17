@@ -38,7 +38,7 @@ class GeneralScore extends CoreModel
         if ($this->id > 0) {
 
         $query->bindValue(":id",         $this->id,          PDO::PARAM_INT);
-        $query->bindValue(":total",      $this->total,       PDO::PARAM_INT);
+        $query->bindValue(":total",      $this->total,       PDO::PARAM_STR);
 
         }
     

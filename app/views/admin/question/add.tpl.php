@@ -76,7 +76,7 @@
     
 
     <div>
-        <a type="button" class="btn btn-warning btn-lg"  href="<?= $router->generate('admin') ?>">RETOUR AU TABLEAU DE BORD GENERAL</a>
+        <a type="button" class="btn btn-warning btn-lg"  href="<?= $router->generate('question-home') ?>">Retour</a>
     </div>
 
 
