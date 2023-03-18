@@ -76,6 +76,24 @@ class EntryList extends CoreModel {
         return $query->fetchAll(PDO::FETCH_CLASS, EntryList::class);
     }
 
+    static public function findDriverParticipation($yearId, $raceId, $driverId) {
+
+        $pdo = Database::getPDO();
+
+        $sql = "SELECT * FROM entry_list WHERE race_id = :raceId AND year_id = :yearId AND driver_id = :driverId";
+
+        $query = $pdo->prepare($sql);
+
+        $query->bindValue(":raceId",        $raceId,       PDO::PARAM_INT);
+        $query->bindValue(":yearId",        $yearId,       PDO::PARAM_INT);
+        $query->bindValue(":driverId",      $driverId,     PDO::PARAM_INT);
+
+        $query->execute();
+
+        return $query->fetchObject(EntryList::class);
+    }
+
+
     public function deleteList($year, $raceId){
 
         $pdo = Database::getPDO();

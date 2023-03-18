@@ -33,7 +33,7 @@ class Rate extends CoreModel
 
         if ($this->id > 0) {
             $sql = 
-            "UPDATE `rate` SET `rate1`= :rate1, `rate2` = :rate2, `overall` = :overall, `driver_id` = :driverId `year_id` = :yearId WHERE id = :id";
+            "UPDATE `rate` SET `rate1`= :rate1, `rate2` = :rate2, `overall` = :overall, `driver_id` = :driverId, `year_id` = :yearId WHERE id = :id";
         } else {
             $sql = "INSERT INTO `rate` (`rate1`, `rate2`, `overall`, `driver_id`, `year_id`) VALUES ( :rate1, :rate2, :overall, :driverId, :yearId)";
         } 

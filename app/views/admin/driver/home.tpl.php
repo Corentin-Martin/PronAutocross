@@ -8,6 +8,7 @@
     <div>
         <a type="button" class="btn btn-secondary btn-lg" href="<?= $router->generate('driver-list', ['categoryId' => 1, 'action' => 'number']) ?>">TOUS LES PILOTES</a>
         <a type="button" class="btn btn-dark btn-lg" href="<?= $router->generate('driver-add') ?>">AJOUTER UN PILOTE</a>
+        <a type="button" class="btn btn-success btn-lg" href="<?= $router->generate('rate-edit', ['id' => 1]) ?>">METTRE A JOUR LES COTES</a>
     </div>
 
     <div>

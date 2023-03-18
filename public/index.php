@@ -6,6 +6,7 @@ use App\Controllers\Admin\AdminCoreController;
 use App\Controllers\Admin\AdminDriverController;
 use App\Controllers\Admin\AdminEntryListController;
 use App\Controllers\Admin\AdminRaceController;
+use App\Controllers\Admin\AdminRateController;
 use App\Controllers\Admin\AdminVerificationController;
 use App\Controllers\ErrorController;
 use App\Controllers\MainController;
@@ -534,6 +535,27 @@ $router->map(
     'method' => 'delete'
     ],
     'verification-delete'
+);
+
+// RATE
+$router->map(
+    'GET',
+    '/admin/rate/edit/[i:id]',
+    [
+    'controller' => AdminRateController::class,
+    'method' => 'edit'
+    ],
+    'rate-edit'
+);
+
+$router->map(
+    'POST',
+    '/admin/rate/edit/[i:id]',
+    [
+    'controller' => AdminRateController::class,
+    'method' => 'update'
+    ],
+    'rate-update'
 );
 
 

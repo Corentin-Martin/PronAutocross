@@ -76,6 +76,9 @@
                 <li>
                     <a href="<?= $router->generate('driver-add') ?>">Ajouter un pilote</a>
                 </li>
+                <li>
+                    <a href="<?= $router->generate('rate-edit', ['id' => 1]) ?>">Mettre à jour les cotes</a>
+                </li>
             </ul>
         </div>
     </div>
