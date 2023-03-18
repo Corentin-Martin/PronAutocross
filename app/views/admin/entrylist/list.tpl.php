@@ -8,7 +8,7 @@
             
             <ul class="dropdown-menu">
             <?php foreach ($years as $year) : ?>
-                <li><a class="dropdown-item" href="<?= $router->generate('entrylist-list', ['year' => $year->getId(), 'id' => $race->getId()]) ?>"><?= $year->getId() ?></a></li>
+                <li><a class="dropdown-item" href="<?= $router->generate('entrylist-list', ['year' => $year->getId(), 'id' => 1]) ?>"><?= $year->getId() ?></a></li>
             <?php endforeach; ?>
             </ul>
         </div>
@@ -25,7 +25,13 @@
     </div>
 
     <div>
-        <h2 class="questionnaire__title">Liste des engagés pour <?= $races[$raceId]->getName() ?> - <?= $currentYear ?></h2>
+        <h2 class="questionnaire__title">
+            <?php if (!isset($races[$raceId])) : ?>
+                Aucune liste générée
+            <?php else : ?>
+            Liste des engagés pour <?= $races[$raceId]->getName() ?> - <?= $currentYear ?>
+        <?php endif; ?></h2>
+        <?php if (isset($races[$raceId])) : ?>
         <div class="dropdown">
             <button class="btn btn-danger dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Supprimer
@@ -35,6 +41,7 @@
                 <li><a class="dropdown-item" href="<?= $router->generate('entrylist-deletelist', ['year' => $currentYear, 'id' => $raceId]) ?>">Confirmer la suppression</a></li>
             </ul>
         </div>
+        <?php endif; ?>
     </div>
 
     <div>

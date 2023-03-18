@@ -5,22 +5,17 @@
 
     <div>
         <form method="post" action="">
+            <input type="hidden" name="year" value="<?= date('Y') ?>">
 
-            <select name="year">
+            <div class="form-group">
+                <select name="race">
 
-                <?php foreach ($years as $year) : ?>
-                    <option value="<?= $year->getId() ?>"><?= $year->getId() ?></option>
-                <?php endforeach; ?>
+                    <?php foreach ($races as $race) : ?>
+                        <option value="<?= $race->getId() ?>"><?= $race->getName() ?></option>
+                    <?php endforeach; ?>
 
-            </select>
-
-            <select name="race">
-
-                <?php foreach ($racesById as $race) : ?>
-                    <option value="<?= $race->getId() ?>"><?= $race->getName() ?></option>
-                <?php endforeach; ?>
-
-            </select>
+                </select>
+            </div>
 
             <div class="accordion" id="accordionExample">
 

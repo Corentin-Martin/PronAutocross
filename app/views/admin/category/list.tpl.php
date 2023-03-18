@@ -11,6 +11,8 @@
                     <th>#</th>
                     <th>Nom de la catégorie</th>
                     <th>Ordre de passage</th>
+                    <th>Editer</th>
+                    <th>Supprimer</th>
                 </tr>
             </thead>
             
@@ -22,6 +24,20 @@
                     <td><?= $category->getId() ?></td>
                     <td><?= $category->getName() ?></td>
                     <td><?= $category->getRunningOrder() ?></td>
+                    <td>
+                        <a type="button" class="btn btn-outline-warning" href="<?= $router->generate('category-edit', ['id' => $category->getId()]) ?>">Modifier</a>
+                    </td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-danger dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Supprimer
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="">Non</a></li>
+                                <li><a class="dropdown-item" href="<?= $router->generate('category-delete', ['id' => $category->getId()]) ?>">Confirmer la suppression</a></li>
+                            </ul>
+                        </div>
+                    </td>
                 </tr>
 
                 <?php endforeach; ?>

@@ -17,19 +17,23 @@ use App\Models\Year;
 class AdminVerificationController extends AdminCoreController
 {
 
-    public function add($year, $raceId) {
+    public function addOrEdit($raceId = null) {
 
-        $questions = Questions::findQuestionsByRaceAndYear($year, $raceId);
 
-        if ($questions === false) {
-            global $router;
-            header("Location: {$router->generate('verification-home')}");
-            exit;
+        if ($raceId) {
+            $verification = Verification::showByRaceId($raceId, date('Y'));
+        } else {
+            $verification = null;
         }
+        $questions = Questions::findQuestionsByRaceAndYear(date('Y'), $raceId);
 
-        $years = Year::findAll();
+        // if ($questions === false) {
+        //     global $router;
+        //     header("Location: {$router->generate('verification-home')}");
+        //     exit;
+        // }
 
-        $races = Race::findByYear($year);
+        $races = Race::findByYear(date('Y'));
 
         $racesById = [];
         foreach ($races as $race) {
@@ -44,9 +48,14 @@ class AdminVerificationController extends AdminCoreController
             $categoriesOnDB[$category->getId()] = str_replace(" ", "", $category->getName());
         }
 
-        $entryList = [];
-        foreach ($categories as $category) {
-            $entryList[$category->getId()] = EntryList::listByRaceAndCategory($year, $raceId, $category->getId());
+        if ($raceId) {
+            $entryList = [];
+            foreach ($categories as $category) {
+                $entryList[$category->getId()] = EntryList::listByRaceAndCategory(date('Y'), $raceId, $category->getId());
+            }
+        } else {
+            $entryList = null;
+
         }
 
         $drivers = Driver::findAll();
@@ -55,11 +64,9 @@ class AdminVerificationController extends AdminCoreController
             $driversById[$driver->getId()] = $driver;
         }
 
+        $questions = Questions::findQuestionsByRaceAndYear(date('Y'), $raceId);
 
-
-        $questions = Questions::findQuestionsByRaceAndYear($year, $raceId);
-
-        $this->show('admin/verification/add', ['years' => $years, 'racesById' => $racesById, 'entryList' => $entryList, 'categories' => $categories, 'categoriesOnDB' => $categoriesOnDB, 'driversById' => $driversById, 'currentYear' => $year, 'currentRace' => $raceId, 'questions' => $questions]);
+        $this->show('admin/verification/add', ['racesById' => $racesById, 'entryList' => $entryList, 'categories' => $categories, 'categoriesOnDB' => $categoriesOnDB, 'driversById' => $driversById, 'currentRace' => $raceId, 'questions' => $questions, 'verification' => $verification]);
     }
 
     public function home() {
@@ -230,48 +237,49 @@ class AdminVerificationController extends AdminCoreController
         }
     }
 
-    public function edit($id) {
+    // public function edit($id) {
 
-        $verification = Verification::find($id);
+    //     $verification = Verification::find($id);
 
-        $years = Year::findAll();
+    //     $years = Year::findAll();
 
-        $races = Race::findByYear($verification->getYearId());
+    //     $races = Race::findByYear($verification->getYearId());
 
-        $racesById = [];
-        foreach ($races as $race) {
-            $racesById[$race->getId()] = $race;
-        }
-
-
-        $categories = Category::findAll();
-
-        $categoriesOnDB = [];
-        foreach ($categories as $category) {
-            $categoriesOnDB[$category->getId()] = str_replace(" ", "", $category->getName());
-        }
-
-        $entryList = [];
-        foreach ($categories as $category) {
-            $entryList[$category->getId()] = EntryList::listByRaceAndCategory($verification->getYearId(), $verification->getRaceId(), $category->getId());
-        }
-
-        $drivers = Driver::findAll();
-        $driversById = [];
-        foreach ($drivers as $driver) {
-            $driversById[$driver->getId()] = $driver;
-        }
+    //     $racesById = [];
+    //     foreach ($races as $race) {
+    //         $racesById[$race->getId()] = $race;
+    //     }
 
 
+    //     $categories = Category::findAll();
 
-        $questions = Questions::findQuestionsByRaceAndYear($verification->getYearId(), $verification->getRaceId());
+    //     $categoriesOnDB = [];
+    //     foreach ($categories as $category) {
+    //         $categoriesOnDB[$category->getId()] = str_replace(" ", "", $category->getName());
+    //     }
 
-        $this->show('admin/verification/add', ['years' => $years, 'racesById' => $racesById, 'entryList' => $entryList, 'categories' => $categories, 'categoriesOnDB' => $categoriesOnDB, 'driversById' => $driversById, 'currentYear' => $verification->getYearId(), 'currentRace' => $verification->getRaceId(), 'questions' => $questions, 'verification' => $verification]);
+    //     $entryList = [];
+    //     foreach ($categories as $category) {
+    //         $entryList[$category->getId()] = EntryList::listByRaceAndCategory($verification->getYearId(), $verification->getRaceId(), $category->getId());
+    //     }
+
+    //     $drivers = Driver::findAll();
+    //     $driversById = [];
+    //     foreach ($drivers as $driver) {
+    //         $driversById[$driver->getId()] = $driver;
+    //     }
+
+
+
+    //     $questions = Questions::findQuestionsByRaceAndYear($verification->getYearId(), $verification->getRaceId());
+
+    //     $this->show('admin/verification/add', ['years' => $years, 'racesById' => $racesById, 'entryList' => $entryList, 'categories' => $categories, 'categoriesOnDB' => $categoriesOnDB, 'driversById' => $driversById, 'currentYear' => $verification->getYearId(), 'currentRace' => $verification->getRaceId(), 'questions' => $questions, 'verification' => $verification]);
 
     
-    }
+    // }
 
-    public function update($id) {
+    public function update($raceId) {
+
         if (isset($_POST)) {
             $MaxiSprint = filter_input(INPUT_POST, 'MaxiSprint', FILTER_VALIDATE_INT);
             $TourismeCup = filter_input(INPUT_POST, 'TourismeCup', FILTER_VALIDATE_INT);
@@ -287,7 +295,8 @@ class AdminVerificationController extends AdminCoreController
             $raceId = filter_input(INPUT_POST, 'raceId', FILTER_VALIDATE_INT);
             $yearId = filter_input(INPUT_POST, 'yearId', FILTER_VALIDATE_INT);
     
-            $verification = Verification::find($id);
+            $verification = Verification::showByRaceId($raceId, date('Y'));
+
 
             $verification->setMaxiSprint($MaxiSprint);
             $verification->setTourismeCup($TourismeCup);

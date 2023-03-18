@@ -7,23 +7,35 @@ use App\Models\Category;
 class AdminCategoryController extends AdminCoreController
 {
 
-    public function add() {
+    public function addOrEdit($id = null) {
 
+        if ($id) {
+            $category = Category::find($id);
+        } else {
+            $category = null;
+        }
 
-
-        $this->show('admin/category/add');
+        $this->show('admin/category/add', ['category' => $category]);
     }
 
-    public function create() {
+    public function createOrUpdate($id = null) {
 
-        if (isset($_POST) && !empty($_POST['name'])) {
+        if (isset($_POST)) {
             $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
             $running_order = filter_input(INPUT_POST, 'running_order', FILTER_VALIDATE_INT);
 
-            $category = new Category();
+            if ($id) {
+                $category = Category::find($id);
+            } else {
+                $category = new Category();  
+            }
 
             $category->setName($name);
             $category->setRunningOrder($running_order);
+
+            if($id) {
+                $category->setId($id);
+            }
 
             if ($category->createOrUpdate()) {
                 global $router;
@@ -31,6 +43,10 @@ class AdminCategoryController extends AdminCoreController
             } else {
                 exit("erreur");
             }
+        } else {
+            global $router;
+            header("Location: {$router->generate('category-list')}");
+            exit; 
         }
         
     }
@@ -40,5 +56,22 @@ class AdminCategoryController extends AdminCoreController
         $categories = Category::findAll();
 
         $this->show('admin/category/list', ['categories' => $categories]);
+    }
+
+    public function delete($id) {
+
+        $category = Category::find($id);
+
+        if ($category->delete()) {
+    
+            global $router;
+
+            header("Location: {$router->generate('category-list')}");
+            exit;
+
+        } else {
+            exit ("erreur");
+        }
+        
     }
 }

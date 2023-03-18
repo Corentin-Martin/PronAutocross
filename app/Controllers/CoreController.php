@@ -17,26 +17,26 @@ abstract class CoreController {
         global $dispatcher;
         $baseURI = $_SERVER['BASE_URI'] . "/";
 
-        $players = Player::findAll();
+        // $players = Player::findAll();
 
-        $races = Race::findAll();
+        // $races = Race::findAll();
 
         $drivers = Driver::findAll();
 
-        // $driversById = [];
-        // foreach ($drivers as $driver) {
-        //     $driversById[$driver->getId()] = $driver;
+        $driversById = [];
+        foreach ($drivers as $driver) {
+            $driversById[$driver->getId()] = $driver;
+        }
+
+        // $playersById = [];
+        // foreach ($players as $player) {
+        //     $playersById[$player->getId()] = $player;
         // }
 
-        $playersById = [];
-        foreach ($players as $player) {
-            $playersById[$player->getId()] = $player;
-        }
-
-        $racesById = [];
-        foreach ($races as $race) {
-            $racesById[$race->getId()] = $race;
-        }
+        // $racesById = [];
+        // foreach ($races as $race) {
+        //     $racesById[$race->getId()] = $race;
+        // }
 
         $years = Year::findAll();
 

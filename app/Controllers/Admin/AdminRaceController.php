@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Admin;
 
+use App\Models\Category;
 use App\Models\Race;
 use App\Models\Year;
 
@@ -14,28 +15,47 @@ class AdminRaceController extends AdminCoreController
         $this->show('admin/race/home' );
     }
 
-    public function add() {
+    public function addOrEdit($id = null) {
 
+        if ($id) {
+            $race = Race::find($id);
+        } else {
+            $race = null;
+        }
 
         $years = Year::findAll();
 
 
-        $this->show('admin/race/add', ['years' => $years]);
+        $this->show('admin/race/add', ['years' => $years, 'race' => $race]);
     }
 
-    public function create() {
+    public function createOrUpdate($id = null) {
 
 
         if (isset($_POST)) {
+
             $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
             $date = filter_input(INPUT_POST, 'date', FILTER_SANITIZE_SPECIAL_CHARS);
             $year = filter_input(INPUT_POST, 'year', FILTER_VALIDATE_INT);
             $poster = isset($_POST['poster']) ? filter_input(INPUT_POST, 'poster', FILTER_SANITIZE_SPECIAL_CHARS) : 'assets/images/genericposter.png';
 
-            $raceModel = new Race();
-            $insertion = $raceModel->insertRace($name, $date, $poster, $year);
+            if ($id) {
+                $race = Race::find($id);
+            } else {
+                $race = new Race();  
+            }
 
-            if ($insertion === 1) {
+            $race->setName($name);
+            $race->setDate($date);
+            $race->setPoster($poster);
+            $race->setYearId($year);
+
+            if($id) {
+                $race->setId($id);
+            }
+
+
+            if ($race->createOrUpdate()) {
                 global $router;
                 header("Location: {$router->generate('race-list', ['year' => $year])}");
                 exit; 
@@ -55,5 +75,24 @@ class AdminRaceController extends AdminCoreController
         $years = Year::findAll();
 
         $this->show('admin/race/list', ['races' => $races, 'currentYear' => $year, 'years' => $years]);
+    }
+
+    public function delete($id) {
+
+        $race = Race::find($id);
+
+        $year = $race->getYearId();
+
+        if ($race->delete()) {
+    
+            global $router;
+
+            header("Location: {$router->generate('race-list', ['year' => $year])}");
+            exit;
+
+        } else {
+            exit ("erreur");
+        }
+        
     }
 }

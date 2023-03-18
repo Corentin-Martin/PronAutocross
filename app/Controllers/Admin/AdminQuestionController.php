@@ -10,7 +10,7 @@ use App\Models\Year;
 class AdminQuestionController extends AdminCoreController
 {
 
-    public function addOrEdit($year, $id = null) {
+    public function addOrEdit($id = null) {
 
         $categories = Category::findAll();
         $categoriesById = [];
@@ -18,13 +18,11 @@ class AdminQuestionController extends AdminCoreController
             $categoriesById[$category->getId()] = $category;
         }
 
-        $races = Race::findByYear($year);
+        $races = Race::findByYear(date('Y'));
         $racesById = [];
         foreach ($races as $race) {
             $racesById[$race->getId()] =  $race;
         }
-
-        $years = Year::findAll();
 
         if ($id) {
             $questionnaire = Questions::find($id);
@@ -33,10 +31,10 @@ class AdminQuestionController extends AdminCoreController
         }
 
 
-        $this->show('admin/question/add', ['categories' => $categoriesById, 'races' => $races, 'racesById' => $racesById, 'years' => $years, 'currentYear' => $year, 'questionnaire' => $questionnaire]);
+        $this->show('admin/question/add', ['categories' => $categoriesById, 'races' => $races, 'racesById' => $racesById, 'questionnaire' => $questionnaire]);
     }
 
-    public function createOrUpdate($year, $id = null) {
+    public function createOrUpdate($id = null) {
 
         if (isset($_POST)) {
 

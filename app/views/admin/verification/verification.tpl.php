@@ -15,18 +15,18 @@
 
     <div>
         <h4 class="questionnaire__title">Bonus 1</h4>
-        <h5><?= $questions->getBonus1() ?></h5>
-        <h6><?= $verification->getBonus1() ?></h6>
+        <h5 class="questionnaire__subtitle"><?= $questions->getBonus1() ?></h5>
+        <h6 class="validation__driver"><?= $verification->getBonus1() ?></h6>
     </div>
 
     <div>
         <h4 class="questionnaire__title">Bonus 2</h4>
-        <h5><?= $questions->getBonus2() ?></h5>
-        <h6><?= $verification->getBonus2() ?></h6>
+        <h5 class="questionnaire__subtitle"><?= $questions->getBonus2() ?></h5>
+        <h6 class="validation__driver"><?= $verification->getBonus2() ?></h6>
     </div>
 
     <div>
-        <a type="button" class="btn btn-info btn-lg"  href="<?= $router->generate('verification-edit', ['id' => $verification->getId()]) ?>">Je veux éditer cette vérification</a>
+        <a type="button" class="btn btn-info btn-lg"  href="<?= $router->generate('verification-edit', ['raceId' => $verification->getRaceId()]) ?>">Je veux éditer cette vérification</a>
     </div>
 
     <div>

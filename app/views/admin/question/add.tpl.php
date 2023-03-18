@@ -7,25 +7,8 @@
 <?php endif; ?>
 
     <div>
-        <div class="btn-group" role="group">
-            <button type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Année</button>
-            
-            <ul class="dropdown-menu">
-            <?php foreach ($years as $year) : ?>
-                <li><a class="dropdown-item" href="<?= $year->getId() ?>"><?= $year->getId() ?></a></li>
-            <?php endforeach; ?>
-            </ul>
-        </div>
-
-        <div>
-            <h4><?=$currentYear ?></h4>
-        </div>
-    </div>
-    
-
-    <div>
     <form action="" method="post">
-    <input type="hidden" name="year" value="<?= $currentYear ?>">
+    <input type="hidden" name="year" value="<?= date('Y') ?>">
 
     <div>
         <label for="raceId">

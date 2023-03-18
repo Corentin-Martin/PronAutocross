@@ -105,19 +105,50 @@ $router->map(
     '/admin/category/add',
     [
     'controller' => AdminCategoryController::class,
-    'method' => 'add'
+    'method' => 'addOrEdit'
     ],
     'category-add'
 );
+
+$router->map(
+    'GET',
+    '/admin/category/edit/[i:id]',
+    [
+    'controller' => AdminCategoryController::class,
+    'method' => 'addOrEdit'
+    ],
+    'category-edit'
+);
+
 
 $router->map(
     'POST',
     '/admin/category/add',
     [
     'controller' => AdminCategoryController::class,
-    'method' => 'create'
+    'method' => 'createOrUpdate'
     ],
     'category-create'
+);
+
+$router->map(
+    'POST',
+    '/admin/category/edit/[i:id]',
+    [
+    'controller' => AdminCategoryController::class,
+    'method' => 'createOrUpdate'
+    ],
+    'category-update'
+);
+
+$router->map(
+    'GET',
+    '/admin/category/delete/[i:id]',
+    [
+    'controller' => AdminCategoryController::class,
+    'method' => 'delete'
+    ],
+    'category-delete'
 );
 
 // DRIVER //
@@ -180,16 +211,6 @@ $router->map(
     ],
     'driver-update'
 );
-
-// $router->map(
-//     'GET',
-//     '/admin/driver/edit/[i:id]',
-//     [
-//     'controller' => AdminDriverController::class,
-//     'method' => 'edit'
-//     ],
-//     'driver-edit'
-// );
 
 $router->map(
     'POST',
@@ -285,7 +306,7 @@ $router->map(
 
 $router->map(
     'GET',
-    '/admin/question/add/[i:year]',
+    '/admin/question/add',
     [
     'controller' => AdminQuestionController::class,
     'method' => 'addOrEdit'
@@ -295,7 +316,7 @@ $router->map(
 
 $router->map(
     'POST',
-    '/admin/question/add/[i:year]',
+    '/admin/question/add',
     [
     'controller' => AdminQuestionController::class,
     'method' => 'createOrUpdate'
@@ -305,7 +326,7 @@ $router->map(
 
 $router->map(
     'GET',
-    '/admin/question/[i:year]/edit/[i:id]',
+    '/admin/question/edit/[i:id]',
     [
     'controller' => AdminQuestionController::class,
     'method' => 'addOrEdit'
@@ -315,7 +336,7 @@ $router->map(
 
 $router->map(
     'POST',
-    '/admin/question/[i:year]/edit/[i:id]',
+    '/admin/question/edit/[i:id]',
     [
     'controller' => AdminQuestionController::class,
     'method' => 'createOrUpdate'
@@ -359,7 +380,7 @@ $router->map(
     '/admin/race/add',
     [
     'controller' => AdminRaceController::class,
-    'method' => 'add'
+    'method' => 'addOrEdit'
     ],
     'race-add'
 );
@@ -369,9 +390,29 @@ $router->map(
     '/admin/race/add',
     [
     'controller' => AdminRaceController::class,
-    'method' => 'create'
+    'method' => 'createOrUpdate'
     ],
     'race-create'
+);
+
+$router->map(
+    'GET',
+    '/admin/race/edit/[i:id]',
+    [
+    'controller' => AdminRaceController::class,
+    'method' => 'addOrEdit'
+    ],
+    'race-edit'
+);
+
+$router->map(
+    'POST',
+    '/admin/race/edit/[i:id]',
+    [
+    'controller' => AdminRaceController::class,
+    'method' => 'createOrUpdate'
+    ],
+    'race-update'
 );
 $router->map(
     'GET',
@@ -381,6 +422,16 @@ $router->map(
     'method' => 'list'
     ],
     'race-list'
+);
+
+$router->map(
+    'GET',
+    '/admin/race/delete/[i:id]',
+    [
+    'controller' => AdminRaceController::class,
+    'method' => 'delete'
+    ],
+    'race-delete'
 );
 
 
@@ -397,17 +448,17 @@ $router->map(
 
 $router->map(
     'GET',
-    '/admin/verification/edit/[i:id]',
+    '/admin/verification/edit/[i:raceId]',
     [
     'controller' => AdminVerificationController::class,
-    'method' => 'edit'
+    'method' => 'addOrEdit'
     ],
     'verification-edit'
 );
 
 $router->map(
     'POST',
-    '/admin/verification/edit/[i:id]',
+    '/admin/verification/edit/[i:raceId]',
     [
     'controller' => AdminVerificationController::class,
     'method' => 'update'
@@ -417,17 +468,27 @@ $router->map(
 
 $router->map(
     'GET',
-    '/admin/verification/add/[i:year]/[i:raceId]',
+    '/admin/verification/add',
     [
     'controller' => AdminVerificationController::class,
-    'method' => 'add'
+    'method' => 'addOrEdit'
     ],
     'verification-add'
 );
 
 $router->map(
+    'GET',
+    '/admin/verification/add/[i:raceId]',
+    [
+    'controller' => AdminVerificationController::class,
+    'method' => 'addOrEdit'
+    ],
+    'verification-adding'
+);
+
+$router->map(
     'POST',
-    '/admin/verification/add/[i:year]/[i:raceId]',
+    '/admin/verification/add/[i:raceId]',
     [
     'controller' => AdminVerificationController::class,
     'method' => 'create'

@@ -15,6 +15,8 @@ class AdminEntryListController extends AdminCoreController
 
         $categories = Category::findAll();
 
+        $races = Race::findByYear(date('Y'));
+
         $availablePrio = [];
         $availableInvit = [];
         foreach ($categories as $category) {
@@ -25,7 +27,7 @@ class AdminEntryListController extends AdminCoreController
             $availableInvit[$category->getId()] = $driversInvit;
         }
 
-        $this->show('admin/entrylist/add', ['categories' => $categories, 'prioritaires' => $availablePrio, 'invites' => $availableInvit]);
+        $this->show('admin/entrylist/add', ['categories' => $categories, 'races' => $races, 'prioritaires' => $availablePrio, 'invites' => $availableInvit]);
     }
 
     public function create() {
@@ -96,13 +98,13 @@ class AdminEntryListController extends AdminCoreController
 
     public function list($year, $id) {
 
-        $entry = EntryList::listByRace($year, $id);
+        $currentEntry = EntryList::listByRace($year, $id);
 
-        if (empty($entry)) {
-            global $router;
-            header("Location: {$router->generate('entrylist-home')}");
-            exit;
-        }
+        $entry = EntryList::findByYear($year);
+
+        if (!empty($entry) && empty($currentEntry)) {
+            $id = $entry[0]->getRaceId();
+        } 
 
         $years = Year::findAll();
 
