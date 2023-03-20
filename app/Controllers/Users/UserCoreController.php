@@ -10,7 +10,7 @@ use App\Models\Questions;
 use App\Models\Rate;
 use App\Models\Score;
 
-class UserController extends CoreController
+class UserCoreController extends CoreController
 {
 
     public function play($year, $raceId) {
