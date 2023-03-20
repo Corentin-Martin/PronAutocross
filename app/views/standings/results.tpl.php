@@ -1,4 +1,4 @@
-<h1> RESULTATS DE <?= $racesById[$viewData['race_id']]->getName() ?></h1>
+<h1> RESULTATS DE <?= $race->getName() ?></h1>
 
     <table>
         <thead>
@@ -6,7 +6,7 @@
                 <td>Place</td>
                 <td>Pseudo</td>
 
-                <?php foreach ($viewData['categories'] as $category) : ?>
+                <?php foreach ($categories as $category) : ?>
                 <td><?= $category->getName() ?></td>
                 <?php endforeach; ?>
 
@@ -18,36 +18,23 @@
 
         <tbody>
 
-            <?php $place=2; $increment=1; $preceding = null;
-            foreach ($viewData['score'] as $score) : ; ?>
+            <?php foreach ($players as $player) : ?>
 
             <tr>
                 <td>
-                    <?php if (is_null($preceding) || $preceding === $score->getTotal()) {
-
-                        $place--;
-                        echo $place;
-
-                    } else {
-
-                        echo $increment;
-                        $place = $increment;
-
-                    }
-
-                    $place++; $increment++; $preceding = $score->getTotal(); ?>
+                 <?= $player['place'] ?>
                 </td>
 
-                <td><?= $playersById[$score->getPlayerId()]->getPseudo() ?></td>
+                <td><?= $player['fiche']->getPseudo() ?></td>
                 
-                <?php foreach ($viewData['categories'] as $category) :
+                <?php foreach ($categories as $category) :
                 $categoryToGet = str_replace(" ", "", $category->getName()); ?>
-                <td><?= $score->{'get'.$categoryToGet}(); ?></td>
+                <td><?= $player['score']->{'get'.$categoryToGet}(); ?></td>
                 <?php endforeach; ?>
 
-                <td><?= $score->getBonus1(); ?></td>
-                <td><?= $score->getBonus2(); ?></td>
-                <td><?= $score->getTotal(); ?></td>
+                <td><?= $player['score']->getBonus1(); ?></td>
+                <td><?= $player['score']->getBonus2(); ?></td>
+                <td><?= $player['score']->getTotal(); ?></td>
             </tr>
 
             <?php endforeach; ?>

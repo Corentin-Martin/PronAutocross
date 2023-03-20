@@ -1,5 +1,5 @@
 
-<h1> CLASSEMENT GENERAL <?= $viewData['general'][0]->getYearId(); ?> </h1>
+<h1> CLASSEMENT GENERAL <?= $year ?> </h1>
 
     <table>
         <thead>
@@ -8,7 +8,7 @@
                 <td>Pseudo</td>
                 <td>Total</td>
 
-                <?php foreach ($racesById as $race) : ?>
+                <?php foreach ($races as $race) : ?>
                 <td><?= $race->getName() ?></td>
                 <?php endforeach; ?>
 
@@ -17,35 +17,20 @@
 
         <tbody>
 
-            <?php $place=2; $increment=1; $preceding = null;
-            foreach ($viewData['general'] as $general) : ; ?>
+            <?php foreach ($players as $player) : ; ?>
 
             <tr>
                 <td>
-                    <?php if (is_null($preceding) || $preceding === $general->getTotal()) {
-
-                        $place--;
-                        echo $place;
-
-                    } else {
-
-                        echo $increment;
-                        $place = $increment;
-
-                    }
-
-                    $place++; $increment++; $preceding = $general->getTotal(); ?>
+                   <?= $player['place'] ?>
                 </td>
 
-                <td><?= $playersById[$general->getPlayerId()]->getPseudo() ?></td>
+                <td><?= $player['fiche']->getPseudo() ?></td>
 
-                <td><?= $general->getTotal(); ?></td>
+                <td><?= $player['general'] ?></td>
 
-                <?php foreach ($racesById as $race) :
-                $score = $scoreModel->findForGeneral($viewData['general'][0]->getYearId(), $race->getId(), $general->getPlayerId());
-                ?>
+                <?php foreach ($races as $race) : ?>
 
-                <td><?= ($score) ? $score->getTotal() : '/' ;  ?></td>
+                <td><?= ($player['scores'][$race->getId()]) ? $player['scores'][$race->getId()]->getTotal() : '/' ?></td>
 
                 <?php  endforeach;  ?>
             </tr>

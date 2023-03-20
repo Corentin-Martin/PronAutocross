@@ -21,12 +21,12 @@ abstract class CoreController {
 
         // $races = Race::findAll();
 
-        $drivers = Driver::findAll();
+        // $drivers = Driver::findAll();
 
-        $driversById = [];
-        foreach ($drivers as $driver) {
-            $driversById[$driver->getId()] = $driver;
-        }
+        // $driversById = [];
+        // foreach ($drivers as $driver) {
+        //     $driversById[$driver->getId()] = $driver;
+        // }
 
         // $playersById = [];
         // foreach ($players as $player) {
@@ -38,9 +38,9 @@ abstract class CoreController {
         //     $racesById[$race->getId()] = $race;
         // }
 
-        $years = Year::findAll();
+        // $years = Year::findAll();
 
-        $scoreModel = new Score();
+        // $scoreModel = new Score();
 
         extract($viewData);
 

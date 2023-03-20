@@ -86,15 +86,20 @@ class Score extends CoreGame {
      * @param int $raceId // L'id de la course
      * @return Score[]
      */
-    public function sortingByRace($year, $raceId) {
+    static public function sortingByRace($year, $raceId) {
 
         $pdo = Database::getPDO();
 
-            $sql = "SELECT score.*, player.pseudo FROM score JOIN player ON player.id = score.player_id WHERE score.year_id='$year' AND score.race_id='$raceId' ORDER BY score.total DESC, player.pseudo ASC";
+        $sql = "SELECT score.*, player.pseudo FROM score JOIN player ON player.id = score.player_id WHERE score.year_id= :yearId AND score.race_id= :raceId ORDER BY score.total DESC, player.pseudo ASC";
 
-            $pdoStatement = $pdo->query($sql);
+        $query = $pdo->prepare($sql);
 
-        return $pdoStatement->fetchAll(PDO::FETCH_CLASS, Score::class);
+        $query->bindValue(":yearId",          $year,        PDO::PARAM_INT);
+        $query->bindValue(":raceId",          $raceId,      PDO::PARAM_INT);
+
+        $query->execute();
+
+        return $query->fetchAll(PDO::FETCH_CLASS, Score::class);
     }
 
     /**
@@ -103,7 +108,7 @@ class Score extends CoreGame {
      * @param int $raceId // L'id de la course
      * @return Score
      */
-    public function findForGeneral($year, $raceId, $playerId) {
+    static public function findForGeneral($year, $raceId, $playerId) {
 
         $pdo = Database::getPDO();
 
@@ -111,9 +116,9 @@ class Score extends CoreGame {
 
         $query = $pdo->prepare($sql);
 
-        $query->bindValue(":yearId",       $this->year_id,         PDO::PARAM_INT);
-        $query->bindValue(":raceId",       $this->race_id,         PDO::PARAM_INT);
-        $query->bindValue(":playerId",     $this->player_id,       PDO::PARAM_INT);
+        $query->bindValue(":yearId",       $year,           PDO::PARAM_INT);
+        $query->bindValue(":raceId",       $raceId,         PDO::PARAM_INT);
+        $query->bindValue(":playerId",     $playerId,       PDO::PARAM_INT);
 
         $query->execute();
 
