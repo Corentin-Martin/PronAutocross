@@ -1,6 +1,6 @@
-<h1>Vous jouez pour <?= $racesById[$raceId]->getName() .  ' - ' .$year ?></h1>
+<h1>Vous jouez pour <?= $race->getName() .  ' - ' . $race->getYearId() ?></h1>
 
-<form action="" method="get">
+<form action="" method="post">
 
     <?php foreach ($categories as $category) :
 
@@ -18,26 +18,26 @@
 
         <div class = "container">
 
-        <?php foreach ($entrylist[$category->getId()] as $listForCategory) : ?>
+        <?php foreach ($entrylist[$category->getId()] as $entry) : ?>
 
             
-            <label class="label" for="<?= $listForCategory->getDriverId() ?>">
+            <label class="label" for="<?= $entry['driver']->getId() ?>">
 
-                <input type="radio" class="radio" name="<?= $categoryToGet ?>" value="<?= $listForCategory->getDriverId() ?>" id="<?= $listForCategory->getDriverId() ?>" required>
+                <input type="radio" class="radio" name="<?= $categoryToGet ?>" value="<?= $entry['driver']->getId() ?>" id="<?= $entry['driver']->getId() ?>" required>
                 
                 <div class="card">
 
-                    <img class="card-img-top" src="<?= $baseURI . $driversById[$listForCategory->getDriverId()]->getPicture() ?>" alt="Card image cap">
+                    <img class="card-img-top" src="<?= $baseURI . $entry['driver']->getPicture() ?>" alt="Card image cap">
                     
                     <div class="card-body">
 
-                        <h3 class=""># <?= $driversById[$listForCategory->getDriverId()]->getNumber() ?></h3>
+                        <h3 class=""># <?= $entry['driver']->getNumber() ?></h3>
 
-                        <h2 class=""> <?= $driversById[$listForCategory->getDriverId()]->getFirstName() . " " . $driversById[$listForCategory->getDriverId()]->getLastName() ?></h2>
+                        <h2 class=""> <?= $entry['driver']->getFirstName() . " " . $entry['driver']->getLastName() ?></h2>
 
-                        <h4 class=""><?= $driversById[$listForCategory->getDriverId()]->getVehicle() ?></h4>
+                        <h4 class=""><?= $entry['driver']->getVehicle() ?></h4>
 
-                        <h5 class=""><?= $rates[$listForCategory->getDriverId()]->getOverall() ?></h5>
+                        <h5 class=""><?= $entry['rate'] ?></h5>
                     </div>
                 </div>
             </label>

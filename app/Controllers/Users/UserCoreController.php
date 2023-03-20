@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Users;
 
+use App\Controllers\CoreController;
 use App\Models\Category;
 use App\Models\EntryList;
 use App\Models\GeneralScore;

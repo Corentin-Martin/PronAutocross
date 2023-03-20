@@ -24,39 +24,46 @@ class Player extends CoreUser {
     public function getRole(){ return $this->role; }
     public function setRole($role): self { $this->role = $role; return $this; }
 
-    public function create($pseudo, $firstName, $lastName, $mail, $password, $picture = "", $role = "") {
-    $this->setPseudo($pseudo);
-    $this->setFirstName($firstName);
-    $this->setLastName($lastName);
-    $this->setMail($mail);
-    $this->setPassword($password);
-    $this->setPicture($picture);
-    $this->setRole($role);
+    public function createOrUpdate() {
+        $pdo = Database::getPDO();
 
-    $pdo = Database::getPDO();
+        if ($this->id > 0) {
+            $sql = "UPDATE player SET `pseudo` = :pseudo,  `firstName` = :firstName, `lastName` = :lastName, `mail` = :mail, `password` = :password, `picture` = :picture,`role` = :role WHERE id = :id";
+        } else {
+            $sql = "INSERT INTO player (`pseudo`, `firstName`, `lastName`, `mail`, `password`, `picture`, `role`) VALUES (
+                :pseudo, :firstName, :lastName, :mail, :password, :picture, :role)";
+        }
 
-    $sql = "INSERT INTO player (`pseudo`, `firstName`, `lastName`, `mail`, `password`, `picture`, `role`) VALUES (
-        '{$this->getPseudo()}',
-        '{$this->getFirstName()}',
-        '{$this->getLastName()}',
-        '{$this->getMail()}',
-        '{$this->getPassword()}',
-        '{$this->getPicture()}',
-        '{$this->getRole()}')";
+        $query = $pdo->prepare($sql);
 
-    return $pdoStatement = $pdo->exec($sql);
+        $query->bindValue(":pseudo",        $this->pseudo,          PDO::PARAM_STR);
+        $query->bindValue(":firstName",        $this->firstName,          PDO::PARAM_STR);
+        $query->bindValue(":lastName",        $this->lastName,          PDO::PARAM_STR);
+        $query->bindValue(":mail",        $this->mail,          PDO::PARAM_STR);
+        $query->bindValue(":password",        $this->password,          PDO::PARAM_STR);
+        $query->bindValue(":picture",        $this->picture,          PDO::PARAM_STR);
+        $query->bindValue(":role",        $this->role,          PDO::PARAM_STR);
+
+        if ($this->id > 0) {
+
+            $query->bindValue(":id",            $this->id,              PDO::PARAM_INT);
+    
+        }
+
+        $query->execute();
+
+        if ($query->rowCount() === 1) {
+
+            if (is_null($this->id)) {
+    
+                $this->id = $pdo->lastInsertId();
+            }
+                return true;
+    
+            } else {
+                return false;
+            }
     }
-
-    public function createComplet($pseudo, $firstName, $lastName, $mail, $password, $picture = "", $role = "") {
-
-        $this->create($pseudo, $firstName, $lastName, $mail, $password, $picture = "", $role = "");
-
-        $player = $this->findByPseudo($this->getPseudo());
-
-        $makeGeneral = GeneralScore::createGeneral($player->getId(), 2023);
-
-    }
-
 
     public function findByPseudo($pseudo) {
         $pdo = Database::getPDO();
@@ -66,8 +73,6 @@ class Player extends CoreUser {
 
         return $pdoStatement->fetchObject(Player::class);
     }
-
-
 
 }
 
