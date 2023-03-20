@@ -8,7 +8,7 @@
             
             <ul class="dropdown-menu">
             <?php foreach ($categoriesById as $category) : ?>
-                <li><a class="dropdown-item" href="<?= $router->generate('driver-list', ['categoryId' => $category->getId(), 'action' => $action]) ?>"><?= $category->getName() ?></a></li>
+                <li><a class="dropdown-item" href="<?= $this->router->generate('driver-list', ['categoryId' => $category->getId(), 'action' => $action]) ?>"><?= $category->getName() ?></a></li>
             <?php endforeach; ?>
             </ul>
         </div>
@@ -19,12 +19,12 @@
             
             <ul class="dropdown-menu">
 
-                <li><a class="dropdown-item" href="<?= $router->generate('driver-list', ['categoryId' => $categoryId, 'action' => 'id']) ?>">Id</a></li>
-                <li><a class="dropdown-item" href="<?= $router->generate('driver-list', ['categoryId' => $categoryId, 'action' => 'firstName']) ?>">Prénom</a></li>
-                <li><a class="dropdown-item" href="<?= $router->generate('driver-list', ['categoryId' => $categoryId, 'action' => 'lastName']) ?>">Nom de famille</a></li>
-                <li><a class="dropdown-item" href="<?= $router->generate('driver-list', ['categoryId' => $categoryId, 'action' => 'number']) ?>">Numéro</a></li>
-                <li><a class="dropdown-item" href="<?= $router->generate('driver-list', ['categoryId' => $categoryId, 'action' => 'vehicle']) ?>">Véhicule</a></li>
-                <li><a class="dropdown-item" href="<?= $router->generate('driver-list', ['categoryId' => $categoryId, 'action' => 'status']) ?>">Statut</a></li>
+                <li><a class="dropdown-item" href="<?= $this->router->generate('driver-list', ['categoryId' => $categoryId, 'action' => 'id']) ?>">Id</a></li>
+                <li><a class="dropdown-item" href="<?= $this->router->generate('driver-list', ['categoryId' => $categoryId, 'action' => 'firstName']) ?>">Prénom</a></li>
+                <li><a class="dropdown-item" href="<?= $this->router->generate('driver-list', ['categoryId' => $categoryId, 'action' => 'lastName']) ?>">Nom de famille</a></li>
+                <li><a class="dropdown-item" href="<?= $this->router->generate('driver-list', ['categoryId' => $categoryId, 'action' => 'number']) ?>">Numéro</a></li>
+                <li><a class="dropdown-item" href="<?= $this->router->generate('driver-list', ['categoryId' => $categoryId, 'action' => 'vehicle']) ?>">Véhicule</a></li>
+                <li><a class="dropdown-item" href="<?= $this->router->generate('driver-list', ['categoryId' => $categoryId, 'action' => 'status']) ?>">Statut</a></li>
 
             </ul>
     </div>
@@ -63,7 +63,7 @@
         <div class="dropdown">
             <button class="btn btn-outline-warning dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Editer</button>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="<?= $router->generate('driver-edit', ['id' => $driver->getId()]) ?>">Editer la fiche pilote</a></li>
+                    <li><a class="dropdown-item" href="<?= $this->router->generate('driver-edit', ['id' => $driver->getId()]) ?>">Editer la fiche pilote</a></li>
                     <li><a class="dropdown-item" href="TODO">Editer la cote</a></li>
                 </ul>
         </div>
@@ -75,7 +75,7 @@
             </button>
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="">Non</a></li>
-                <li><a class="dropdown-item" href="<?= $router->generate('driver-delete', ['id' => $driver->getId()]) ?>">Confirmer la suppression</a></li>
+                <li><a class="dropdown-item" href="<?= $this->router->generate('driver-delete', ['id' => $driver->getId()]) ?>">Confirmer la suppression</a></li>
             </ul>
         </div>
     </td>
@@ -88,7 +88,7 @@
 
 
     <div>
-        <a type="button" class="btn btn-warning btn-lg"  href="<?= $router->generate('driver-home') ?>">Retour</a>
+        <a type="button" class="btn btn-warning btn-lg"  href="<?= $this->router->generate('driver-home') ?>">Retour</a>
     </div>
 
 

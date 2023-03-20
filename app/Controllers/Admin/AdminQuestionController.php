@@ -77,16 +77,14 @@ class AdminQuestionController extends AdminCoreController
             }
             
             if ($questionnaire->createOrUpdate('questions')) {
-                global $router;
-                header("Location: {$router->generate('question-list', ['year' => $year])}");
+                header("Location: {$this->router->generate('question-list', ['year' => $year])}");
                 exit; 
             } else {
                 echo "<p> ERREUR </p>";
             }
     
         } else {
-            global $router;
-            header("Location: {$router->generate('question-home')}");
+            header("Location: {$this->router->generate('question-home')}");
             exit; 
         }
     }
@@ -125,9 +123,7 @@ class AdminQuestionController extends AdminCoreController
 
         if ($questions->delete()) {
     
-            global $router;
-
-            header("Location: {$router->generate('question-list', ['year' => $year])}");
+            header("Location: {$this->router->generate('question-list', ['year' => $year])}");
             exit;
 
         } else {

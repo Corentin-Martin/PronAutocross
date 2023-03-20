@@ -5,17 +5,17 @@
     <div class="admin__home__container_div">
         <div class="admin__home__container__div__title">
             <h3>
-                <a href="<?= $router->generate('question-home') ?>">Questions</a>
+                <a href="<?= $this->router->generate('question-home') ?>">Questions</a>
             </h3>
         </div>
     
         <div class="admin__home__container__div__menu">
             <ul>
                 <li>
-                    <a href="<?= $router->generate('question-list', ['year' => 2023]) ?>">Parcourir les questionnaires</a>
+                    <a href="<?= $this->router->generate('question-list', ['year' => 2023]) ?>">Parcourir les questionnaires</a>
                 </li>
                 <li>
-                    <a href="<?= $router->generate('question-add', ['year' => 2023]) ?>">Générer un questionnaire</a>
+                    <a href="<?= $this->router->generate('question-add', ['year' => 2023]) ?>">Générer un questionnaire</a>
                 </li>
             </ul>
         </div>
@@ -25,16 +25,16 @@
 
         <div class="admin__home__container__div__title">
             <h3>
-                <a href="<?= $router->generate('entrylist-home') ?>">Liste des engagés</a>
+                <a href="<?= $this->router->generate('entrylist-home') ?>">Liste des engagés</a>
             </h3>
         </div>
         <div class="admin__home__container__div__menu">
             <ul>
                 <li>
-                    <a href="<?= $router->generate('entrylist-list', ['year' => 2023, 'id' => 1]) ?>">Parcourir une liste des engagés</a>
+                    <a href="<?= $this->router->generate('entrylist-list', ['year' => 2023, 'id' => 1]) ?>">Parcourir une liste des engagés</a>
                 </li>
                 <li>
-                    <a href="<?= $router->generate('entrylist-add') ?>">Générer une liste des engagés</a>
+                    <a href="<?= $this->router->generate('entrylist-add') ?>">Générer une liste des engagés</a>
                 </li>
             </ul>
         </div>
@@ -44,17 +44,17 @@
     <div class="admin__home__container_div">
         <div class="admin__home__container__div__title">
             <h3>
-                <a href="<?= $router->generate('verification-home') ?>">Vérifications</a>
+                <a href="<?= $this->router->generate('verification-home') ?>">Vérifications</a>
             </h3>
         </div>
 
         <div class="admin__home__container__div__menu">
             <ul>
                 <li>
-                    <a href="<?= $router->generate('verification-list', ['year' => 2023]) ?>">Parcourir les Vérifications</a>
+                    <a href="<?= $this->router->generate('verification-list', ['year' => 2023]) ?>">Parcourir les Vérifications</a>
                 </li>
                 <li>
-                    <a href="<?= $router->generate('verification-add', ['year' => 2023, 'raceId' => 1]) ?>">Créer une vérification</a>
+                    <a href="<?= $this->router->generate('verification-add', ['year' => 2023, 'raceId' => 1]) ?>">Créer une vérification</a>
                 </li>
             </ul>
         </div>
@@ -64,20 +64,20 @@
 
         <div class="admin__home__container__div__title">
             <h3>
-                <a href="<?= $router->generate('driver-home') ?>">Pilotes</a>
+                <a href="<?= $this->router->generate('driver-home') ?>">Pilotes</a>
             </h3>
         </div>
 
         <div class="admin__home__container__div__menu">
             <ul>
                 <li>
-                    <a href="<?= $router->generate('driver-list', ['categoryId' => 1, 'action' => 'number']) ?>">Parcourir les pilotes</a>
+                    <a href="<?= $this->router->generate('driver-list', ['categoryId' => 1, 'action' => 'number']) ?>">Parcourir les pilotes</a>
                 </li>
                 <li>
-                    <a href="<?= $router->generate('driver-add') ?>">Ajouter un pilote</a>
+                    <a href="<?= $this->router->generate('driver-add') ?>">Ajouter un pilote</a>
                 </li>
                 <li>
-                    <a href="<?= $router->generate('rate-edit', ['id' => 1]) ?>">Mettre à jour les cotes</a>
+                    <a href="<?= $this->router->generate('rate-edit', ['id' => 1]) ?>">Mettre à jour les cotes</a>
                 </li>
             </ul>
         </div>
@@ -87,16 +87,16 @@
         
         <div class="admin__home__container__div__title">
             <h3>
-                <a href="<?= $router->generate('category-list') ?>">Catégories</a>
+                <a href="<?= $this->router->generate('category-list') ?>">Catégories</a>
             </h3>
         </div>
         <div class="admin__home__container__div__menu">
             <ul>
                 <li>
-                    <a href="<?= $router->generate('category-list')?>">Liste des catégories</a>
+                    <a href="<?= $this->router->generate('category-list')?>">Liste des catégories</a>
                 </li>
                 <li>
-                    <a href="<?= $router->generate('category-add')?>">Créer une catégorie</a>
+                    <a href="<?= $this->router->generate('category-add')?>">Créer une catégorie</a>
                 </li>
             </ul>
         </div>
@@ -108,17 +108,17 @@
     <div class="admin__home__container_div"> 
         <div class="admin__home__container__div__title">
             <h3>
-                <a href="<?= $router->generate('race-home') ?>">Courses</a>
+                <a href="<?= $this->router->generate('race-home') ?>">Courses</a>
             </h3>
         </div>
 
         <div class="admin__home__container__div__menu">
             <ul>
                 <li>
-                    <a href="<?= $router->generate('race-list', ['year' => 2023]) ?>">Parcourir les épreuves</a>
+                    <a href="<?= $this->router->generate('race-list', ['year' => 2023]) ?>">Parcourir les épreuves</a>
                 </li>
                 <li>
-                    <a href="<?= $router->generate('race-add') ?>">Créer une épreuve</a>
+                    <a href="<?= $this->router->generate('race-add') ?>">Créer une épreuve</a>
                 </li>
             </ul>
         </div>
@@ -138,5 +138,5 @@
 </div>
 
 <div>
-    <a type="button" class="btn btn-warning btn-lg"  href="<?= $router->generate('home') ?>">RETOUR AU SITE GENERAL</a>
+    <a type="button" class="btn btn-warning btn-lg"  href="<?= $this->router->generate('home') ?>">RETOUR AU SITE GENERAL</a>
 </div>

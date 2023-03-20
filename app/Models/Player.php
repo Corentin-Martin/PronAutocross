@@ -65,6 +65,25 @@ class Player extends CoreUser {
             }
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return Player
+     */
+    static public function findByMail($mail) {
+        $pdo = Database::getPDO();
+
+        $sql = "SELECT * FROM `player` WHERE mail = :mail";
+
+        $query = $pdo->prepare($sql);
+
+        $query->bindValue(":mail",        $mail,          PDO::PARAM_STR);
+
+        $query->execute();
+
+        return $query->fetchObject(Player::class);
+    }
+
     public function findByPseudo($pseudo) {
         $pdo = Database::getPDO();
 

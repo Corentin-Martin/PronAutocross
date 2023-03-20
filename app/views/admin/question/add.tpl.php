@@ -59,7 +59,7 @@
     
 
     <div>
-        <a type="button" class="btn btn-warning btn-lg"  href="<?= $router->generate('question-home') ?>">Retour</a>
+        <a type="button" class="btn btn-warning btn-lg"  href="<?= $this->router->generate('question-home') ?>">Retour</a>
     </div>
 
 

@@ -44,6 +44,36 @@ $router->map(
     'user-update'
 );
 
+$router->map(
+    'GET',
+    '/user/login',
+    [
+    'controller' => UserLogController::class,
+    'method' => 'login'
+    ],
+    'user-login'
+);
+
+$router->map(
+    'POST',
+    '/user/login',
+    [
+    'controller' => UserLogController::class,
+    'method' => 'connexion'
+    ],
+    'user-connexion'
+);
+
+$router->map(
+    'GET',
+    '/user/logout',
+    [
+    'controller' => UserLogController::class,
+    'method' => 'logout'
+    ],
+    'user-logout'
+);
+
 // PARTICIPATION
 $router->map(
     'GET',

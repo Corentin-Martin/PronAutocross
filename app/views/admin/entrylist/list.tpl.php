@@ -8,7 +8,7 @@
             
             <ul class="dropdown-menu">
             <?php foreach ($years as $year) : ?>
-                <li><a class="dropdown-item" href="<?= $router->generate('entrylist-list', ['year' => $year->getId(), 'id' => 1]) ?>"><?= $year->getId() ?></a></li>
+                <li><a class="dropdown-item" href="<?= $this->router->generate('entrylist-list', ['year' => $year->getId(), 'id' => 1]) ?>"><?= $year->getId() ?></a></li>
             <?php endforeach; ?>
             </ul>
         </div>
@@ -19,7 +19,7 @@
             
             <ul class="dropdown-menu">
             <?php foreach ($races as $race) : ?>
-                <li><a class="dropdown-item" href="<?= $router->generate('entrylist-list', ['year' => $currentYear, 'id' => $race->getId()]) ?>"><?= $race->getName() ?></a></li>
+                <li><a class="dropdown-item" href="<?= $this->router->generate('entrylist-list', ['year' => $currentYear, 'id' => $race->getId()]) ?>"><?= $race->getName() ?></a></li>
             <?php endforeach; ?>
             </ul>
     </div>
@@ -38,7 +38,7 @@
             </button>
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="">Non</a></li>
-                <li><a class="dropdown-item" href="<?= $router->generate('entrylist-deletelist', ['year' => $currentYear, 'id' => $raceId]) ?>">Confirmer la suppression</a></li>
+                <li><a class="dropdown-item" href="<?= $this->router->generate('entrylist-deletelist', ['year' => $currentYear, 'id' => $raceId]) ?>">Confirmer la suppression</a></li>
             </ul>
         </div>
         <?php endif; ?>
@@ -68,7 +68,7 @@
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="">Non</a></li>
-                                <li><a class="dropdown-item" href="<?= $router->generate('entrylist-deleteentry', ['id' => $entry->getId()]) ?>">Confirmer la suppression</a></li>
+                                <li><a class="dropdown-item" href="<?= $this->router->generate('entrylist-deleteentry', ['id' => $entry->getId()]) ?>">Confirmer la suppression</a></li>
                             </ul>
                         </div>
                     </td>
@@ -80,7 +80,7 @@
 
 
     <div>
-        <a type="button" class="btn btn-warning btn-lg"  href="<?= $router->generate('entrylist-home') ?>">Retour</a>
+        <a type="button" class="btn btn-warning btn-lg"  href="<?= $this->router->generate('entrylist-home') ?>">Retour</a>
     </div>
 
 

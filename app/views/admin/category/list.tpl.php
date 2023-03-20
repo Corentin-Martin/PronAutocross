@@ -25,7 +25,7 @@
                     <td><?= $category->getName() ?></td>
                     <td><?= $category->getRunningOrder() ?></td>
                     <td>
-                        <a type="button" class="btn btn-outline-warning" href="<?= $router->generate('category-edit', ['id' => $category->getId()]) ?>">Modifier</a>
+                        <a type="button" class="btn btn-outline-warning" href="<?= $this->router->generate('category-edit', ['id' => $category->getId()]) ?>">Modifier</a>
                     </td>
                     <td>
                         <div class="dropdown">
@@ -34,7 +34,7 @@
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="">Non</a></li>
-                                <li><a class="dropdown-item" href="<?= $router->generate('category-delete', ['id' => $category->getId()]) ?>">Confirmer la suppression</a></li>
+                                <li><a class="dropdown-item" href="<?= $this->router->generate('category-delete', ['id' => $category->getId()]) ?>">Confirmer la suppression</a></li>
                             </ul>
                         </div>
                     </td>
@@ -47,11 +47,11 @@
     </div>
     
     <div>
-        <a type="button" class="btn btn-dark btn-lg" href="<?= $router->generate('category-add')?>">AJOUTER UNE CATEGORIE</a>
+        <a type="button" class="btn btn-dark btn-lg" href="<?= $this->router->generate('category-add')?>">AJOUTER UNE CATEGORIE</a>
     </div>
 
     <div>
-        <a type="button" class="btn btn-warning btn-lg"  href="<?= $router->generate('admin') ?>">RETOUR AU TABLEAU DE BORD GENERAL</a>
+        <a type="button" class="btn btn-warning btn-lg"  href="<?= $this->router->generate('admin') ?>">RETOUR AU TABLEAU DE BORD GENERAL</a>
     </div>
 
 

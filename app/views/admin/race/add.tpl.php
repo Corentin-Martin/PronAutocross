@@ -50,7 +50,7 @@
     
 
     <div>
-        <a type="button" class="btn btn-warning btn-lg"  href="<?= $router->generate('race-home') ?>">RETOUR</a>
+        <a type="button" class="btn btn-warning btn-lg"  href="<?= $this->router->generate('race-home') ?>">RETOUR</a>
     </div>
 
 

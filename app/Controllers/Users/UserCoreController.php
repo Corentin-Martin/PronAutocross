@@ -58,8 +58,7 @@ class UserCoreController extends CoreController
         $participation = $participationModel->play($playerId, $maxiSprint,$tourismeCup,$sprintGirls,$buggyCup, $juniorSprint, $maxiTourisme, $buggy1600, $superSprint, $superBuggy, $bonus1, $bonus2, $raceId, $year);
         
         if ($participation === 1) {
-            global $router;
-            header("Location: {$router->generate('recap')}");
+            header("Location: {$this->router->generate('recap')}");
             exit; 
         } else {
             echo "<p> Erreur !!! </p>";

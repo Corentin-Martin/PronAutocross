@@ -46,7 +46,7 @@
                     <td><?= $question->getBonus1() ?></td>
                     <td><?= $question->getBonus2() ?></td>
                     <td>
-                        <a type="button" class="btn btn-outline-warning" href="<?= $router->generate('question-edit', ['year' => $currentYear,'id' => $question->getId()]) ?>">Modifier</a>
+                        <a type="button" class="btn btn-outline-warning" href="<?= $this->router->generate('question-edit', ['year' => $currentYear,'id' => $question->getId()]) ?>">Modifier</a>
                     </td>
                     <td>
                         <div class="dropdown">
@@ -55,7 +55,7 @@
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="">Non</a></li>
-                                <li><a class="dropdown-item" href="<?= $router->generate('question-delete', ['id' => $question->getId()]) ?>">Confirmer la suppression</a></li>
+                                <li><a class="dropdown-item" href="<?= $this->router->generate('question-delete', ['id' => $question->getId()]) ?>">Confirmer la suppression</a></li>
                             </ul>
                         </div>
                     </td>
@@ -69,7 +69,7 @@
     
 
     <div>
-        <a type="button" class="btn btn-warning btn-lg"  href="<?= $router->generate('question-home') ?>">Retour</a>
+        <a type="button" class="btn btn-warning btn-lg"  href="<?= $this->router->generate('question-home') ?>">Retour</a>
     </div>
 
 

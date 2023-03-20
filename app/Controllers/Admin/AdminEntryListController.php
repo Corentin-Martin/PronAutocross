@@ -49,12 +49,10 @@ class AdminEntryListController extends AdminCoreController
                     $newEntry->create();
                 }
             }
-            global $router;
-            header("Location: {$router->generate('entrylist-home')}");
+            header("Location: {$this->router->generate('entrylist-home')}");
             exit;
         } else {
-            global $router;
-            header("Location: {$router->generate('entrylist-home')}");
+            header("Location: {$this->router->generate('entrylist-home')}");
             exit; 
         }
     }
@@ -65,8 +63,7 @@ class AdminEntryListController extends AdminCoreController
 
         if ($entries->deleteList($year, $raceId)) {
 
-            global $router; 
-            header("Location:  {$router->generate('entrylist-home')}");
+            header("Location:  {$this->router->generate('entrylist-home')}");
             exit;
 
         } else {
@@ -83,8 +80,7 @@ class AdminEntryListController extends AdminCoreController
 
         if ($entry->delete()) {
 
-            global $router;
-            header("Location:  {$router->generate('entrylist-list', ['year' => $year, 'id' => $race])}");
+            header("Location:  {$this->router->generate('entrylist-list', ['year' => $year, 'id' => $race])}");
             exit;
 
         } else {

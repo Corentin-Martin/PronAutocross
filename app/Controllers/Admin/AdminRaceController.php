@@ -56,8 +56,7 @@ class AdminRaceController extends AdminCoreController
 
 
             if ($race->createOrUpdate()) {
-                global $router;
-                header("Location: {$router->generate('race-list', ['year' => $year])}");
+                header("Location: {$this->router->generate('race-list', ['year' => $year])}");
                 exit; 
             } else {
                 echo "<p> Erreur, épreuve non ajoutée </p>";
@@ -84,10 +83,8 @@ class AdminRaceController extends AdminCoreController
         $year = $race->getYearId();
 
         if ($race->delete()) {
-    
-            global $router;
 
-            header("Location: {$router->generate('race-list', ['year' => $year])}");
+            header("Location: {$this->router->generate('race-list', ['year' => $year])}");
             exit;
 
         } else {

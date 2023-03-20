@@ -38,14 +38,12 @@ class AdminCategoryController extends AdminCoreController
             }
 
             if ($category->createOrUpdate()) {
-                global $router;
-                header("Location: {$router->generate('category-list')}");
+                header("Location: {$this->router->generate('category-list')}");
             } else {
                 exit("erreur");
             }
         } else {
-            global $router;
-            header("Location: {$router->generate('category-list')}");
+            header("Location: {$this->router->generate('category-list')}");
             exit; 
         }
         
@@ -63,10 +61,8 @@ class AdminCategoryController extends AdminCoreController
         $category = Category::find($id);
 
         if ($category->delete()) {
-    
-            global $router;
 
-            header("Location: {$router->generate('category-list')}");
+            header("Location: {$this->router->generate('category-list')}");
             exit;
 
         } else {

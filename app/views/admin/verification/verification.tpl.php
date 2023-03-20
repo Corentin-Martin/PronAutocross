@@ -26,7 +26,7 @@
     </div>
 
     <div>
-        <a type="button" class="btn btn-info btn-lg"  href="<?= $router->generate('verification-edit', ['raceId' => $verification->getRaceId()]) ?>">Je veux éditer cette vérification</a>
+        <a type="button" class="btn btn-info btn-lg"  href="<?= $this->router->generate('verification-edit', ['raceId' => $verification->getRaceId()]) ?>">Je veux éditer cette vérification</a>
     </div>
 
     <div>
@@ -38,7 +38,7 @@
     </div>
     
     <div>
-        <a type="button" class="btn btn-warning btn-lg"  href="<?= $router->generate('verification-home') ?>">Retour</a>
+        <a type="button" class="btn btn-warning btn-lg"  href="<?= $this->router->generate('verification-home') ?>">Retour</a>
     </div>
 
 </div>

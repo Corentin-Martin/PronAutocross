@@ -37,7 +37,7 @@
                     <td><?= $race->getDate() ?></td>
                     <td><img src="<?= $baseURI . $race->getPoster() ?>" alt="" class="picture-driver"></td>
                         <td>
-                            <a type="button" class="btn btn-outline-warning" href="<?= $router->generate('race-edit', ['id' => $race->getId()]) ?>">Modifier</a>
+                            <a type="button" class="btn btn-outline-warning" href="<?= $this->router->generate('race-edit', ['id' => $race->getId()]) ?>">Modifier</a>
                     </td>
                     <td>
                         <div class="dropdown">
@@ -46,7 +46,7 @@
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="">Non</a></li>
-                                <li><a class="dropdown-item" href="<?= $router->generate('race-delete', ['id' => $race->getId()]) ?>">Confirmer la suppression</a></li>
+                                <li><a class="dropdown-item" href="<?= $this->router->generate('race-delete', ['id' => $race->getId()]) ?>">Confirmer la suppression</a></li>
                             </ul>
                         </div>
                     </td>
@@ -60,7 +60,7 @@
     
 
     <div>
-        <a type="button" class="btn btn-warning btn-lg"  href="<?= $router->generate('race-home') ?>">Retour</a>
+        <a type="button" class="btn btn-warning btn-lg"  href="<?= $this->router->generate('race-home') ?>">Retour</a>
     </div>
 
 

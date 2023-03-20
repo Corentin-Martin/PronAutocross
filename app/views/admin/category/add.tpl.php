@@ -35,7 +35,7 @@
     
 
     <div>
-        <a type="button" class="btn btn-warning btn-lg"  href="<?= $router->generate('category-list') ?>">RETOUR</a>
+        <a type="button" class="btn btn-warning btn-lg"  href="<?= $this->router->generate('category-list') ?>">RETOUR</a>
     </div>
 
 

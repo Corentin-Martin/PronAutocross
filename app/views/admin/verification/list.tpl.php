@@ -44,7 +44,7 @@
                     <td><?= $verification->getBonus1()?></td>
                     <td><?= $verification->getBonus2() ?></td>
                     <td>
-                        <a type="button" class="btn btn-outline-warning" href="<?= $router->generate('verification-edit', ['raceId' => $verification->getRaceId()]) ?>">Modifier</a>
+                        <a type="button" class="btn btn-outline-warning" href="<?= $this->router->generate('verification-edit', ['raceId' => $verification->getRaceId()]) ?>">Modifier</a>
                     </td>
                     <td>
                         <div class="dropdown">
@@ -53,7 +53,7 @@
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="">Non</a></li>
-                                <li><a class="dropdown-item" href="<?= $router->generate('verification-delete', ['id' => $verification->getId()]) ?>">Confirmer la suppression</a></li>
+                                <li><a class="dropdown-item" href="<?= $this->router->generate('verification-delete', ['id' => $verification->getId()]) ?>">Confirmer la suppression</a></li>
                             </ul>
                         </div>
                     </td>
@@ -69,7 +69,7 @@
     
 
     <div>
-        <a type="button" class="btn btn-warning btn-lg"  href="<?= $router->generate('verification-home') ?>">RETOUR</a>
+        <a type="button" class="btn btn-warning btn-lg"  href="<?= $this->router->generate('verification-home') ?>">RETOUR</a>
     </div>
 
 

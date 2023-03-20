@@ -59,9 +59,7 @@ class AdminRateController extends AdminCoreController
 
     }
 
-    global $router;
-
-    header("Location: {$router->generate('driver-list', ['categoryId' => 1, 'action' => 'number'])}");
+    header("Location: {$this->router->generate('driver-list', ['categoryId' => 1, 'action' => 'number'])}");
     exit;
     }
 

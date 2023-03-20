@@ -85,16 +85,14 @@ class AdminDriverController extends AdminCoreController
                     $rate->setYearId(date('Y'));
 
                     if ($rate->createOrUpdate()) {
-                        global $router;
-                        header("Location: {$router->generate('driver-list', ['categoryId' => $categoryId, 'action' => 'number'])}");
+                        header("Location: {$this->router->generate('driver-list', ['categoryId' => $categoryId, 'action' => 'number'])}");
                         exit; 
                     } else {
                         echo "Erreur";
                         exit;
                     }
                 } else {
-                    global $router;
-                    header("Location: {$router->generate('driver-list', ['categoryId' => $categoryId, 'action' => 'number'])}");
+                    header("Location: {$this->router->generate('driver-list', ['categoryId' => $categoryId, 'action' => 'number'])}");
                     exit; 
                 }
                 
@@ -104,8 +102,7 @@ class AdminDriverController extends AdminCoreController
             }
 
         } else {
-            global $router;
-            header("Location: {$router->generate('driver-home')}");
+            header("Location: {$this->router->generate('driver-home')}");
             exit; 
         }
     }
@@ -119,10 +116,8 @@ class AdminDriverController extends AdminCoreController
         $categoryId = $driver->getCategoryId();
 
         if ($driver->delete()) {
-    
-            global $router;
 
-            header("Location: {$router->generate('driver-list', ['categoryId' => $categoryId, 'action' => 'id'])}");
+            header("Location: {$this->router->generate('driver-list', ['categoryId' => $categoryId, 'action' => 'id'])}");
             exit;
 
         } else {

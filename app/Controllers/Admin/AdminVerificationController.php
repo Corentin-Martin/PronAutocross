@@ -27,12 +27,6 @@ class AdminVerificationController extends AdminCoreController
         }
         $questions = Questions::findQuestionsByRaceAndYear(date('Y'), $raceId);
 
-        // if ($questions === false) {
-        //     global $router;
-        //     header("Location: {$router->generate('verification-home')}");
-        //     exit;
-        // }
-
         $races = Race::findByYear(date('Y'));
 
         $racesById = [];
@@ -110,9 +104,7 @@ class AdminVerificationController extends AdminCoreController
 
         if ($verif) {
 
-            global $router;
-
-            header("Location: {$router->generate('verification-validation', ['id' => $verification->getId()])}");
+            header("Location: {$this->router->generate('verification-validation', ['id' => $verification->getId()])}");
             exit;
 
         } else {
@@ -229,54 +221,11 @@ class AdminVerificationController extends AdminCoreController
                 }
             }
 
-            global $router;
-
-            header("Location: {$router->generate('results', ['year' => $yearId, 'id' => $raceId])}");
+            header("Location: {$this->router->generate('results', ['year' => $yearId, 'id' => $raceId])}");
             exit;
             
         }
     }
-
-    // public function edit($id) {
-
-    //     $verification = Verification::find($id);
-
-    //     $years = Year::findAll();
-
-    //     $races = Race::findByYear($verification->getYearId());
-
-    //     $racesById = [];
-    //     foreach ($races as $race) {
-    //         $racesById[$race->getId()] = $race;
-    //     }
-
-
-    //     $categories = Category::findAll();
-
-    //     $categoriesOnDB = [];
-    //     foreach ($categories as $category) {
-    //         $categoriesOnDB[$category->getId()] = str_replace(" ", "", $category->getName());
-    //     }
-
-    //     $entryList = [];
-    //     foreach ($categories as $category) {
-    //         $entryList[$category->getId()] = EntryList::listByRaceAndCategory($verification->getYearId(), $verification->getRaceId(), $category->getId());
-    //     }
-
-    //     $drivers = Driver::findAll();
-    //     $driversById = [];
-    //     foreach ($drivers as $driver) {
-    //         $driversById[$driver->getId()] = $driver;
-    //     }
-
-
-
-    //     $questions = Questions::findQuestionsByRaceAndYear($verification->getYearId(), $verification->getRaceId());
-
-    //     $this->show('admin/verification/add', ['years' => $years, 'racesById' => $racesById, 'entryList' => $entryList, 'categories' => $categories, 'categoriesOnDB' => $categoriesOnDB, 'driversById' => $driversById, 'currentYear' => $verification->getYearId(), 'currentRace' => $verification->getRaceId(), 'questions' => $questions, 'verification' => $verification]);
-
-    
-    // }
 
     public function update($raceId) {
 
@@ -316,9 +265,7 @@ class AdminVerificationController extends AdminCoreController
     
             if ($update) {
     
-                global $router;
-    
-                header("Location: {$router->generate('verification-validation', ['id' => $verification->getId()])}");
+                header("Location: {$this->router->generate('verification-validation', ['id' => $verification->getId()])}");
                 exit;
     
             } else {
@@ -361,10 +308,8 @@ class AdminVerificationController extends AdminCoreController
         $year = $verification->getYearId();
 
         if ($verification->delete()) {
-    
-            global $router;
 
-            header("Location: {$router->generate('verification-list', ['year' => $year])}");
+            header("Location: {$this->router->generate('verification-list', ['year' => $year])}");
             exit;
 
         } else {

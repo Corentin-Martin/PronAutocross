@@ -13,7 +13,7 @@
             
             <ul class="dropdown-menu">
                 <?php foreach ($racesById as $race) : ?>
-                    <li><a class="dropdown-item" href="<?= $router->generate('verification-adding', ['raceId' => $race->getId()]) ?>"><?= $race->getName() ?></a></li>
+                    <li><a class="dropdown-item" href="<?= $this->router->generate('verification-adding', ['raceId' => $race->getId()]) ?>"><?= $race->getName() ?></a></li>
                 <?php endforeach; ?>
             </ul>
     </div>
@@ -88,7 +88,7 @@
     </div>
     
     <div>
-        <a type="button" class="btn btn-warning btn-lg"  href="<?= $router->generate('verification-home') ?>">Retour</a>
+        <a type="button" class="btn btn-warning btn-lg"  href="<?= $this->router->generate('verification-home') ?>">Retour</a>
     </div>
 
 </div>

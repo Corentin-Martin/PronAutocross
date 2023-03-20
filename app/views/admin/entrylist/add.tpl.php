@@ -75,7 +75,7 @@
     </div>
 
     <div>
-        <a type="button" class="btn btn-warning btn-lg"  href="<?= $router->generate('entrylist-home') ?>">Retour</a>
+        <a type="button" class="btn btn-warning btn-lg"  href="<?= $this->router->generate('entrylist-home') ?>">Retour</a>
     </div>
 
 </div>

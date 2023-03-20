@@ -49,8 +49,6 @@ class UserLogController extends UserCoreController
             } else {
                 $player = new Player();
             }
-
-
     
             $player->setPseudo($pseudo);
             $player->setFirstName($firstname);
@@ -84,5 +82,56 @@ class UserLogController extends UserCoreController
 
         $this->show('user/inscription', ["errorList" => $errorList, 'player' => null]);
 
+    }
+
+    public function login() {
+
+        $this->show('user/login');
+    }
+
+    public function connexion() {
+
+        $mail = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+        $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_SPECIAL_CHARS);
+
+        $errorList = [];
+
+        if ($mail === null || $mail === false || $password === null || $password === false || strlen($password) < 8) {
+            $errorList[] = "Identifiants incorrects";
+        }
+
+        if (empty($errorList)){
+
+          $user = Player::findByMail($mail);
+  
+          if ($user === false){
+
+            $errorList[] = "Identifiants incorrects";
+
+          } else {
+
+            if( password_verify( $password, $user->getPassword() ) )
+            {
+
+              $_SESSION['user'] = $user;
+  
+              header( "Location: {$this->router->generate('home')}" );
+              exit();
+            }
+            else 
+            {
+              $errorList[] = "Identifiants incorrects";
+            }          
+          }        
+        }
+
+        $this->show('user/login', ['errorList' => $errorList]);
+    }
+
+    public function logout() {
+        unset($_SESSION['user']);
+
+        header( "Location: {$this->router->generate('home')}" );
+        exit();
     }
 }
