@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\Users\UserCoreController;
 use App\Controllers\Users\UserLogController;
 use App\Controllers\Users\UserParticipationController;
 
@@ -72,6 +73,16 @@ $router->map(
     'method' => 'logout'
     ],
     'user-logout'
+);
+
+$router->map(
+    'GET',
+    '/user/dashboard',
+    [
+    'controller' => UserCoreController::class,
+    'method' => 'dashboard'
+    ],
+    'user-dashboard'
 );
 
 // PARTICIPATION

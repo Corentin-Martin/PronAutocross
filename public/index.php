@@ -18,6 +18,6 @@ $match = $router->match();
 
 $dispatcher = new Dispatcher($match, 'App\Controllers\ErrorController::error404');
 
-$dispatcher->setControllersArguments($router, $match);
+$dispatcher->setControllersArguments($router, $match, $dispatcher);
 
 $dispatcher->dispatch();

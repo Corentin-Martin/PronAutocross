@@ -131,7 +131,7 @@ class Score extends CoreGame {
      * @param int $raceId // L'id de la course
      * @return Score[]
      */
-    public function findAllScoresbyPlayerId($playerId) {
+    static public function findAllScoresbyPlayerId($playerId) {
 
         $pdo = Database::getPDO();
 
@@ -139,7 +139,7 @@ class Score extends CoreGame {
 
         $query = $pdo->prepare($sql);
 
-        $query->bindValue(":playerId", $this->player_id, PDO::PARAM_INT);
+        $query->bindValue(":playerId", $playerId, PDO::PARAM_INT);
 
         $query->execute();
 

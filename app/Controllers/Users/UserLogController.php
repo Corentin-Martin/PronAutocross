@@ -2,10 +2,11 @@
 
 namespace App\Controllers\Users;
 
+use App\Controllers\CoreController;
 use App\Models\GeneralScore;
 use App\Models\Player;
 
-class UserLogController extends UserCoreController
+class UserLogController extends CoreController
 {
     public function inscription($id = null) {
 
@@ -115,8 +116,17 @@ class UserLogController extends UserCoreController
 
               $_SESSION['user'] = $user;
   
-              header( "Location: {$this->router->generate('home')}" );
-              exit();
+              if ($user->getRole() === 'admin') {
+                header( "Location: {$this->router->generate('admin')}");
+                exit;
+              } elseif ($user->getRole() === 'editor') {
+                header( "Location: {$this->router->generate('admin')}");
+                exit;
+              } else {
+                header( "Location: {$this->router->generate('user-dashboard')}");
+                exit;
+              }
+
             }
             else 
             {

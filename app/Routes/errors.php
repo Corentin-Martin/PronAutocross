@@ -11,3 +11,13 @@ $router->map(
     ],
     'error404'
 );
+
+$router->map(
+    'GET',
+    '/error403',
+    [
+    'controller' => ErrorController::class,
+    'method' => 'error403'
+    ],
+    'error403'
+);

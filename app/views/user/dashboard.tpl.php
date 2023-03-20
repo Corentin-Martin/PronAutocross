@@ -1,3 +1,7 @@
+    <div>.</div>
+    <div>.</div>
+    <div>.</div>
+    
     <div>
         <h3>Classement général</h3>
         <p><?= $general->getTotal() ?> points</p>

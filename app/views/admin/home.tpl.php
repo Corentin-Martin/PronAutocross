@@ -124,7 +124,7 @@
         </div>
     </div>
 
-
+    <?php if ($_SESSION['user']->getRole() === 'admin') : ?>
     <div class="admin__home__container_div">
         <div class="admin__home__container__div__title">
             <h3>Gestion des utilisateurs</h3>
@@ -134,6 +134,7 @@
             <h5>TO DO LATER</h5>
         </div>
     </div>
+    <?php endif; ?>
 
 </div>
 
