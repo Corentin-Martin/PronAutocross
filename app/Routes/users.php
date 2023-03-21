@@ -88,7 +88,7 @@ $router->map(
 // PARTICIPATION
 $router->map(
     'GET',
-    '/[i:year]/play/[i:id]',
+    '/play/[i:id]',
     [
     'controller' => UserParticipationController::class,
     'method' => 'add'
@@ -98,7 +98,7 @@ $router->map(
 
 $router->map(
     'POST',
-    '/[i:year]/play/[i:id]',
+    '/play/[i:id]',
     [
     'controller' => UserParticipationController::class,
     'method' => 'create'
@@ -108,20 +108,10 @@ $router->map(
 
 $router->map(
     'GET',
-    '/recap',
+    '/recap/[i:id]',
     [
-    'controller' => UserController::class,
+    'controller' => UserParticipationController::class,
     'method' => 'recap'
     ],
-    'recap'
-);
-
-$router->map(
-    'GET',
-    '/dashboard',
-    [
-    'controller' => UserController::class,
-    'method' => 'dashboard'
-    ],
-    'dashboard'
+    'user-recap'
 );

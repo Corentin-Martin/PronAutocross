@@ -143,89 +143,130 @@ class AdminVerificationController extends AdminCoreController
     }
 
     public function makevalidation() {
+    if (isset($_POST)) {
+        $yearId = filter_input(INPUT_POST, 'yearId', FILTER_VALIDATE_INT);
+        $raceId = filter_input(INPUT_POST, 'raceId', FILTER_VALIDATE_INT);
 
-        if (isset($_POST)) {
-            $yearId = filter_input(INPUT_POST, 'yearId', FILTER_VALIDATE_INT);
-            $raceId = filter_input(INPUT_POST, 'raceId', FILTER_VALIDATE_INT);
+        $verification = Verification::showByRaceId($raceId, $yearId);
 
-            $verification = Verification::showByRaceId($raceId, $yearId);
+        $participations = Participation::showAllParticipations($yearId, $raceId);
 
-            $participations = Participation::showAllParticipations($yearId, $raceId);
+        foreach ($participations as $participation) {
+            $score = new Score();
 
-            foreach ($participations as $participation) {
-                $score = new Score();
+            $categories = Category::findAll(Category::class);
 
-                $categories = Category::findAll(Category::class);
+            foreach ($categories as $category) {
+                $categoryOnVerif = str_replace(" ", "", $category->getName());
 
-                foreach ($categories as $category) {
-                    $categoryOnVerif = str_replace(" ", "", $category->getName());
-    
-                    if ($verification->{'get'.$categoryOnVerif}() === $participation->{'get'.$categoryOnVerif}()) {
-    
-                        $rate = Rate::findRateByDriverId($verification->{'get'.$categoryOnVerif}(), $yearId);
-                        
-                        $pointsToAdd = 10 * $rate->getOverall();
-                        $score->{'set'.$categoryOnVerif}($pointsToAdd);
-        
-                    } else {
-                        $score->{'set'.$categoryOnVerif}(0);
-                    }
-    
-                }
-    
-                if ($verification->getBonus1() === $participation->getBonus1()) {
-    
-                    $score->setBonus1(20);
-                    
+                if ($verification->{'get'.$categoryOnVerif}() === $participation->{'get'.$categoryOnVerif}()) {
+                    $rate = Rate::findRateByDriverId($verification->{'get'.$categoryOnVerif}(), $yearId);
+
+                    $pointsToAdd = 10 * $rate->getOverall();
+                    $score->{'set'.$categoryOnVerif}($pointsToAdd);
                 } else {
-                    $score->setBonus1(0);
-                }
-    
-                if ($verification->getBonus2() === $participation->getBonus2()) {
-    
-                    $score->setBonus2(20);
-                    
-                } else {
-                    $score->setBonus2(0);
-                }
-    
-                $score->setPlayerId($participation->getPlayerId());
-                $score->setParticipationId($participation->getId());
-                $score->setRaceId($participation->getRaceId());
-                $score->setYearId($participation->getYearId());
-                
-                $total =  $score->getMaxiSprint() +
-                $score->getTourismeCup() +
-                $score->getSprintGirls() +
-                $score->getBuggyCup() +
-                $score->getJuniorSprint() +
-                $score->getMaxiTourisme() +
-                $score->getBuggy1600() +
-                $score->getSuperSprint() +
-                $score->getSuperBuggy() +
-                $score->getBonus1() +
-                $score->getBonus2();
-    
-                $score->setTotal($total);
-
-
-                if ($score->createOrUpdate()) {
-                    $general = GeneralScore::findGeneralForPlayer($score->getPlayerId());
-
-                    $newTotal = $general->getTotal() + $score->getTotal();
-
-                    $general->setTotal($newTotal);
-
-                    $general->createOrUpdate();
-
+                    $score->{'set'.$categoryOnVerif}(0);
                 }
             }
 
-            header("Location: {$this->router->generate('results', ['year' => $yearId, 'id' => $raceId])}");
-            exit;
-            
+            if ($verification->getBonus1() === $participation->getBonus1()) {
+                $score->setBonus1(20);
+            } else {
+                $score->setBonus1(0);
+            }
+
+            if ($verification->getBonus2() === $participation->getBonus2()) {
+                $score->setBonus2(20);
+            } else {
+                $score->setBonus2(0);
+            }
+
+            $score->setPlayerId($participation->getPlayerId());
+            $score->setParticipationId($participation->getId());
+            $score->setRaceId($participation->getRaceId());
+            $score->setYearId($participation->getYearId());
+
+            $total =  $score->getMaxiSprint() +
+            $score->getTourismeCup() +
+            $score->getSprintGirls() +
+            $score->getBuggyCup() +
+            $score->getJuniorSprint() +
+            $score->getMaxiTourisme() +
+            $score->getBuggy1600() +
+            $score->getSuperSprint() +
+            $score->getSuperBuggy() +
+            $score->getBonus1() +
+            $score->getBonus2();
+
+            $score->setTotal($total);
+
+
+            if ($score->createOrUpdate()) {
+                $general = GeneralScore::findGeneralForPlayer($score->getPlayerId());
+
+                $newTotal = $general->getTotal() + $score->getTotal();
+
+                $general->setTotal($newTotal);
+
+                $general->createOrUpdate();
+            }
         }
+
+            $allGeneral = GeneralScore::sortingGeneral(date('Y'));
+
+            $place=2;
+            $increment=1;
+            $preceding = null;
+
+            foreach ($allGeneral as $general) {
+                $generalForAPlayer = GeneralScore::findGeneralForPlayer($general->getPlayerId());
+
+                if (is_null($preceding) || $preceding === $general->getTotal()) {
+                    $place--;
+                    $generalForAPlayer->setPlace($place);
+                } else {
+                    $generalForAPlayer->setPlace($increment);
+                    $place = $increment;
+                }
+
+                $place++;
+                $increment++;
+                $preceding = $general->getTotal();
+
+                $generalForAPlayer->updatePlace();
+            }
+
+            $scores = Score::sortingByRace(date('Y'), $raceId);
+
+            $place=2;
+            $increment=1;
+            $preceding = null;
+
+            foreach ($scores as $score) {
+                $scorePlace = Score::findForGeneral(date('Y'), $raceId, $score->getPlayerId());
+
+                if (is_null($preceding) || $preceding === $score->getTotal()) {
+                    $place--;
+                    $scorePlace->setPlace($place);
+                } else {
+                    $scorePlace->setPlace($increment);
+                    $place = $increment;
+                }
+
+                $place++;
+                $increment++;
+                $preceding = $score->getTotal();
+
+                $scorePlace->updatePlace();
+            }
+        
+
+        header("Location: {$this->router->generate('results', ['year' => $yearId, 'id' => $raceId])}");
+        exit;
+            
+        
     }
+}
 
     public function update($raceId) {
 

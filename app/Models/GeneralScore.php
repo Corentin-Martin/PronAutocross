@@ -10,6 +10,7 @@ class GeneralScore extends CoreModel
     private $player_id;
     private $year_id;
     private $total;
+    private $place;
 
     public function getPlayerId(){ return $this->player_id; }
     public function setPlayerId($player_id): self { $this->player_id = $player_id; return $this; }
@@ -20,6 +21,9 @@ class GeneralScore extends CoreModel
     public function getTotal(){ return $this->total; }
     public function setTotal($total): self { $this->total = $total; return $this; }
 
+    public function getPlace(){ return $this->place; }
+    public function setPlace($place): self { $this->place = $place; return $this; }
+
     public function createOrUpdate() {
         $pdo = Database::getPDO();
 
@@ -27,7 +31,7 @@ class GeneralScore extends CoreModel
             $sql = 
             "UPDATE `general_score` SET `player_id`= :playerId, `year_id` = :yearId, `total` = :total WHERE id = :id";
         } else {
-            $sql = "INSERT INTO `general_score` (`player_id`, `year_id`, `total`) VALUES (:playerId, :yearId, 0)";
+            $sql = "INSERT INTO `general_score` (`player_id`, `year_id`, `total`, `place`) VALUES (:playerId, :yearId, 0, 0)";
         }
 
         $query = $pdo->prepare($sql);
@@ -95,6 +99,23 @@ class GeneralScore extends CoreModel
 
         return $query->fetchObject(GeneralScore::class);
     }
+
+    public function updatePlace() {
+        $pdo = Database::getPDO();
+
+        $sql = "UPDATE `general_score` SET `place`= :place WHERE id = :id";
+
+        $query = $pdo->prepare($sql);
+
+        $query->bindValue(":place",         $this->place,   PDO::PARAM_INT);
+        $query->bindValue(":id",         $this->id,          PDO::PARAM_INT);
+    
+        $query->execute();
+    
+        return ($query->rowCount() === 1);
+
+    }
+
 
 
 }

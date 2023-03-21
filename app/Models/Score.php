@@ -14,6 +14,7 @@ class Score extends CoreGame {
     private $total;
     private $player_id;
     private $participation_id;
+    private $place;
 
     public function getTotal(){ return $this->total; }
     public function setTotal($total): self { $this->total = $total; return $this; }
@@ -23,6 +24,9 @@ class Score extends CoreGame {
 
     public function getParticipationId(){ return $this->participation_id; }
     public function setParticipationId($participation_id): self { $this->participation_id = $participation_id; return $this; }
+
+    public function getPlace(){ return $this->place; }
+    public function setPlace($place): self { $this->place = $place; return $this; }
 
     public function createOrUpdate() {
 
@@ -145,6 +149,27 @@ class Score extends CoreGame {
 
         return $query->fetchAll(PDO::FETCH_CLASS, Score::class);
     }
+
+    public function updatePlace() {
+
+        $pdo = Database::getPDO();
+
+        $sql =  "UPDATE `score` SET `place`= :place WHERE id = :id";
+        
+        
+        $query = $pdo->prepare($sql);
+
+        $query->bindValue(":place",          $this->place,           PDO::PARAM_INT);
+        $query->bindValue(":id",                $this->id,           PDO::PARAM_INT);
+
+
+        $query->execute();
+
+        return ($query->rowCount() === 1);
+
+    }
+
+
 
 
 }

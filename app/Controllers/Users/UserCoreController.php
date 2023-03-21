@@ -8,6 +8,7 @@ use App\Models\EntryList;
 use App\Models\GeneralScore;
 use App\Models\Participation;
 use App\Models\Questions;
+use App\Models\Race;
 use App\Models\Rate;
 use App\Models\Score;
 
@@ -28,22 +29,23 @@ class UserCoreController extends CoreController
         };
     }
 
-    public function recap() {
-
-       
-
-        $this->show('user/recap');
-    }
-
     public function dashboard() {
 
         $playerId = $_SESSION['user']->getId();
+        
+        $races = Race::findByYear(date('Y'));
+        $racesById = [];
+        foreach ($races as $race) {
+            $racesById[$race->getId()] = $race;
+        }
 
-       $scores = Score::findAllScoresbyPlayerId($playerId);
+        $scores = Score::findAllScoresbyPlayerId($playerId);
 
-       $generalforPlayer = GeneralScore::findGeneralForPlayer($playerId);
+        $generalforPlayer = GeneralScore::findGeneralForPlayer($playerId);
+
+        $participations = Participation::showAllForAPlayer(date('Y'), $playerId);
        
 
-        $this->show('user/dashboard', ['scores' => $scores, 'general' => $generalforPlayer]);
+        $this->show('user/dashboard', ['scores' => $scores, 'general' => $generalforPlayer, 'participations' => $participations, 'racesById' => $racesById]);
     }
 }

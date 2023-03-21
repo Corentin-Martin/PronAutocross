@@ -20,11 +20,6 @@ class StandingsController extends CoreController {
         $scores = Score::sortingByRace($year, $raceId);
         $players = [];
 
-
-        $place=2;
-        $increment=1;
-        $preceding = null;
-
         foreach ($scores as $score) {
 
             $model = [];
@@ -33,22 +28,8 @@ class StandingsController extends CoreController {
             $player = Player::find($score->getPlayerId());
 
             $model['fiche'] = $player;
+            $model['place'] = $score->getPlace();
 
-            if (is_null($preceding) || $preceding === $score->getTotal()) {
-
-                $place--;
-                $model['place'] = $place;
-
-            } else {
-
-                $model['place'] = $increment;
-                $place = $increment;
-
-            }
-
-            $place++; 
-            $increment++; 
-            $preceding = $score->getTotal(); 
 
             $players[$score->getPlayerId()] = $model;
         } 
@@ -66,10 +47,6 @@ class StandingsController extends CoreController {
 
         $players = [];
 
-        $place=2;
-        $increment=1;
-        $preceding = null;
-
         foreach ($allGeneral as $general) {
             $model = [];
             $model['general'] = $general->getTotal();
@@ -78,17 +55,7 @@ class StandingsController extends CoreController {
 
             $model['fiche'] = $player;
 
-            if (is_null($preceding) || $preceding === $general->getTotal()) {
-                $place--;
-                $model['place'] = $place;
-            } else {
-                $model['place'] = $increment;
-                $place = $increment;
-            }
-
-            $place++;
-            $increment++;
-            $preceding = $general->getTotal();
+            $model['place'] = $general->getPlace();
 
             $scores = [];
             foreach ($races as $race) {
@@ -99,7 +66,6 @@ class StandingsController extends CoreController {
                 } else {
                     $scores[$race->getId()] = null;
                 }
-
             }
 
             $model['scores'] = $scores;

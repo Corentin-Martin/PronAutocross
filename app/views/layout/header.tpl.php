@@ -43,11 +43,11 @@
         </div>
     </nav>
 
-    <?php if (isset($_SESSION['user'])) : ?>
+    <!-- <?php if (isset($_SESSION['user'])) : ?>
         <div>
             <h4>Bienvenue <?= $_SESSION['user']->getPseudo(); ?></h4>
         </div>
-    <?php endif; ?>
+    <?php endif; ?> -->
 
 </header>
 

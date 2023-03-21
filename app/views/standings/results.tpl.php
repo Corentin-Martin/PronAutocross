@@ -1,6 +1,6 @@
 <h1> RESULTATS DE <?= $race->getName() ?></h1>
 
-    <table>
+    <table class="table">
         <thead>
             <tr>
                 <td>Place</td>
@@ -20,7 +20,7 @@
 
             <?php foreach ($players as $player) : ?>
 
-            <tr>
+            <tr <?= (isset($_SESSION['user']) && ($_SESSION['user']->getPseudo() === $player['fiche']->getPseudo())) ? 'class="table-warning"' : "" ?>>
                 <td>
                  <?= $player['place'] ?>
                 </td>

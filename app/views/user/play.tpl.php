@@ -1,5 +1,17 @@
 <h1>Vous jouez pour <?= $race->getName() .  ' - ' . $race->getYearId() ?></h1>
 
+<?php if (!empty($errorList)) : ?>
+
+<div class="alert alert-danger" role="alert">
+    <ul>
+        <?php foreach($errorList as $error) : ?>
+            <li><?= $error ?></li>
+        <?php endforeach; ?>
+    </ul>
+</div>
+
+<?php endif; ?>
+
 <form action="" method="post">
 
     <?php foreach ($categories as $category) :
@@ -80,8 +92,9 @@
 
         </select>
 
-        <input type="hidden" name="raceId" id="raceId" value="<?= $raceId ?>">
-        <input type="hidden" name="year" id="year" value="<?= $year?>">
+        <input type="hidden" name="raceId" id="raceId" value="<?= $race->getId() ?>">
+        <input type="hidden" name="year" id="year" value="<?= date('Y') ?>">
+        <input type="hidden" name="playerId" id="playerId" value="<?= $_SESSION['user']->getId() ?>">
 
     <button type="submit">ENVOYER</button>
 
