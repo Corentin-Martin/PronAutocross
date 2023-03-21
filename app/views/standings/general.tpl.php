@@ -1,5 +1,5 @@
 
-<div class="row">
+<div class="row m-auto">
     <div class="col-12 overflow-auto">
     <table class="table table-primary  table-hover table-striped">
         <thead class="table-dark">

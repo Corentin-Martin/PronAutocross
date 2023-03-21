@@ -1,4 +1,4 @@
-<div class="row text-center">
+<div class="row text-center m-auto">
     <div class="dropdown">
     <a class="btn btn-warning dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         Epreuve
@@ -11,7 +11,7 @@
     </ul>
     </div>
 </div>
-<div class="row">
+<div class="row m-auto">
     <div class="col-12 overflow-auto">
     <table class="table table-primary  table-hover table-striped">
         <thead class="table-dark">

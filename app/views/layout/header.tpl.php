@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="<?= $baseURI ?>assets/css/style.css">
     <title>Pron'Autocross</title>
 </head>
-<body class="container-fluid bg-secondary ">
+<body class="container-fluid bg-secondary">
 
 <header class="row m-auto">
 
