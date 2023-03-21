@@ -9,6 +9,8 @@ use App\Models\Participation;
 use App\Models\Questions;
 use App\Models\Race;
 use App\Models\Rate;
+use App\Models\Score;
+use App\Models\Verification;
 
 class UserParticipationController extends UserCoreController
 {
@@ -137,6 +139,18 @@ class UserParticipationController extends UserCoreController
 
     public function recap($raceId) {
 
+        if (Verification::showByRaceId($raceId, date('Y'))) {
+            $verification = Verification::showByRaceId($raceId, date('Y'));
+        } else {
+            $verification = null;
+        }
+
+        if (Score::findForGeneral(date('Y'), $raceId, $_SESSION['user']->getId())) {
+            $score = Score::findForGeneral(date('Y'), $raceId, $_SESSION['user']->getId());
+        } else {
+            $score = null;
+        }
+
         $participation = Participation::checkForAPlayer(date('Y'), $raceId, $_SESSION['user']->getId());
         $questions = Questions::findQuestionsByRaceAndYear(date('Y'),$raceId);
 
@@ -180,6 +194,10 @@ class UserParticipationController extends UserCoreController
         $potentialWin += 40;
 
 
-        $this->show('user/recap', ['vote' => $vote, 'potentialWin' => $potentialWin]);
+        $this->show('user/recap', ['vote' => $vote, 'potentialWin' => $potentialWin, 'verification' => $verification, 'participation' => $participation, 'score' => $score]);
+    }
+
+    public function deadline() {
+        $this->show('user/deadline');
     }
 }

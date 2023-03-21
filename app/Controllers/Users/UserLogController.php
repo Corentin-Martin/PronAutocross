@@ -43,6 +43,17 @@ class UserLogController extends CoreController
             $errorList[] = "Votre mot de passe doit contenir au moins 8 caractères.";
         }
 
+        if (is_null($id)) {
+            if (Player::findByMail($email)) {
+                $errorList[] = "Un compte est déjà enregistré à cette adresse mail.";
+            }
+    
+            if (Player::findByPseudo($pseudo)) {
+                $errorList[] = "Pseudo déjà utilisé.";
+            }
+        }
+
+
         if (empty($errorList)) {
 
             if ($id) {
@@ -73,7 +84,8 @@ class UserLogController extends CoreController
                     $general->createOrUpdate();
                 }
 
-                header("Location: /");
+                $_SESSION['user'] = $player;
+                header("Location: {$this->router->generate('user-dashboard')}");
                 exit;
 
             } else {
@@ -120,7 +132,7 @@ class UserLogController extends CoreController
                 header( "Location: {$this->router->generate('admin')}");
                 exit;
               } elseif ($user->getRole() === 'editor') {
-                header( "Location: {$this->router->generate('admin')}");
+                header( "Location: {$this->router->generate('user-dashboard')}");
                 exit;
               } else {
                 header( "Location: {$this->router->generate('user-dashboard')}");

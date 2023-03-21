@@ -84,13 +84,19 @@ class Player extends CoreUser {
         return $query->fetchObject(Player::class);
     }
 
-    public function findByPseudo($pseudo) {
+    static public function findByPseudo($pseudo) {
         $pdo = Database::getPDO();
 
+        $sql = "SELECT * FROM `player` WHERE pseudo = :pseudo";
 
-        $pdoStatement = $pdo->query("SELECT id FROM player WHERE pseudo = '$pseudo'");
+        $query = $pdo->prepare($sql);
 
-        return $pdoStatement->fetchObject(Player::class);
+        $query->bindValue(":pseudo",        $pseudo,          PDO::PARAM_STR);
+
+        $query->execute();
+
+        return $query->fetchObject(Player::class);
+        
     }
 
 }

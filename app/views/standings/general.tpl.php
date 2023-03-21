@@ -1,32 +1,36 @@
 
-<h1> CLASSEMENT GENERAL <?= $year ?> </h1>
+<div class="row">
+    <div class="col-12 overflow-auto">
+    <table class="table table-primary  table-hover table-striped">
+        <thead class="table-dark">
 
-    <table class="table">
-        <thead>
             <tr>
-                <td>Place</td>
-                <td>Pseudo</td>
-                <td>Total</td>
+                <th colspan="13"><h2 class="fw-bold">Classement général <?= $year ?></h2></th>
+            </tr>
+
+                <th>Place</th>
+                <th>Pseudo</th>
+                <th>Total</th>
 
                 <?php foreach ($races as $race) : ?>
-                <td><?= $race->getName() ?></td>
+                <th><?= $race->getName() ?></th>
                 <?php endforeach; ?>
 
-            </tr>
         </thead>
 
         <tbody>
 
             <?php foreach ($players as $player) : ; ?>
 
-            <tr <?= (isset($_SESSION['user']) && ($_SESSION['user']->getPseudo() === $player['fiche']->getPseudo())) ? 'class="table-warning"' : "" ?>>
-                <td>
+            <tr <?= (isset($_SESSION['user']) && ($_SESSION['user']->getPseudo() === $player['fiche']->getPseudo())) ? 'class="table-warning"' : "" ?>
+            <?= ($player['place'] == 1) ? 'class="table-success"' : "" ?>>
+                <td class="table-info fst-italic">
                    <?= $player['place'] ?>
                 </td>
 
-                <td><?= $player['fiche']->getPseudo() ?></td>
+                <td class="fw-bold"><?= $player['fiche']->getPseudo() ?></td>
 
-                <td><?= $player['general'] ?></td>
+                <td class="table-success fw-bold"><?= $player['general'] ?></td>
 
                 <?php foreach ($races as $race) : ?>
 
@@ -39,3 +43,5 @@
 
         </tbody>
     </table>
+    </div>
+</div>

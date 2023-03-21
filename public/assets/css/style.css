@@ -162,3 +162,10 @@ input[type="radio"].radio:checked + .card{
 input::placeholder {
     text-align: center;
 }
+
+/* NEW */
+
+.header__title {
+    font-family: 'Faster One', display;
+    color: #158CBA;
+}

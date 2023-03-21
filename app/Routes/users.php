@@ -115,3 +115,13 @@ $router->map(
     ],
     'user-recap'
 );
+
+$router->map(
+    'GET',
+    '/close',
+    [
+    'controller' => UserParticipationController::class,
+    'method' => 'deadline'
+    ],
+    'user-deadline'
+);

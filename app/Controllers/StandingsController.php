@@ -13,9 +13,18 @@ class StandingsController extends CoreController {
 
     public function results($year, $raceId) {
 
+        if ($year > date('Y')) {
+            $year = date('Y');
+        }
+
         $categories = Category::findAll();
 
         $race = Race::find($raceId);
+
+        if (!$race) {
+            header("Location: {$this->router->generate('error404')}");
+            exit;
+        }
 
         $scores = Score::sortingByRace($year, $raceId);
         $players = [];
@@ -34,12 +43,18 @@ class StandingsController extends CoreController {
             $players[$score->getPlayerId()] = $model;
         } 
 
+        $races = Race::findByYear($year);
+
 
         $this->show('standings/results', ['players' => $players, 'categories' => $categories, 'race' => 
-        $race]);
+        $race, 'races' => $races, 'year' => $year]);
     }
 
     public function general($year) {
+
+        if ($year > date('Y')) {
+            $year = date('Y');
+        }
 
         $races = Race::findByYear($year);
 
@@ -48,29 +63,33 @@ class StandingsController extends CoreController {
         $players = [];
 
         foreach ($allGeneral as $general) {
-            $model = [];
-            $model['general'] = $general->getTotal();
 
-            $player = Player::find($general->getPlayerId());
+            if ($general->getPlace() != 0) {
+                
+                $model = [];
+                $model['general'] = $general->getTotal();
 
-            $model['fiche'] = $player;
+                $player = Player::find($general->getPlayerId());
 
-            $model['place'] = $general->getPlace();
+                $model['fiche'] = $player;
 
-            $scores = [];
-            foreach ($races as $race) {
-                $score = Score::findForGeneral($year, $race->getId(), $general->getPlayerId());
-                    
-                if ($score) {
-                    $scores[$race->getId()] = $score;
-                } else {
-                    $scores[$race->getId()] = null;
+                $model['place'] = $general->getPlace();
+
+                $scores = [];
+                foreach ($races as $race) {
+                    $score = Score::findForGeneral($year, $race->getId(), $general->getPlayerId());
+
+                    if ($score) {
+                        $scores[$race->getId()] = $score;
+                    } else {
+                        $scores[$race->getId()] = null;
+                    }
                 }
-            }
 
-            $model['scores'] = $scores;
-            
-            $players[$general->getPlayerId()] = $model;
+                $model['scores'] = $scores;
+
+                $players[$general->getPlayerId()] = $model;
+            }
         }
 
         $this->show('standings/general', ['year' => $year, 'players' => $players, 'races' => $races]);

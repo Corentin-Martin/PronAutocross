@@ -27,12 +27,19 @@
         
         <div class="col-12">Votre classement général</div>
 
-        <div class="col-12"><?= $general->getPlace() ?> <?= ($general->getPlace() == 1) ? "er" : "ème" ?> - <?= $general->getTotal() ?> points</div>
+        <div class="col-12">
+            <?php if($general->getPlace() == 0) : ?>
+                Non classé
+            <?php else : ?>
+                <?= $general->getPlace() ?> <?= ($general->getPlace() == 1) ? "er" : "ème" ?> - <?= $general->getTotal() ?> points
+            <?php endif; ?>
+        </div>
 
     </div>
 </div>
 
 <div class="row">
+
     <div class="col-12 col-sm-6">
         <div class="col-12">Vos derniers résultats</div>
         <div class="col-12">
@@ -43,7 +50,23 @@
                 <div class="col-4"><?= $score->getTotal() ?> points</div>
             </div>
             <?php endforeach; ?>
+            <?php if (empty($scores)) : ?>
+                Aucun résultat à afficher pour le moment
+            <?php endif; ?>
         </div>
     </div>
-    <div class="col-12 col-sm-6">Vos dernières participations</div>
+
+    <div class="col-12 col-sm-6">
+        <div class="col-12">Vos dernières participations</div>
+        <?php foreach ($participations as $participation) : ?>
+            <div class="col-12">
+                <a href="<?= $this->router->generate('user-recap', ['id' => $participation->getRaceId()]) ?>">
+                    <?= $racesById[$participation->getRaceId()]->getName() ?>
+                </a>
+            </div>
+        <?php endforeach; ?>
+        <?php if (empty($participations)) : ?>
+                Aucun participation à afficher pour le moment
+        <?php endif; ?>
+    </div>
 </div>
