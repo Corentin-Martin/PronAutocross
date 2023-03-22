@@ -21,10 +21,10 @@ input[type="radio"].radio:hover {
     border-radius: 10em;
   }
 
-input[type="radio"].radio:checked + .card{
+input[type="radio"].radio:checked + .driver{
     background-color: #ff0000;
     color: #fff;
-    border-radius: 2em;
+    border-radius : 5%;
   }
 
 .card-img-top {
@@ -32,7 +32,7 @@ input[type="radio"].radio:checked + .card{
     margin: 0 auto;
 }
 
-.label {
+/* .label {
     width: 19%;
     height: 45%;
 }
@@ -40,7 +40,7 @@ input[type="radio"].radio:checked + .card{
 .card {
     width: 100%;
     height : 100%;
-}
+} */
 
 .picture-driver {
     width: 10%;

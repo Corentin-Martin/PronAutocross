@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="<?= $baseURI ?>assets/css/style.css">
     <title>Document</title>
 </head>
-<body>
+<body class="container-fluid">
 <header class="admin_header">
 
     <nav class="navbar navbar-expand-lg bg-body-tertiary">

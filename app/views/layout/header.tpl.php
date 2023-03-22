@@ -16,12 +16,12 @@
 
     <header class="row m-auto">
 
-            <h1 class="header__title fs-1 col-12">Pron'Autocross</h1>
+            <a href="<?= $this->router->generate('home'); ?>" class="header__title fs-1 col-12 text-decoration-none">Pron'Autocross</a>
 
             <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
                 <div class="container-fluid">
                     <?php if ($_SESSION) : ?>
-                        <a class="navbar-brand">#<?= $_SESSION['user']->getPseudo() ?></a>
+                        <a class="navbar-brand" href="<?= $this->router->generate('user-dashboard'); ?>">#<?= $_SESSION['user']->getPseudo() ?></a>
                     <?php else : ?>
                         <a class="navbar-brand" href="<?= $this->router->generate('home'); ?>">Pron'Autocross</a>
                     <?php endif; ?>
@@ -70,6 +70,6 @@
             </nav>
     </header>
 
-    <main class='main m-auto'>
+    <main class='main m-auto vh-100 overflow-auto'>
 
 

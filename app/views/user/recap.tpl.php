@@ -1,4 +1,5 @@
-
+<div class="row mt-3">
+<div class="col-12 overflow-auto">
 <table class="table table-light table-hover table-striped shadow align-middle">
 <thead>
     <tr>
@@ -58,3 +59,5 @@
 <?php endif; ?>
 </tbody>
 </table>
+</div>
+</div>

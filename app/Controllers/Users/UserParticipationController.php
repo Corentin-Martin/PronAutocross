@@ -85,6 +85,10 @@ class UserParticipationController extends UserCoreController
                 $errorList[] = "Une erreur est survenue, veuillez réessayer.";
             }
 
+            if($bonus1 == '-' || $bonus2 == '-') {
+                $errorList[] = "Attention, vous n'avez pas fait votre choix pour les bonus.";
+            }
+
             if (empty($errorList)) {
                 $participation = new Participation();
 
