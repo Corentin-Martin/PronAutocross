@@ -104,7 +104,7 @@ class UserParticipationController extends UserCoreController
                 $participation->setYearId($year);
 
                 if ($participation->create()) {
-                    header("Location: {$this->router->generate('user-recap')}");
+                    header("Location: {$this->router->generate('user-recap', ['id' => $participation->getRaceId()])}");
                     exit;
                 } else {
                     $errorList[] = "Une erreur est survenue, veuillez réessayer.";
@@ -151,6 +151,8 @@ class UserParticipationController extends UserCoreController
             $score = null;
         }
 
+        $race = Race::find($raceId);
+
         $participation = Participation::checkForAPlayer(date('Y'), $raceId, $_SESSION['user']->getId());
         $questions = Questions::findQuestionsByRaceAndYear(date('Y'),$raceId);
 
@@ -194,7 +196,7 @@ class UserParticipationController extends UserCoreController
         $potentialWin += 40;
 
 
-        $this->show('user/recap', ['vote' => $vote, 'potentialWin' => $potentialWin, 'verification' => $verification, 'participation' => $participation, 'score' => $score]);
+        $this->show('user/recap', ['vote' => $vote, 'potentialWin' => $potentialWin, 'verification' => $verification, 'participation' => $participation, 'score' => $score, 'race' => $race]);
     }
 
     public function deadline() {

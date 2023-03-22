@@ -1,73 +1,85 @@
-<div class="row"> <h3>Votre tableau de bord</h3></div>
-<div class="row"> <h5>Bienvenue <?= $_SESSION['user']->getPseudo(); ?></h5></div>
+<h3 class="col-8 col-sm-5 bg-primary mt-3 mx-auto p-2 text-light rounded-4 shadow">Votre tableau de bord</h3>
 
-<div class="row m-auto justify-content-center">
+<div class="row m-auto justify-content-center mt-3" style="max-width: 85%;">
 
-    <div class="col-12 col-sm-8 bg-primary rounded-4 mx-1">
-        <div class="col-12">Vos infos personnelles</div>
-            <div class="row">
-                <div class="col-6">Pseudo</div>
-                <div class="col-6"><?= $_SESSION['user']->getPseudo(); ?></div>
-            </div>
-            <div class="row">
-                <div class="col-6">Prénom</div>
-                <div class="col-6"><?= $_SESSION['user']->getFirstName(); ?></div>
-            </div>
-            <div class="row">
-                <div class="col-6">Nom de famille</div>
-                <div class="col-6"><?= $_SESSION['user']->getLastName(); ?></div>
-            </div>
-            <div class="row">
-                <div class="col-6">Adresse mail</div>
-                <div class="col-6"><?= $_SESSION['user']->getMail(); ?></div>
-            </div>
-            <div class="row"><a href="<?= $this->router->generate('user-update', ['id' => $_SESSION['user']->getId()]) ?>">Modifier ces infos ou changer de mot de passe</a></div>
+    <div class="card text-white bg-primary mb-2">
+        <div class="card-header">
+            <a class="btn" href="<?= $this->router->generate('user-modification', ['id' => $_SESSION['user']->getId()]) ?>">Vos infos personnelles</a>
         </div>
-
-    <div class="col-12 col-sm-3 bg-success rounded-4 mx-1">
-        
-        <div class="col-12">Votre classement général</div>
-
-        <div class="col-12">
-            <?php if($general->getPlace() == 0) : ?>
-                Non classé
-            <?php else : ?>
-                <?= $general->getPlace() ?> <?= ($general->getPlace() == 1) ? "er" : "ème" ?> - <?= $general->getTotal() ?> points
-            <?php endif; ?>
+        <div class="card-body">
+                <p class="card-text">Pseudo : <strong><?= $_SESSION['user']->getPseudo(); ?></strong></p>
+                <p class="card-text">Prénom : <strong><?= $_SESSION['user']->getFirstName(); ?></strong></p>
+                <p class="card-text">Nom de famille : <strong><?= $_SESSION['user']->getLastName(); ?></strong> </p>
+                <p class="card-text">Adresse mail : <strong><?= $_SESSION['user']->getMail(); ?></strong> </p>
+                <a href="<?= $this->router->generate('user-modification', ['id' => $_SESSION['user']->getId()]) ?>" class="btn btn-info">Modifier mes infos</a>
         </div>
-
     </div>
+
+    <div class="card bg-success mb-2">
+        <div class="card-header">
+            <a class="btn" href="<?= $this->router->generate('general', ['year' => date('Y')]) ?>">Votre classement général</a>
+        </div>
+        <div class="card-body">
+            <a class="btn btn-outline-light fs-4" href="<?= $this->router->generate('general', ['year' => date('Y')]) ?>">
+                <?php if($general->getPlace() == 0) : ?>
+                    Non classé
+                <?php else : ?>
+                    <strong><?= $general->getPlace() ?> <?= ($general->getPlace() == 1) ? "er" : "ème" ?></strong> - <?= $general->getTotal() ?> points
+                <?php endif; ?>
+                </a>
+        </div>
+    </div>
+    
 </div>
 
-<div class="row m-auto justify-content-center">
+<div class="row m-auto justify-content-center mt-3" style="max-width: 85%;">
 
-    <div class="col-12 col-sm-6 bg-warning rounded-4 mx-1">
-        <div class="col-12">Vos derniers résultats</div>
-        <div class="col-12">
-            <?php foreach ($scores as $score) : ?>        
-            <div class="row">
-                <div class="col-4"><?= $racesById[$score->getRaceId()]->getName() ?></div>
-                <div class="col-4"><?= $score->getPlace() ?> <?= ($score->getPlace() == 1) ? "er" : "ème" ?></div>
-                <div class="col-4"><?= $score->getTotal() ?> points</div>
+    <div class="accordion col-12 col-sm-6 mb-2 p-0" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button collapsed bg-info fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                Vos résultats
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <?php foreach ($scores as $score) : ?>        
+                        <div class="row">
+                            <a class="btn btn-outline-primary col-6" href="<?= $this->router->generate('results', ['year' => $score->getYearId(), 'id' => $score->getRaceId()]) ?>">
+                                <?= $racesById[$score->getRaceId()]->getName() ?>
+                            </a>
+                            <a class="btn col-6" href="<?= $this->router->generate('results', ['year' => $score->getYearId(), 'id' => $score->getRaceId()]) ?>">
+                                <?= $score->getPlace() ?> <?= ($score->getPlace() == 1) ? "er" : "ème" ?> - <?= $score->getTotal() ?> points
+                            </a>
+                        </div>
+                    <?php endforeach; ?>
+                    <?php if (empty($scores)) : ?>
+                        Aucun résultat à afficher pour le moment
+                    <?php endif; ?>
+                </div>
             </div>
-            <?php endforeach; ?>
-            <?php if (empty($scores)) : ?>
-                Aucun résultat à afficher pour le moment
-            <?php endif; ?>
         </div>
     </div>
 
-    <div class="col-12 col-sm-5 bg-info rounded-4 mx-1">
-        <div class="col-12">Vos dernières participations</div>
-        <?php foreach ($participations as $participation) : ?>
-            <div class="col-12">
-                <a href="<?= $this->router->generate('user-recap', ['id' => $participation->getRaceId()]) ?>">
-                    <?= $racesById[$participation->getRaceId()]->getName() ?>
-                </a>
+    <div class="accordion col-12 col-sm-6 mb-2 p-0" id="accordionParticipations">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed bg-info fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                Vos participations
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionParticipations">
+                <div class="accordion-body">
+                    <?php foreach ($participations as $participation) : ?>
+                        <a class="btn btn-outline-primary col-12" href="<?= $this->router->generate('user-recap', ['id' => $participation->getRaceId()]) ?>">
+                            <?= $racesById[$participation->getRaceId()]->getName() ?>
+                        </a>
+                    <?php endforeach; ?>
+                    <?php if (empty($participations)) : ?>
+                        Aucun participation à afficher pour le moment
+                    <?php endif; ?>
+                </div>
             </div>
-        <?php endforeach; ?>
-        <?php if (empty($participations)) : ?>
-                Aucun participation à afficher pour le moment
-        <?php endif; ?>
+        </div>
     </div>
 </div>
