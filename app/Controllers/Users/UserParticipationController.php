@@ -19,6 +19,11 @@ class UserParticipationController extends UserCoreController
 
         $race = Race::find($raceId);
 
+        if (!$race) {
+            header("Location: {$this->router->generate('error404')}");
+            exit;
+        }
+
         if (Participation::checkForAPlayer(date('Y'), $raceId, $_SESSION['user']->getId())) {
             header("Location: {$this->router->generate('user-recap', ['id' => $raceId])}");
             exit;
