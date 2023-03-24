@@ -28,4 +28,19 @@ class Questions extends CoreGame {
         return $query->fetchObject(Questions::class);
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return Questions
+     */
+    static public function checkLast() {
+        $pdo = Database::getPDO();
+
+        $sql = "SELECT * FROM `questions` ORDER BY id DESC LIMIT 1";
+
+        $query = $pdo->query($sql);
+
+        return $query->fetchObject(Questions::class);
+    }
+
 }

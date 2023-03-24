@@ -8,6 +8,7 @@
     <link href="https://bootswatch.com/5/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=faster-one:400" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="<?= $baseURI ?>assets/css/style.css">
     <title>Pron'Autocross</title>
 </head>
