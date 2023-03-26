@@ -6,7 +6,14 @@ session_start();
 
 $router = new AltoRouter();
 
-$router->setBasePath($_SERVER['BASE_URI']);
+if (array_key_exists('BASE_URI', $_SERVER)) {
+
+    $router->setBasePath($_SERVER['BASE_URI']);
+
+} else { 
+
+    $_SERVER['BASE_URI'] = '/';
+}
 
 require_once __DIR__ . '/../app/Routes/main.php';
 require_once __DIR__ . '/../app/Routes/errors.php';
