@@ -76,7 +76,7 @@ class Rate extends CoreModel
 
         $pdo = Database::getPDO();
 
-        $sql = "SELECT * FROM rate WHERE year_id='$yearId' AND driver_id='$driverId'";
+        $sql = "SELECT * FROM rate WHERE year_id= :yearId AND driver_id= :driverId";
 
         $query = $pdo->prepare($sql);
 
