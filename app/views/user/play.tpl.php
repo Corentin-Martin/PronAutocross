@@ -35,7 +35,7 @@
                             <p class="btn btn-warning col-6"><?= $entry['rate'] ?></p>
                             <div class="col-10 mx-1">
                                 <div class="progress">
-                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuenow="<?= $entry['rate'] ?>" aria-valuemin="1.01" aria-valuemax="20" style="width: <?= 105.05 - (100 * $entry['rate'] / 20)?>%;"></div>
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuenow="<?= $entry['rate'] ?>" aria-valuemin="1.01" aria-valuemax="14.5" style="width: <?= 106.9 - (100 * $entry['rate'] / 14.5)?>%;"></div>
                                 </div>
                             </div>
                             <p> Gain potentiel : <?= $entry['rate'] * 10 ?></p>
