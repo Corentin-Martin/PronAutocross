@@ -162,6 +162,26 @@ $router->map(
     'driver-delete'
 );
 
+$router->map(
+    'GET',
+    '/admin/driver/editplaces',
+    [
+    'controller' => AdminDriverController::class,
+    'method' => 'editPlaces'
+    ],
+    'driver-editPlaces'
+);
+
+$router->map(
+    'POST',
+    '/admin/driver/editplaces',
+    [
+    'controller' => AdminDriverController::class,
+    'method' => 'updatePlaces'
+    ],
+    'driver-updatePlaces'
+);
+
 // ENTRY LIST
 $router->map(
     'GET',

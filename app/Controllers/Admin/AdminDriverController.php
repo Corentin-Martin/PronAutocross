@@ -69,6 +69,10 @@ class AdminDriverController extends AdminCoreController
             $driver->setStatus($status);
             $driver->setPicture($picture);
 
+            if (!$id) {
+            $driver->setPlace(0);
+            }
+
             if ($id) {
             $driver->setId($id);
             } 
@@ -107,8 +111,6 @@ class AdminDriverController extends AdminCoreController
         }
     }
 
-   
-
     public function delete($id) {
 
         $driver = Driver::find($id);
@@ -124,6 +126,68 @@ class AdminDriverController extends AdminCoreController
             exit ("erreur");
         }
         
+    }
+
+    public function editPlaces() {
+
+        $categories = Category::findAll();
+
+        $drivers = [];
+
+        foreach ($categories as $category) {
+            $drivers[$category->getId()] = Driver::findAllByCategory($category->getId());
+        }
+
+        $this->show('admin/driver/standings', ['categories' => $categories, 'drivers' => $drivers]);
+    }
+
+    public function updatePlaces() {
+
+        $errorList = [];
+
+        foreach ($_POST['place'] as $categoryId => $content) {
+
+            $uniqueCategory = array_unique($content);
+
+            if (count($uniqueCategory) !== $content) {
+                $category = Category::find($categoryId);
+                $errorList[] = 'Attention, un pilote est en double en ' . $category->getName() . " !";
+            }
+        }
+
+        if (empty($errorList)) {
+
+            $drivers = Driver::findAll();
+            foreach ($drivers as $driver) {
+                $driver->setPlace(0);
+                $driver->createOrUpdate();
+            }
+
+            foreach ($_POST['place'] as $category) {
+                foreach ($category as $place => $driverId) {
+
+                    if ($driverId !== '') {
+                        $driver = Driver::find($driverId);
+                        $driver->setPlace($place);
+                        $driver->createOrUpdate();
+                    }
+                }
+            }
+
+            header("Location: {$this->router->generate('driver-editPlaces')}");
+            exit;
+        }
+
+        $categories = Category::findAll();
+
+        $drivers = [];
+
+        foreach ($categories as $category) {
+            $drivers[$category->getId()] = Driver::findAllByCategory($category->getId());
+        }
+
+        $this->show('admin/driver/standings', ['categories' => $categories, 'drivers' => $drivers, 'errorList' => $errorList]);
+
     }
 
 

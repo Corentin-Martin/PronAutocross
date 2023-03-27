@@ -51,9 +51,13 @@ abstract class CoreModel {
             $classname = lcfirst(substr(static::class, 11));
         }
 
-        $sql = "SELECT * FROM $classname WHERE id=$id";
+        $sql = "SELECT * FROM $classname WHERE id = :id";
 
-        $query = $pdo->query($sql);
+        $query = $pdo->prepare($sql);
+
+        $query->bindValue(":id", $id, PDO::PARAM_INT);
+
+        $query->execute();
 
         return $query->fetchObject(static::class);
     }

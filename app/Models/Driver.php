@@ -11,6 +11,7 @@ class Driver extends CoreUser {
     private $vehicle;
     private $category_id;
     private $status;
+    private $place;
 
     public function getNumber(){ return $this->number; }
     public function setNumber($number): self { $this->number = $number; return $this; }
@@ -24,14 +25,17 @@ class Driver extends CoreUser {
     public function getStatus(){ return $this->status; }
     public function setStatus($status): self { $this->status = $status; return $this; }
 
+    public function getPlace(){ return $this->place; }
+    public function setPlace($place): self { $this->place = $place; return $this; }
+
     public function createOrUpdate() {
         $pdo = Database::getPDO();
 
         if ($this->id > 0) {
             $sql = 
-            "UPDATE `driver` SET `firstName`= :firstName, `lastName` = :lastName, `number` = :number, `vehicle` = :vehicle, `category_id` = :categoryId, `status` = :status, `picture` = :picture WHERE id = :id";
+            "UPDATE `driver` SET `firstName`= :firstName, `lastName` = :lastName, `number` = :number, `vehicle` = :vehicle, `category_id` = :categoryId, `status` = :status, `picture` = :picture, `place` = :place WHERE id = :id";
         } else {
-            $sql = "INSERT INTO `driver` (`firstName`, `lastName`, `number`, `vehicle`, `category_id`, `status`, `picture`) VALUES (:firstName, :lastName, :number, :vehicle, :categoryId, :status, :picture)";
+            $sql = "INSERT INTO `driver` (`firstName`, `lastName`, `number`, `vehicle`, `category_id`, `status`, `picture`, `place`) VALUES (:firstName, :lastName, :number, :vehicle, :categoryId, :status, :picture, :place)";
         }
 
         $query = $pdo->prepare($sql);
@@ -42,6 +46,7 @@ class Driver extends CoreUser {
         $query->bindValue(":vehicle",    $this->vehicle,     PDO::PARAM_STR);
         $query->bindValue(":categoryId", $this->category_id, PDO::PARAM_INT);
         $query->bindValue(":status",     $this->status,      PDO::PARAM_INT);
+        $query->bindValue(":place",      $this->place,       PDO::PARAM_INT);
         $query->bindValue(":picture",    $this->picture,     PDO::PARAM_STR);
 
         if ($this->id > 0) {
