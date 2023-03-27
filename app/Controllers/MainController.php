@@ -31,39 +31,52 @@ class MainController extends CoreController {
 
         $verification = Verification::lastVerif();
 
-        $race = Race::find($verification->getRaceId());
+        if ($verification) {
+            $race = Race::find($verification->getRaceId());
 
-        $scores = Score::sortingByRace(date('Y'), $race->getId());
-        $playersForRace = [];
+            $scores = Score::sortingByRace(date('Y'), $race->getId());
+            $playersForRace = [];
 
-        foreach (array_slice($scores, 0, 5) as $score) {
+            foreach (array_slice($scores, 0, 5) as $score) {
 
-            $model = [];
-            $model['score'] = $score->getTotal();
+                $model = [];
+                $model['score'] = $score->getTotal();
 
-            $player = Player::find($score->getPlayerId());
+                $player = Player::find($score->getPlayerId());
 
-            $model['pseudo'] = $player->getPseudo();
-            $model['place'] = $score->getPlace();
+                $model['pseudo'] = $player->getPseudo();
+                $model['place'] = $score->getPlace();
 
 
-            $playersForRace[$score->getPlayerId()] = $model;
-        } 
+                $playersForRace[$score->getPlayerId()] = $model;
+            } 
+        } else {
+            $playersForRace = null;
+            $race = null;
+        }
 
         $question = Questions::checkLast();
 
-        $verificationExist = Verification::showByRaceId($question->getRaceId(), $question->getYearId());
+        if ($question) {
+            $verificationExist = Verification::showByRaceId($question->getRaceId(), $question->getYearId());
 
-        $raceInProgress = Race::find($question->GetRaceId());
-
-        if (!$verificationExist && $raceInProgress->getDate() > date('Y-m-d H:i:s')) {
-            $gameInProgress = true;
+            $raceInProgress = Race::find($question->GetRaceId());
+    
+            if (!$verificationExist && $raceInProgress->getDate() > date('Y-m-d H:i:s')) {
+                $gameInProgress = true;
+            } else {
+                $gameInProgress = null;
+            }
         } else {
             $gameInProgress = null;
+            $raceInProgress = null;
         }
 
-
         $this->show('main/home', ['players' => $players, 'playersForRace' => $playersForRace, 'race' => $race, 'gameInProgress' => $gameInProgress, 'raceInProgress' => $raceInProgress]);
+    }
+
+    public function rules() {
+        $this->show('main/rules');
     }
     
 }

@@ -25,19 +25,25 @@
                 <th>Bonus 2</th>
             </thead>
             <tbody>
-                <?php foreach ($players as $player) : ?>
-                    <tr <?= (isset($_SESSION['user']) && ($_SESSION['user']->getPseudo() === $player['fiche']->getPseudo())) ? 'class="table-warning"' : "" ?>
-                    <?= ($player['place'] == 1) ? 'class="table-success"' : "" ?>>
-                        <td class="table-info fst-italic"><?= $player['place'] ?></td>
-                        <td class="fw-bold"><?= $player['fiche']->getPseudo() ?></td>
-                        <td class="table-success fw-bold"><?= $player['score']->getTotal(); ?></td>
-                        <?php foreach ($categories as $category) : $categoryToGet = str_replace(" ", "", $category->getName()); ?>
-                            <td><?= $player['score']->{'get'.$categoryToGet}(); ?></td>
-                        <?php endforeach; ?>
-                        <td><?= $player['score']->getBonus1(); ?></td>
-                        <td><?= $player['score']->getBonus2(); ?></td>
+                <?php if (!empty($players)) : ?>
+                    <?php foreach ($players as $player) : ?>
+                        <tr <?= (isset($_SESSION['user']) && ($_SESSION['user']->getPseudo() === $player['fiche']->getPseudo())) ? 'class="table-warning"' : "" ?>
+                        <?= ($player['place'] == 1) ? 'class="table-success"' : "" ?>>
+                            <td class="table-info fst-italic"><?= $player['place'] ?></td>
+                            <td class="fw-bold"><?= $player['fiche']->getPseudo() ?></td>
+                            <td class="table-success fw-bold"><?= $player['score']->getTotal(); ?></td>
+                            <?php foreach ($categories as $category) : $categoryToGet = str_replace(" ", "", $category->getName()); ?>
+                                <td><?= $player['score']->{'get'.$categoryToGet}(); ?></td>
+                            <?php endforeach; ?>
+                            <td><?= $player['score']->getBonus1(); ?></td>
+                            <td><?= $player['score']->getBonus2(); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else : ?>
+                    <tr>
+                        <td colspan="14">Pas encore de résultats pour cette épreuve...</td>
                     </tr>
-                <?php endforeach; ?>
+                <?php endif; ?>
             </tbody>
         </table>
     </div>

@@ -42,7 +42,7 @@
                                 </ul>
                             <?php endif; ?>
 
-                                <a class="nav-link active" href="#">
+                                <a class="nav-link active" href="<?= $this->router->generate('rules'); ?>">
                                     Règles du jeu
                                 </a>
                                 <a class="nav-link active" href="<?= $this->router->generate('general', ['year' => date('Y')]); ?>">

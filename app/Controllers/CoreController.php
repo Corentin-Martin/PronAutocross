@@ -37,7 +37,7 @@ abstract class CoreController {
 
     protected function show($viewName, $viewData = [], $year = null) {
 
-        $baseURI = $_SERVER['BASE_URI'] . '/';
+        $baseURI = $_SERVER['BASE_URI'];
 
         extract($viewData);
 

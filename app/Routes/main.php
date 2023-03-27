@@ -11,3 +11,13 @@ $router->map(
     ],
     'home'
 );
+
+$router->map(
+    'GET',
+    '/rules',
+    [
+    'controller' => MainController::class,
+    'method' => 'rules'
+    ],
+    'rules'
+);

@@ -68,7 +68,7 @@ class GeneralScore extends CoreModel
 
         $pdo = Database::getPDO();
 
-        $sql = "SELECT general_score.*, player.pseudo FROM `general_score` JOIN `player` ON player.id = general_score.player_id WHERE general_score.year_id = :yearId ORDER BY general_score.total DESC, player.pseudo ASC";
+        $sql = "SELECT general_score.*, player.pseudo FROM `general_score` JOIN `player` ON player.id = general_score.player_id WHERE general_score.year_id = :yearId AND place > 0 ORDER BY general_score.total DESC, player.pseudo ASC";
 
         $query = $pdo->prepare($sql);
 
