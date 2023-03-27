@@ -10,6 +10,8 @@
     </div>
 <?php endif; ?>
 
+<p class="row bg-success rounded-3 p-2 m-3 justify-content-center text-light shadow">Sélectionnez un pilote par catégorie en cliquant dessus, faites défiler l'écran pour toutes les parcourir puis répondez aux deux questions bonus et validez votre participation !</p>
+
 <form action="" method="post" class="row d-flex flex-column align-items-center">
 
     <?php foreach ($categories as $category) : $categoryToGet = str_replace(" ", "", $category->getName()); ?>
