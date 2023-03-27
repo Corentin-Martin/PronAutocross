@@ -26,7 +26,7 @@
     <div class="form-group">
     <label for="firstName"> Numéro
 
-        <input type="number" class="form-control" name="number" id="number" placeholder="Numéro de course" <?= ($driver) ? "value = \" {$driver->getNumber()} \"" : "" ?>required>
+        <input type="number" class="form-control" name="number" id="number" placeholder="Numéro de course" <?= ($driver) ? "value = \"{$driver->getNumber()}\"" : "" ?>required>
     
     </label>
     </div>

@@ -33,6 +33,6 @@
 
 </header>
 
-<main class="main__admin">
+<main class="main__admin m-auto vh-100 overflow-auto">
 
 

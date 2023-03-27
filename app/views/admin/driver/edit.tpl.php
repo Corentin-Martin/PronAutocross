@@ -36,7 +36,7 @@
 
         <select name="category" id="category" required>
             <option value="<?= $driver->getCategoryId() ?>" selected ><?= $categoriesById[$driver->getCategoryId()]->getName() ?></option>
-            <?php foreach ($viewData['categoriesById'] as $category) : ?>
+            <?php foreach ($categories as $category) : ?>
                 <option value = "<?= $category->getId() ?>"> <?= $category->getName() ?></option>
             <?php endforeach; ?>
 

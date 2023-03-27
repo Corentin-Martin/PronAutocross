@@ -15,7 +15,7 @@
     </div>
     <div class="form-group">
         <label for="running_order">Ordre de passage
-            <input class="form-control" type="number" name="running_order" id="running_order" min="0" max="20" step="1" <?= ($category) ? "value = \" {$category->getRunningOrder()} \"" : "value = \"0\"" ?> >
+            <input class="form-control" type="number" name="running_order" id="running_order" min="0" max="20" step="1" <?= ($category) ? "value = \"{$category->getRunningOrder()}\"" : "value = \"0\"" ?> >
         </label>
     </div>
     

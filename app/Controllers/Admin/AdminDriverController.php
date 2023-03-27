@@ -36,13 +36,18 @@ class AdminDriverController extends AdminCoreController
     public function addOrEdit($id = null) {
         $categories = Category::findAll();
 
+        $categoriesById = [];
+        foreach ($categories as $category) {
+            $categoriesById[$category->getId()] = $category;
+        }
+
         if ($id) {
             $driver = Driver::find($id);
         } else {
             $driver = null;
         }
 
-        $this->show('admin/driver/add', ['categories' => $categories, 'driver' => $driver]);
+        $this->show('admin/driver/add', ['categories' => $categoriesById, 'driver' => $driver]);
     }
 
     public function createOrUpdate($id = null) {

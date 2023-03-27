@@ -35,7 +35,7 @@ class AdminRateController extends AdminCoreController
             } else {
                 $percentage = $driverVotes * 100 / $participations;
     
-                $newRate = 70 / $percentage;
+                $newRate = 30 / $percentage;
         
                 if ($newRate > 20) {
                     $newRate = 20;
@@ -49,10 +49,26 @@ class AdminRateController extends AdminCoreController
             $rate2 = $driverRate->getRate2();
     
             $averageRate = ($newRate + $rate2) / 2;
+
+            $coeff = [
+                0 => 9,
+                1 => 1.01,
+                2 => 1.25,
+                3 => 1.50,
+                4 => 1.70,
+                5 => 1.80,
+                6 => 2.30,
+                7 => 2.50,
+                8 => 3.30,
+                9 => 3.90,
+                10 => 4.20,
+            ];
+
+            $rateWithPlace = round((($averageRate + $coeff[$driver->getPlace()]) / 2), 2);
     
             $driverRate->setRate1($rate2);
             $driverRate->setRate2($newRate);
-            $driverRate->setOverall($averageRate);
+            $driverRate->setOverall($rateWithPlace);
             
             $driverRate->createOrUpdate();
         }

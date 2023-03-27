@@ -38,7 +38,7 @@
             <th>Nom de famille</th>
             <th>Numéro</th>
             <th>Véhicule</th>
-            <th>Photo</th>
+            <!-- <th>Photo</th> -->
             <th>Catégorie</th>
             <th>Statut</th>
             <th>Cote</th>
@@ -55,7 +55,7 @@
     <td><?= $driver->getLastName() ?></td>
     <td><?= $driver->getNumber() ?></td>
     <td><?= $driver->getVehicle() ?></td>
-    <td><img src="<?= $baseURI .$driver->getPicture() ?>" alt="" class="picture-driver"></td>
+    <!-- <td><img src="<?= $baseURI .$driver->getPicture() ?>" alt="" class="picture-driver"></td> -->
     <td><?= $categoriesById[$driver->getcategoryId()]->getName() ?></td>
     <td><?= ($driver->getstatus() == 1) ? 'Prioritaire' : 'Invité' ?></td>
     <td><?= $rate[$driver->getId()]->getOverall()  ?></td>

@@ -8,11 +8,11 @@
     </div>
 <?php endif; ?>
 
-<div class="admin__container">
+
     <form action="" method="post">
         <div class="row d-flex justify-content-around">
             <?php foreach ($categories as $category) : ?>
-                <div class="row col-12 col-sm-5 bg-light d-flex justify-content-center mt-3 m-1 p-2 rounded-4">
+                <div class="row col-10 col-sm-4 bg-light d-flex justify-content-center mt-3 m-1 p-2 rounded-4">
                     <h4 class="col-8"><?=$category->getName() ?></h4>
                     <div class="col-6">
                         <?php for ($index = 1; $index < 11; $index ++) : ?>
@@ -32,4 +32,8 @@
         </div>
         <button class="btn btn-success" type="submit">METTRE A JOUR LES CLASSEMENTS</button>
     </form>
+
+
+<div>
+    <a type="button" class="btn btn-warning btn-lg"  href="<?= $this->router->generate('driver-home') ?>">RETOUR</a>
 </div>
