@@ -73,7 +73,7 @@ $router->map(
 
 $router->map(
     'GET',
-    '/admin/category/delete/[i:id]',
+    '/admin/category/delete/[i:id]/[h:token]',
     [
     'controller' => AdminCategoryController::class,
     'method' => 'delete'
@@ -143,18 +143,8 @@ $router->map(
 );
 
 $router->map(
-    'POST',
-    '/admin/driver/edit/[i:driverId]',
-    [
-    'controller' => AdminDriverController::class,
-    'method' => 'makeEdit'
-    ],
-    'driver-makeEdit'
-);
-
-$router->map(
     'GET',
-    '/admin/driver/delete/[i:id]',
+    '/admin/driver/delete/[i:id]/[h:token]',
     [
     'controller' => AdminDriverController::class,
     'method' => 'delete'
@@ -225,7 +215,7 @@ $router->map(
 
 $router->map(
     'GET',
-    '/admin/entrylist/delete/[i:year]/[i:id]',
+    '/admin/entrylist/delete/[i:year]/[i:id]/[h:token]',
     [
     'controller' => AdminEntryListController::class,
     'method' => 'deletelist'
@@ -235,7 +225,7 @@ $router->map(
 
 $router->map(
     'GET',
-    '/admin/entrylist/deletedriver/[i:id]',
+    '/admin/entrylist/deletedriver/[i:id]/[h:token]',
     [
     'controller' => AdminEntryListController::class,
     'method' => 'deleteentry'
@@ -306,7 +296,7 @@ $router->map(
 
 $router->map(
     'GET',
-    '/admin/question/delete/[i:id]',
+    '/admin/question/delete/[i:id]/[h:token]',
     [
     'controller' => AdminQuestionController::class,
     'method' => 'delete'
@@ -376,7 +366,7 @@ $router->map(
 
 $router->map(
     'GET',
-    '/admin/race/delete/[i:id]',
+    '/admin/race/delete/[i:id]/[h:token]',
     [
     'controller' => AdminRaceController::class,
     'method' => 'delete'
@@ -478,7 +468,7 @@ $router->map(
 
 $router->map(
     'GET',
-    '/admin/verification/delete/[i:id]',
+    '/admin/verification/delete/[i:id]/[h:token]',
     [
     'controller' => AdminVerificationController::class,
     'method' => 'delete'

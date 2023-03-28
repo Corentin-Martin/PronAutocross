@@ -152,6 +152,7 @@ class UserLogController extends CoreController
 
     public function logout() {
         unset($_SESSION['user']);
+        unset($_SESSION['token']);
 
         header( "Location: {$this->router->generate('home')}" );
         exit();

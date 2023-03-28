@@ -33,6 +33,8 @@
         <form action="" method="post">
             <input type="hidden" name="yearId" value="<?= $verification->getYearId()?>">
             <input type="hidden" name="raceId" value="<?= $verification->getRaceId()?>">
+            <?php $token = $_SESSION['token'] = random_bytes(5); ?>
+            <input type="hidden" name="token" value="<?= $token ?>">
             <button class="btn btn-success btn-lg"type="submit">C'EST OK, je veux lancer le calcul du score !</button>
         </form>
     </div>

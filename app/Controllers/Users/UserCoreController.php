@@ -3,13 +3,9 @@
 namespace App\Controllers\Users;
 
 use App\Controllers\CoreController;
-use App\Models\Category;
-use App\Models\EntryList;
 use App\Models\GeneralScore;
 use App\Models\Participation;
-use App\Models\Questions;
 use App\Models\Race;
-use App\Models\Rate;
 use App\Models\Score;
 
 class UserCoreController extends CoreController
@@ -27,6 +23,25 @@ class UserCoreController extends CoreController
             header("Location: {$this->router->generate('home')}");
             exit;
         };
+
+        $csrfTokenToCheck = [
+            'user-update',
+          ];
+  
+          if (in_array($match['name'], $csrfTokenToCheck)) {
+              
+              $postToken = isset($_POST['token']) ? $_POST['token'] : '';
+              $sessionToken = isset($_SESSION['token']) ? $_SESSION['token'] : '';
+  
+              if ($postToken !== $sessionToken || empty($postToken)) {
+  
+                header( "Location: {$this->router->generate('error403')}" );
+                exit;
+  
+              } else {
+                  unset($_SESSION['token']);
+              }
+          }
     }
 
     public function dashboard() {

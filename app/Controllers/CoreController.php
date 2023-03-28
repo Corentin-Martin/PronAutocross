@@ -14,6 +14,41 @@ abstract class CoreController {
         $this->match = $match;
         $this->dispatcher = $dispatcher;
 
+        $csrfTokenToCheck = [
+          'category-create',
+          'category-update',
+          'driver-create',
+          'driver-update',
+          'driver-updatePlaces',
+          'entrylist-create',
+          'question-create',
+          'question-update',
+          'race-create',
+          'race-update',
+          'verification-create',
+          'verification-update',
+          'verification-makevalidation',
+          'rate-update',
+          'user-participation'
+        ];
+
+        if (in_array($match['name'], $csrfTokenToCheck)) {
+            
+            $postToken = isset($_POST['token']) ? $_POST['token'] : '';
+            $sessionToken = isset($_SESSION['token']) ? $_SESSION['token'] : '';
+
+            dd(bin2hex($postToken), bin2hex($sessionToken));
+
+            if ($postToken !== $sessionToken || empty($postToken)) {
+
+              header( "Location: {$this->router->generate('error403')}" );
+              exit;
+
+            } else {
+                unset($_SESSION['token']);
+            }
+        }
+
     }
 
     public function checkAuthorization($authorizedRoles = [])

@@ -71,6 +71,9 @@
                 <button class="btn btn-success btn-lg"type="submit">VALIDER LA LISTE DES ENGAGES</button>
             </div>
 
+            <?php $token = $_SESSION['token'] = random_bytes(5); ?>
+            <input type="hidden" name="token" value="<?= $token ?>">
+
         </form>
     </div>
 

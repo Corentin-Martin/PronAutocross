@@ -76,7 +76,18 @@ class AdminRaceController extends AdminCoreController
         $this->show('admin/race/list', ['races' => $races, 'currentYear' => $year, 'years' => $years]);
     }
 
-    public function delete($id) {
+    public function delete($id, $token) {
+
+        $sessionToken = isset($_SESSION['token']) ? $_SESSION['token'] : '';
+
+        if (hex2bin($token) !== $sessionToken) {
+
+            header( "Location: {$this->router->generate('error403')}" );
+            exit;
+
+        } else {
+            unset($_SESSION['token']);
+        }
 
         $race = Race::find($id);
 

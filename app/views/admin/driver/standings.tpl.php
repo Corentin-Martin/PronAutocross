@@ -30,6 +30,8 @@
                 </div>
             <?php endforeach; ?>
         </div>
+        <?php $token = $_SESSION['token'] = random_bytes(5); ?>
+        <input type="hidden" name="token" value="<?= $token ?>">
         <button class="btn btn-success" type="submit">METTRE A JOUR LES CLASSEMENTS</button>
     </form>
 

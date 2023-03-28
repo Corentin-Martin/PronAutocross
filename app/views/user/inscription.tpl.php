@@ -46,6 +46,9 @@
             </div>
 
             <input type="hidden" name="role" value="member">
+            <?php if ($player) : $token = $_SESSION['token'] = random_bytes(5);  ?>
+                <input type="hidden" name="token" value="<?= $token ?>">
+            <?php endif; ?>
             <p class="fst-italic">*Champs obligatoires</p>
             <button type="submit" class="btn btn-primary">
                 <?php if ($player) : ?>

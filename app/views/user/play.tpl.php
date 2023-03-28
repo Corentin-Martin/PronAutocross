@@ -74,6 +74,8 @@
         <input type="hidden" name="raceId" id="raceId" value="<?= $race->getId() ?>">
         <input type="hidden" name="year" id="year" value="<?= date('Y') ?>">
         <input type="hidden" name="playerId" id="playerId" value="<?= $_SESSION['user']->getId() ?>">
+        <?php $token = $_SESSION['token'] = random_bytes(5); ?>
+        <input type="hidden" name="token" value="<?= $token ?>">
 
         <button class="btn btn-success col-6 mt-3" type="submit">Envoyer votre participation</button>
 </form>

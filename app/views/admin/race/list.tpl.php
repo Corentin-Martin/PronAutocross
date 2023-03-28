@@ -1,4 +1,4 @@
-
+<?php $token = $_SESSION['token'] = random_bytes(5); ?>
 <div class="admin__container">
     
     <div>
@@ -46,7 +46,7 @@
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="">Non</a></li>
-                                <li><a class="dropdown-item" href="<?= $this->router->generate('race-delete', ['id' => $race->getId()]) ?>">Confirmer la suppression</a></li>
+                                <li><a class="dropdown-item" href="<?= $this->router->generate('race-delete', ['id' => $race->getId(), 'token' => bin2hex($token)]) ?>">Confirmer la suppression</a></li>
                             </ul>
                         </div>
                     </td>

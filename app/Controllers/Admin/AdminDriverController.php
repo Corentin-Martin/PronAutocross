@@ -116,7 +116,19 @@ class AdminDriverController extends AdminCoreController
         }
     }
 
-    public function delete($id) {
+    public function delete($id, $token) {
+        
+        $sessionToken = isset($_SESSION['token']) ? $_SESSION['token'] : '';
+
+
+        if (hex2bin($token) !== $sessionToken) {
+
+            header( "Location: {$this->router->generate('error403')}" );
+            exit;
+
+        } else {
+            unset($_SESSION['token']);
+        }
 
         $driver = Driver::find($id);
 

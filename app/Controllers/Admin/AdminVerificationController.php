@@ -302,9 +302,7 @@ class AdminVerificationController extends AdminCoreController
             $verification->setRaceId($raceId);
             $verification->setYearId($yearId);
     
-            $update = $verification->createOrUpdate();
-    
-            if ($update) {
+            if ($verification->createOrUpdate()) {
     
                 header("Location: {$this->router->generate('verification-validation', ['id' => $verification->getId()])}");
                 exit;
@@ -342,7 +340,18 @@ class AdminVerificationController extends AdminCoreController
         $this->show('admin/verification/list', ['verifications' => $verifications, 'currentYear' => $year, 'races' => $racesById, 'categories' => $categoriesById, 'years' => $years, 'driversById' => $driversById]);
     }
 
-    public function delete($id) {
+    public function delete($id, $token) {
+
+        $sessionToken = isset($_SESSION['token']) ? $_SESSION['token'] : '';
+
+        if (hex2bin($token) !== $sessionToken) {
+
+            header( "Location: {$this->router->generate('error403')}" );
+            exit;
+
+        } else {
+            unset($_SESSION['token']);
+        }
 
         $verification = Verification::find($id);
 

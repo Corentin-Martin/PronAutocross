@@ -20,6 +20,8 @@ class AdminCoreController extends CoreController
             header("Location: {$this->router->generate('home')}");
             exit;
         };
+
+   
     }
 
     public function home() {
