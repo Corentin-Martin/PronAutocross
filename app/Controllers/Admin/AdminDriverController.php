@@ -60,40 +60,61 @@ class AdminDriverController extends AdminCoreController
             $overall = filter_input(INPUT_POST, 'overall', FILTER_VALIDATE_FLOAT);
             $picture = isset($_POST['picture']) ? filter_input(INPUT_POST, 'picture', FILTER_SANITIZE_SPECIAL_CHARS) : 'assets/images/damier-picto.png';
 
+            $errorList = [];
+
+            if (empty($firstName) || empty($lastName) || empty($number) || empty($vehicle) || empty($categoryId) || empty($status) || empty($rate1) || empty($rate2) || empty($overall)) {
+                $errorList[] = "Tous les champs sont obligatoires.";
+            }
+
+            if (empty($errorList)) {
+                if ($id) {
+                    $driver = Driver::find($id);
+                } else {
+                    $driver = new Driver();
+                }
+    
+                $driver->setFirstName($firstName);
+                $driver->setLastName($lastName);
+                $driver->setNumber($number);
+                $driver->setVehicle($vehicle);
+                $driver->setCategoryId($categoryId);
+                $driver->setStatus($status);
+                $driver->setPicture($picture);
+                $driver->setPlace($place);
+                $driver->setRate1($rate1);
+                $driver->setRate2($rate2);
+                $driver->setOverall($overall);
+    
+                if ($id) {
+                $driver->setId($id);
+                } 
+    
+                if ($driver->createOrUpdate()) {
+    
+                    header("Location: {$this->router->generate('driver-list', ['categoryId' => $categoryId, 'action' => 'number'])}");
+                    exit; 
+    
+                } else {
+                    $errorList[] = "Erreur lors de l'enregistrement.";
+                }
+            } 
+
+            $categories = Category::findAll();
+            $categoriesById = [];
+            foreach ($categories as $category) {
+                $categoriesById[$category->getId()] = $category;
+            }
+    
             if ($id) {
                 $driver = Driver::find($id);
             } else {
-                $driver = new Driver();
+                $driver = null;
             }
 
-            $driver->setFirstName($firstName);
-            $driver->setLastName($lastName);
-            $driver->setNumber($number);
-            $driver->setVehicle($vehicle);
-            $driver->setCategoryId($categoryId);
-            $driver->setStatus($status);
-            $driver->setPicture($picture);
-            $driver->setPlace($place);
-            $driver->setRate1($rate1);
-            $driver->setRate2($rate2);
-            $driver->setOverall($overall);
-
-            if ($id) {
-            $driver->setId($id);
-            } 
-
-            if ($driver->createOrUpdate()) {
-
-                header("Location: {$this->router->generate('driver-list', ['categoryId' => $categoryId, 'action' => 'number'])}");
-                exit; 
-
-            } else {
-                echo "<p> Erreur, pilote non ajouté </p>";
-                exit;
-            }
+            $this->show('admin/driver/add', ['categories' => $categoriesById, 'driver' => $driver, 'errorList' => $errorList]);
 
         } else {
-            header("Location: {$this->router->generate('driver-home')}");
+            header("Location: {$this->router->generate('error403')}");
             exit; 
         }
     }

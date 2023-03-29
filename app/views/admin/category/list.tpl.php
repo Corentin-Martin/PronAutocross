@@ -4,6 +4,16 @@
 
     <h2 class="admin__container__title">CATEGORIES</h2>
 
+    <?php if (!empty($errorList)) : ?>
+        <div class="alert alert-danger col-12 col-sm-8 m-auto" role="alert">
+            <ul>
+                <?php foreach($errorList as $error) : ?>
+                    <li><?= $error ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
+
     <div>
         <table class="table table-light table-stripped table-striped-columns table-hover">
             <thead>

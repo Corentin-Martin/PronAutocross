@@ -7,6 +7,16 @@
     <h2 class="admin__container__title">Générer une fiche pilote</h2>
 <?php endif; ?>
 
+<?php if (!empty($errorList)) : ?>
+    <div class="alert alert-danger col-12 col-sm-8 m-auto" role="alert">
+        <ul>
+            <?php foreach($errorList as $error) : ?>
+                <li><?= $error ?></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+<?php endif; ?>
+
     <div>
     <form action="" method="post">
     <div class="form-group">

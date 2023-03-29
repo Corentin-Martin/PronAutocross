@@ -24,26 +24,39 @@ class AdminCategoryController extends AdminCoreController
             $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
             $running_order = filter_input(INPUT_POST, 'running_order', FILTER_VALIDATE_INT);
 
+            $errorList = [];
+
+            if (empty($name) || empty($running_order)) {
+                $errorList[] = "Tous les champs sont obligatoires.";
+            }
+
             if ($id) {
                 $category = Category::find($id);
             } else {
                 $category = new Category();  
             }
 
-            $category->setName($name);
-            $category->setRunningOrder($running_order);
+            if (empty($errorList)) {
 
-            if($id) {
-                $category->setId($id);
+                $category->setName($name);
+                $category->setRunningOrder($running_order);
+    
+                if($id) {
+                    $category->setId($id);
+                }
+    
+                if ($category->createOrUpdate()) {
+                    header("Location: {$this->router->generate('category-list')}");
+                } else {
+                    $errorList[] = "Erreur lors de l'enregistrement.";
+                }
             }
 
-            if ($category->createOrUpdate()) {
-                header("Location: {$this->router->generate('category-list')}");
-            } else {
-                exit("erreur");
-            }
+            $this->show('admin/category/add', ['category' => $category, 'errorList' => $errorList]);
+
+
         } else {
-            header("Location: {$this->router->generate('category-list')}");
+            header("Location: {$this->router->generate('error403')}");
             exit; 
         }
         
@@ -78,7 +91,12 @@ class AdminCategoryController extends AdminCoreController
             exit;
 
         } else {
-            exit ("erreur");
+            $errorList = [];
+            $errorList[] = "Une erreur est survenue lors de la suppression.";
+
+            $categories = Category::findAll();
+
+            $this->show('admin/category/list', ['categories' => $categories, 'errorList' => $errorList]);
         }
         
     }
