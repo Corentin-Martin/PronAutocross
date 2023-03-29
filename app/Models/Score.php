@@ -2,10 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Verification;
-use App\Models\Category;
-use App\Models\Rate;
-use App\Models\Participation;
 use App\Utils\Database;
 use PDO;
 
@@ -34,13 +30,13 @@ class Score extends CoreGame {
 
         if ($this->id > 0) {
             $sql = 
-            "UPDATE `score` SET `maxiSprint`= :maxiSprint, `tourismeCup` = :tourismeCup, `sprintGirls` = :sprintGirls, `buggyCup` = :buggyCup, `juniorSprint` = :juniorSprint, `maxiTourisme` = :maxiTourisme, `buggy1600` = :buggy1600, `superSprint` = :superSprint, `superBuggy` = :superBuggy, `bonus1` = :bonus1, `bonus2` = :bonus2, `race_id` = :raceId, `year_id` = :yearId, `participation_id` = :participationId, `total` = :total, `player_id` = :playerId WHERE id = :id";
+            "UPDATE `score` SET `maxiSprint`= :maxiSprint, `tourismeCup` = :tourismeCup, `sprintGirls` = :sprintGirls, `buggyCup` = :buggyCup, `juniorSprint` = :juniorSprint, `maxiTourisme` = :maxiTourisme, `buggy1600` = :buggy1600, `superSprint` = :superSprint, `superBuggy` = :superBuggy, `bonus1` = :bonus1, `bonus2` = :bonus2, `race_id` = :raceId, `year_id` = :yearId, `participation_id` = :participationId, `total` = :total, `player_id` = :playerId, `updated_at` = NOW() WHERE id = :id";
         } else {
             $sql = "INSERT INTO `score` 
             (`maxiSprint`, `tourismeCup`, `sprintGirls`, `buggyCup`, `juniorSprint`, `maxiTourisme`, `buggy1600`, `superSprint`,
-            `superBuggy`, `bonus1`, `bonus2`, `race_id`, `year_id`, `participation_id`, `total`, `player_id`) 
+            `superBuggy`, `bonus1`, `bonus2`, `race_id`, `year_id`, `participation_id`, `total`, `player_id`, `created_at`) 
             VALUES 
-            ( :maxiSprint, :tourismeCup, :sprintGirls, :buggyCup, :juniorSprint, :maxiTourisme, :buggy1600, :superSprint, :superBuggy, :bonus1, :bonus2, :raceId, :yearId, :participationId, :total, :playerId)";
+            ( :maxiSprint, :tourismeCup, :sprintGirls, :buggyCup, :juniorSprint, :maxiTourisme, :buggy1600, :superSprint, :superBuggy, :bonus1, :bonus2, :raceId, :yearId, :participationId, :total, :playerId, NOW())";
         }
         
         $query = $pdo->prepare($sql);

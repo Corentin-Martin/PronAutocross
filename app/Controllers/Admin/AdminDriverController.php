@@ -4,9 +4,9 @@ namespace App\Controllers\Admin;
 
 use App\Models\Category;
 use App\Models\Driver;
-use App\Models\EntryList;
 use App\Models\Participation;
 use App\Models\Race;
+use App\Models\Year;
 
 class AdminDriverController extends AdminCoreController
 {
@@ -203,9 +203,7 @@ class AdminDriverController extends AdminCoreController
 
         foreach ($drivers as $driver) {
 
-            $entry = EntryList::findDriverParticipation(date('Y'), $raceId, $driver->getId());
-
-            if ($entry) {
+            if ($driver->findParticipation($raceId)) {
                 $driverVotes = count(Participation::showAllForADriver(date('Y'), $raceId, $driver->getId()));
 
                 if ($driverVotes === 0) {
@@ -254,4 +252,132 @@ class AdminDriverController extends AdminCoreController
         header("Location: {$this->router->generate('driver-list', ['categoryId' => 1, 'action' => 'number'])}");
         exit;
     }
+
+    // ENTRY LIST
+
+    public function homeForEntryList() {
+        $this->show('admin/entrylist/home');
+    }
+
+    public function listOfEntrylist($year, $id) {
+
+        $currentEntry = Driver::listByRace($id);
+
+        $entry = Driver::listByYear($year);
+
+
+        if (!empty($entry) && empty($currentEntry)) {
+            $id = $entry[0]['race_id'];
+        } 
+
+        $years = Year::findAll();
+
+        $categories = Category::findAll();
+        $categoriesById = [];
+        foreach ($categories as $category) {
+            $categoriesById[$category->getId()] = $category;
+        }
+
+        $races = Race::findByYear($year);
+        $racesById = [];
+        foreach ($races as $race) {
+            $racesById[$race->getId()] = $race;
+        }
+
+        $drivers = Driver::findAll();
+        $driversById = [];
+        foreach ($drivers as $driver) {
+            $driversById[$driver->getId()] = $driver;
+        }
+
+
+        $entrylist = Driver::listByRace($id);
+
+        $this->show('admin/entrylist/list', ['entrylist' => $entrylist, 'category' => $categoriesById, 'driver' => $driversById, 'races' => $racesById, 'currentYear' => $year, 'years' => $years, 'raceId' => $id]);
+    }
+
+    public function addEntryList() {
+
+        $categories = Category::findAll();
+
+        $races = Race::findByYear(date('Y'));
+
+        $availablePrio = [];
+        $availableInvit = [];
+        foreach ($categories as $category) {
+            $availablePrio[$category->getId()] = Driver::findByCategoryAndStatus($category->getId(), 1);
+            $availableInvit[$category->getId()] = Driver::findByCategoryAndStatus($category->getId(), 0);
+        }
+
+        $this->show('admin/entrylist/add', ['categories' => $categories, 'races' => $races, 'prioritaires' => $availablePrio, 'invites' => $availableInvit]);
+    }
+
+    public function createEntrylist() {
+        if (isset($_POST)) {
+            $raceId = filter_input(INPUT_POST, 'race', FILTER_VALIDATE_INT);
+
+            foreach (array_slice(array_keys($_POST), 2) as $driverId) {
+                $driver = Driver::find($driverId);
+
+                if ($driver) {
+                    $driver->createEntry($raceId);
+                }
+            }
+            header("Location: {$this->router->generate('entrylist-home')}");
+            exit;
+        } else {
+            header("Location: {$this->router->generate('entrylist-home')}");
+            exit; 
+        }
+    }
+
+    public function deleteEntryList($raceId, $token) {
+
+        $sessionToken = isset($_SESSION['token']) ? $_SESSION['token'] : '';
+
+        if (hex2bin($token) !== $sessionToken) {
+
+            header( "Location: {$this->router->generate('error403')}" );
+            exit;
+
+        } else {
+            unset($_SESSION['token']);
+        }
+
+        if (Driver::deleteList($raceId)) {
+
+            header("Location:  {$this->router->generate('entrylist-home')}");
+            exit;
+
+        } else {
+            exit ("erreur");
+        }
+    }
+
+    public function deleteSingleEntry($year, $raceId, $id, $token) {
+
+        $sessionToken = isset($_SESSION['token']) ? $_SESSION['token'] : '';
+
+        if (hex2bin($token) !== $sessionToken) {
+
+            header( "Location: {$this->router->generate('error403')}" );
+            exit;
+
+        } else {
+            unset($_SESSION['token']);
+        }
+
+        $entry = Driver::find($id);
+
+        if ($entry->deleteentry($raceId)) {
+
+            header("Location:  {$this->router->generate('entrylist-list', ['year' => $year, 'id' => $raceId])}");
+            exit;
+
+        } else {
+            exit ("erreur");
+        }
+    }
+
+
 }

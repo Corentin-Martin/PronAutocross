@@ -147,4 +147,140 @@ class Driver extends CoreUser {
 
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return Driver[]
+     */
+    static public function listByRace($raceId)
+    {
+        $pdo = Database::getPDO();
+
+        $sql = 'SELECT driver.* FROM entry_list JOIN driver ON driver.id = entry_list.driver_id WHERE entry_list.race_id = :raceId';
+
+        $query = $pdo->prepare( $sql );
+
+        $query->bindValue(":raceId",        $raceId,       PDO::PARAM_INT);
+
+        $query->execute();
+
+        return $query->fetchAll(PDO::FETCH_CLASS, Driver::class);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return Driver[]
+     */
+    static public function listByYear($yearId)
+    {
+        $pdo = Database::getPDO();
+
+        $sql = 'SELECT entry_list.race_id FROM entry_list JOIN race ON race.id = entry_list.race_id WHERE race.year_id = :yearId';
+
+        $query = $pdo->prepare( $sql );
+
+        $query->bindValue(":yearId",        $yearId,       PDO::PARAM_INT);
+
+        $query->execute();
+
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function createEntry($raceId) {
+
+        $pdo = Database::getPDO();
+
+        $sql = "INSERT INTO entry_list (`race_id`, `driver_id`) VALUES (:raceId, :driverId)";
+
+        $query = $pdo->prepare($sql);
+
+        $query->bindValue(":raceId",        $raceId,       PDO::PARAM_INT);
+        $query->bindValue(":driverId",      $this->id,     PDO::PARAM_INT);
+
+        $query->execute();
+
+        return ($query->rowCount() === 1);
+
+    }
+
+    static public function listByRaceAndCategory($raceId, $categoryId) {
+
+        $pdo = Database::getPDO();
+
+        $sql = "SELECT driver.* FROM entry_list JOIN driver ON driver.id = entry_list.driver_id  WHERE entry_list.race_id = :raceId AND driver.category_id = :categoryId";
+
+        $query = $pdo->prepare($sql);
+
+        $query->bindValue(":raceId",        $raceId,       PDO::PARAM_INT);
+        $query->bindValue(":categoryId",    $categoryId,   PDO::PARAM_INT);
+
+        $query->execute();
+
+        return $query->fetchAll(PDO::FETCH_CLASS, Driver::class);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return Driver
+     */
+    public function findParticipation($raceId) {
+
+        $pdo = Database::getPDO();
+
+        $sql = "SELECT driver.* FROM entry_list JOIN driver ON driver.id = entry_list.driver_id WHERE entry_list.race_id = :raceId AND entry_list.driver_id = :driverId";
+
+        $query = $pdo->prepare($sql);
+
+        $query->bindValue(":raceId",        $raceId,     PDO::PARAM_INT);
+        $query->bindValue(":driverId",      $this->id,   PDO::PARAM_INT);
+
+        $query->execute();
+
+        return $query->fetchObject(Driver::class);
+    }
+
+
+    static public function deleteList($raceId){
+
+        $pdo = Database::getPDO();
+
+        $sql = "DELETE FROM entry_list WHERE `race_id` = :raceId";
+
+        $query = $pdo->prepare($sql);
+
+        $query->bindValue(":raceId",        $raceId,       PDO::PARAM_INT);
+
+        $query->execute();
+
+        if ($query->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    public function deleteEntry($raceId){
+
+        $pdo = Database::getPDO();
+
+        $sql = "DELETE FROM entry_list WHERE `race_id` = :raceId AND driver_id = :driverId";
+
+        $query = $pdo->prepare($sql);
+
+        $query->bindValue(":raceId",        $raceId,       PDO::PARAM_INT);
+        $query->bindValue(":driverId",      $this->id,     PDO::PARAM_INT);
+
+        $query->execute();
+
+        if ($query->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
 }

@@ -3,10 +3,8 @@
 use App\Controllers\Admin\AdminCategoryController;
 use App\Controllers\Admin\AdminCoreController;
 use App\Controllers\Admin\AdminDriverController;
-use App\Controllers\Admin\AdminEntryListController;
 use App\Controllers\Admin\AdminQuestionController;
 use App\Controllers\Admin\AdminRaceController;
-use App\Controllers\Admin\AdminRateController;
 use App\Controllers\Admin\AdminVerificationController;
 
 $router->map(
@@ -197,8 +195,8 @@ $router->map(
     'GET',
     '/admin/entrylist',
     [
-    'controller' => AdminEntryListController::class,
-    'method' => 'home'
+    'controller' => AdminDriverController::class,
+    'method' => 'homeForEntryList'
     ],
     'entrylist-home'
 );
@@ -207,8 +205,8 @@ $router->map(
     'GET',
     '/admin/entrylist/add',
     [
-    'controller' => AdminEntryListController::class,
-    'method' => 'add'
+    'controller' => AdminDriverController::class,
+    'method' => 'addEntryList'
     ],
     'entrylist-add'
 );
@@ -217,8 +215,8 @@ $router->map(
     'POST',
     '/admin/entrylist/add',
     [
-    'controller' => AdminEntryListController::class,
-    'method' => 'create'
+    'controller' => AdminDriverController::class,
+    'method' => 'createEntryList'
     ],
     'entrylist-create'
 );
@@ -227,28 +225,28 @@ $router->map(
     'GET',
     '/admin/entrylist/[i:year]/[i:id]',
     [
-    'controller' => AdminEntryListController::class,
-    'method' => 'list'
+    'controller' => AdminDriverController::class,
+    'method' => 'listOfEntryList'
     ],
     'entrylist-list'
 );
 
 $router->map(
     'GET',
-    '/admin/entrylist/delete/[i:year]/[i:id]/[h:token]',
+    '/admin/entrylist/delete/[i:id]/[h:token]',
     [
-    'controller' => AdminEntryListController::class,
-    'method' => 'deletelist'
+    'controller' => AdminDriverController::class,
+    'method' => 'deleteEntryList'
     ],
     'entrylist-deletelist'
 );
 
 $router->map(
     'GET',
-    '/admin/entrylist/deletedriver/[i:id]/[h:token]',
+    '/admin/entrylist/deletedriver/[i:year]/[i:raceId]/[i:id]/[h:token]',
     [
-    'controller' => AdminEntryListController::class,
-    'method' => 'deleteentry'
+    'controller' => AdminDriverController::class,
+    'method' => 'deleteSingleEntry'
     ],
     'entrylist-deleteentry'
 );

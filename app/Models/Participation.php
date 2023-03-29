@@ -22,9 +22,9 @@ class Participation extends CoreGame {
 
         $sql = "INSERT INTO `participation` 
         (`maxiSprint`, `tourismeCup`, `sprintGirls`, `buggyCup`, `juniorSprint`, `maxiTourisme`, `buggy1600`, `superSprint`,
-        `superBuggy`, `bonus1`, `bonus2`, `race_id`, `year_id`, `player_id`) 
+        `superBuggy`, `bonus1`, `bonus2`, `race_id`, `year_id`, `player_id`, `created_at`) 
         VALUES 
-        ( :maxiSprint, :tourismeCup, :sprintGirls, :buggyCup, :juniorSprint, :maxiTourisme, :buggy1600, :superSprint, :superBuggy, :bonus1, :bonus2, :raceId, :yearId, :playerId)";
+        ( :maxiSprint, :tourismeCup, :sprintGirls, :buggyCup, :juniorSprint, :maxiTourisme, :buggy1600, :superSprint, :superBuggy, :bonus1, :bonus2, :raceId, :yearId, :playerId, NOW())";
 
         
         $query = $pdo->prepare($sql);

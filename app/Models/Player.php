@@ -28,10 +28,10 @@ class Player extends CoreUser {
         $pdo = Database::getPDO();
 
         if ($this->id > 0) {
-            $sql = "UPDATE player SET `pseudo` = :pseudo,  `firstName` = :firstName, `lastName` = :lastName, `mail` = :mail, `password` = :password, `picture` = :picture,`role` = :role WHERE id = :id";
+            $sql = "UPDATE player SET `pseudo` = :pseudo,  `firstName` = :firstName, `lastName` = :lastName, `mail` = :mail, `password` = :password, `picture` = :picture,`role` = :role, `updated_at` = NOW() WHERE id = :id";
         } else {
-            $sql = "INSERT INTO player (`pseudo`, `firstName`, `lastName`, `mail`, `password`, `picture`, `role`) VALUES (
-                :pseudo, :firstName, :lastName, :mail, :password, :picture, :role)";
+            $sql = "INSERT INTO player (`pseudo`, `firstName`, `lastName`, `mail`, `password`, `picture`, `role`, `created_at`) VALUES (
+                :pseudo, :firstName, :lastName, :mail, :password, :picture, :role, NOW())";
         }
 
         $query = $pdo->prepare($sql);

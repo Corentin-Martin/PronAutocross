@@ -39,7 +39,7 @@
             </button>
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="">Non</a></li>
-                <li><a class="dropdown-item" href="<?= $this->router->generate('entrylist-deletelist', ['year' => $currentYear, 'id' => $raceId, 'token' => bin2hex($token)]) ?>">Confirmer la suppression</a></li>
+                <li><a class="dropdown-item" href="<?= $this->router->generate('entrylist-deletelist', ['id' => $raceId, 'token' => bin2hex($token)]) ?>">Confirmer la suppression</a></li>
             </ul>
         </div>
         <?php endif; ?>
@@ -59,9 +59,9 @@
             <?php foreach ($entrylist as $entry) : ?>
                 <tr>
                     <td><?= $category[$entry->getCategoryId()]->getName() ?></td>
-                    <td><?= $driver[$entry->getDriverId()]->getNumber() ?></td>
-                    <td><?= $driver[$entry->getDriverId()]->getFirstName() ?></td>
-                    <td><?= $driver[$entry->getDriverId()]->getLastName() ?></td>
+                    <td><?= $entry->getNumber() ?></td>
+                    <td><?= $entry->getFirstName() ?></td>
+                    <td><?= $entry->getLastName() ?></td>
                     <td>
                         <div class="dropdown">
                             <button class="btn btn-outline-danger dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -69,7 +69,7 @@
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="">Non</a></li>
-                                <li><a class="dropdown-item" href="<?= $this->router->generate('entrylist-deleteentry', ['id' => $entry->getId(), 'token' => bin2hex($token)]) ?>">Confirmer la suppression</a></li>
+                                <li><a class="dropdown-item" href="<?= $this->router->generate('entrylist-deleteentry', ['year' => $currentYear, 'raceId' => $raceId, 'id' => $entry->getId(), 'token' => bin2hex($token)]) ?>">Confirmer la suppression</a></li>
                             </ul>
                         </div>
                     </td>

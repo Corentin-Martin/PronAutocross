@@ -51,8 +51,7 @@ abstract class CoreController {
 
     }
 
-    public function checkAuthorization($authorizedRoles = [])
-    {
+    public function checkAuthorization($authorizedRoles = []) {
 
       if( array_key_exists("user", $_SESSION))
       {

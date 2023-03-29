@@ -4,11 +4,9 @@ namespace App\Controllers\Users;
 
 use App\Models\Category;
 use App\Models\Driver;
-use App\Models\EntryList;
 use App\Models\Participation;
 use App\Models\Questions;
 use App\Models\Race;
-use App\Models\Rate;
 use App\Models\Score;
 use App\Models\Verification;
 
@@ -47,17 +45,9 @@ class UserParticipationController extends UserCoreController
         $entrylist = [];
         $categoriesById = [];
         foreach ($categories as $category) {
-            $entriesForACategory = EntryList::listByRaceAndCategory(date('Y'), $raceId, $category->getId());
+            $entriesForACategory = Driver::listByRaceAndCategory($raceId, $category->getId());
 
-            $categoryEntries = [];
-            foreach ($entriesForACategory as $entry) {
-                $model = [];
-                $model['driver'] = Driver::find($entry->getDriverId());
-                $model['rate'] = Rate::findRateByDriverId($entry->getDriverId(), date('Y'))->getOverall();
-                $categoryEntries[$entry->getDriverId()] = $model;
-            }
-
-            $entrylist[$category->getId()] = $categoryEntries;
+            $entrylist[$category->getId()] = $entriesForACategory;
 
             $categoriesById[$category->getId()] = $category;
         }
@@ -127,17 +117,9 @@ class UserParticipationController extends UserCoreController
             $entrylist = [];
             $categoriesById = [];
             foreach ($categories as $category) {
-                $entriesForACategory = EntryList::listByRaceAndCategory(date('Y'), $raceId, $category->getId());
+                $entriesForACategory = Driver::listByRaceAndCategory($raceId, $category->getId());
     
-                $categoryEntries = [];
-                foreach ($entriesForACategory as $entry) {
-                    $model = [];
-                    $model['driver'] = Driver::find($entry->getDriverId());
-                    $model['rate'] = Rate::findRateByDriverId($entry->getDriverId(), date('Y'))->getOverall();
-                    $categoryEntries[$entry->getDriverId()] = $model;
-                }
-    
-                $entrylist[$category->getId()] = $categoryEntries;
+                $entrylist[$category->getId()] = $entriesForACategory;
     
                 $categoriesById[$category->getId()] = $category;
             }
@@ -178,8 +160,9 @@ class UserParticipationController extends UserCoreController
 
             $table['answer'] = [];
 
-            $table['answer']['driver'] = Driver::find($participation->{'get'.$categoryToGet}())->getNumber() . " - " . Driver::find($participation->{'get'.$categoryToGet}())->getFirstName() . " " . Driver::find($participation->{'get'.$categoryToGet}())->getLastName();
-            $table['answer']['rate'] = Rate::findRateByDriverId($participation->{'get'.$categoryToGet}(), date('Y'))->getOverall();
+            $driver = Driver::find($participation->{'get'.$categoryToGet}());
+            $table['answer']['driver'] = $driver->getNumber() . " - " . $driver->getFirstName() . " " . $driver->getLastName();
+            $table['answer']['rate'] = $driver->getOverall();
             $table['answer']['potential'] = $table['answer']['rate'] * 10;
             $potentialWin += $table['answer']['potential'];
 

@@ -2,7 +2,6 @@
 
 namespace App\Controllers\Admin;
 
-use App\Models\Category;
 use App\Models\Race;
 use App\Models\Year;
 
@@ -10,8 +9,7 @@ class AdminRaceController extends AdminCoreController
 {
 
     public function home() {
-
-
+        
         $this->show('admin/race/home' );
     }
 

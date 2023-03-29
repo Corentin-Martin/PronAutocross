@@ -62,9 +62,7 @@ abstract class CoreGame extends CoreModel {
 
     public function createOrUpdate() {
 
-        if (get_class($this) === EntryList::class) {
-            $classname = 'entry_list';
-        } else if (static::class === GeneralScore::class) {
+        if (static::class === GeneralScore::class) {
             $classname = 'general_score';
         } else {
             $classname = lcfirst(substr(static::class, 11));
@@ -74,13 +72,13 @@ abstract class CoreGame extends CoreModel {
 
         if ($this->id > 0) {
             $sql = 
-            "UPDATE `$classname` SET `maxiSprint`= :maxiSprint, `tourismeCup` = :tourismeCup, `sprintGirls` = :sprintGirls, `buggyCup` = :buggyCup, `juniorSprint` = :juniorSprint, `maxiTourisme` = :maxiTourisme, `buggy1600` = :buggy1600, `superSprint` = :superSprint, `superBuggy` = :superBuggy, `bonus1` = :bonus1, `bonus2` = :bonus2, `race_id` = :raceId, `year_id` = :yearId WHERE id = :id";
+            "UPDATE `$classname` SET `maxiSprint`= :maxiSprint, `tourismeCup` = :tourismeCup, `sprintGirls` = :sprintGirls, `buggyCup` = :buggyCup, `juniorSprint` = :juniorSprint, `maxiTourisme` = :maxiTourisme, `buggy1600` = :buggy1600, `superSprint` = :superSprint, `superBuggy` = :superBuggy, `bonus1` = :bonus1, `bonus2` = :bonus2, `race_id` = :raceId, `year_id` = :yearId, `updated_at` = NOW() WHERE id = :id";
         } else {
             $sql = "INSERT INTO `$classname` 
             (`maxiSprint`, `tourismeCup`, `sprintGirls`, `buggyCup`, `juniorSprint`, `maxiTourisme`, `buggy1600`, `superSprint`,
-            `superBuggy`, `bonus1`, `bonus2`, `race_id`, `year_id`) 
+            `superBuggy`, `bonus1`, `bonus2`, `race_id`, `year_id`, `created_at`) 
             VALUES 
-            ( :maxiSprint, :tourismeCup, :sprintGirls, :buggyCup, :juniorSprint, :maxiTourisme, :buggy1600, :superSprint, :superBuggy, :bonus1, :bonus2, :raceId, :yearId)";
+            ( :maxiSprint, :tourismeCup, :sprintGirls, :buggyCup, :juniorSprint, :maxiTourisme, :buggy1600, :superSprint, :superBuggy, :bonus1, :bonus2, :raceId, :yearId, NOW())";
         }
         
         $query = $pdo->prepare($sql);

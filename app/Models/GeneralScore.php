@@ -29,9 +29,9 @@ class GeneralScore extends CoreModel
 
         if ($this->id > 0) {
             $sql = 
-            "UPDATE `general_score` SET `player_id`= :playerId, `year_id` = :yearId, `total` = :total WHERE id = :id";
+            "UPDATE `general_score` SET `player_id`= :playerId, `year_id` = :yearId, `total` = :total, `updated_at` = NOW() WHERE id = :id";
         } else {
-            $sql = "INSERT INTO `general_score` (`player_id`, `year_id`, `total`, `place`) VALUES (:playerId, :yearId, 0, 0)";
+            $sql = "INSERT INTO `general_score` (`player_id`, `year_id`, `total`, `place`, `created_at`) VALUES (:playerId, :yearId, 0, 0, NOW())";
         }
 
         $query = $pdo->prepare($sql);

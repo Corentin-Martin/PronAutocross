@@ -22,23 +22,23 @@
 
             <?php foreach ($entrylist[$category->getId()] as $entry) : ?>
 
-                <label class="border-dark m-2 col-3 col-sm-4 col-md-2 bg-info rounded-4 shadow p-2" for="<?= $entry['driver']->getId() ?>">
-                <input type="radio" class="radio" name="<?= $categoryToGet ?>" value="<?= $entry['driver']->getId() ?>" id="<?= $entry['driver']->getId() ?>" required>
+                <label class="border-dark m-2 col-3 col-sm-4 col-md-2 bg-info rounded-4 shadow p-2" for="<?= $entry->getId() ?>">
+                <input type="radio" class="radio" name="<?= $categoryToGet ?>" value="<?= $entry->getId() ?>" id="<?= $entry->getId() ?>" required>
                 <div class="driver">
                     <div class="badge bg-light mb-1"><?= $category->getName() ?></div>
                     <div class="card-body">
                         <p class="bg-primary fst-italic rounded text-light fs-6">
-                            <?= $entry['driver']->getFirstName() ?> <strong><?= $entry['driver']->getLastName() ?></strong>
+                            <?= $entry->getFirstName() ?> <strong><?= $entry->getLastName() ?></strong>
                         </p>
-                        <p class="fst-italic">#<?= $entry['driver']->getNumber() ?> - <strong><?= $entry['driver']->getVehicle() ?></strong></p>
+                        <p class="fst-italic">#<?= $entry->getNumber() ?> - <strong><?= $entry->getVehicle() ?></strong></p>
                         <div class="row d-flex flex-column align-items-center">
-                            <p class="btn btn-warning col-6"><?= $entry['rate'] ?></p>
+                            <p class="btn btn-warning col-6"><?= $entry->getOverall() ?></p>
                             <div class="col-10 mx-1">
                                 <div class="progress">
-                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuenow="<?= $entry['rate'] ?>" aria-valuemin="1.01" aria-valuemax="14.5" style="width: <?= 106.9 - (100 * $entry['rate'] / 14.5)?>%;"></div>
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuenow="<?= $entry->getOverall() ?>" aria-valuemin="1.01" aria-valuemax="14.5" style="width: <?= 106.9 - (100 * $entry->getOverall() / 14.5)?>%;"></div>
                                 </div>
                             </div>
-                            <p> Gain potentiel : <?= $entry['rate'] * 10 ?></p>
+                            <p> Gain potentiel : <?= $entry->getOverall() * 10 ?></p>
                         </div>
                     </div>
                 </div>

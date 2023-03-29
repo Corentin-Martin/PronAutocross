@@ -37,7 +37,7 @@
                         <option value="<?=$verification->{'get'.$categoriesOnDB[$category->getId()]}()?>" selected><?= $driversById[$verification->{'get'.$categoriesOnDB[$category->getId()]}()]->getNumber() . " - " . $driversById[$verification->{'get'.$categoriesOnDB[$category->getId()]}()]->getFirstName() . " " . $driversById[$verification->{'get'.$categoriesOnDB[$category->getId()]}()]->getLastName() ?></option>
                     <?php endif; ?>
                     <?php foreach ($entryList[$category->getId()] as $entry) : ?>
-                        <option value="<?= $entry->getDriverId() ?>"><?= $driversById[$entry->getDriverId()]->getNumber() . " - " . $driversById[$entry->getDriverId()]->getFirstName() . " " . $driversById[$entry->getDriverId()]->getLastName() ?></option>
+                        <option value="<?= $entry->getId() ?>"><?= $entry->getNumber() . " - " . $entry->getFirstName() . " " . $entry->getLastName() ?></option>
                     <?php endforeach; ?>
 
                 </select>

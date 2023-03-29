@@ -29,9 +29,7 @@ abstract class CoreModel {
     static public function findAll() {
         $pdo = Database::getPDO();
 
-        if (static::class === EntryList::class) {
-            $classname = 'entry_list';
-        } else if (static::class === GeneralScore::class) {
+        if (static::class === GeneralScore::class) {
             $classname = 'general_score';
         } else {
             $classname = lcfirst(substr(static::class, 11));
@@ -52,9 +50,7 @@ abstract class CoreModel {
     static public function find($id) {
         $pdo = Database::getPDO();
 
-        if (static::class === EntryList::class) {
-            $classname = 'entry_list';
-        } else if (static::class === GeneralScore::class) {
+        if (static::class === GeneralScore::class) {
             $classname = 'general_score';
         } else {
             $classname = lcfirst(substr(static::class, 11));
@@ -80,9 +76,7 @@ abstract class CoreModel {
 
         $pdo = Database::getPDO();
 
-        if (static::class === EntryList::class) {
-            $classname = 'entry_list';
-        } else if (static::class === GeneralScore::class) {
+        if (static::class === GeneralScore::class) {
             $classname = 'general_score';
         } else {
             $classname = lcfirst(substr(static::class, 11));
@@ -102,9 +96,7 @@ abstract class CoreModel {
     public function delete() {
         $pdo = Database::getPDO();
 
-        if (get_class($this) === EntryList::class) {
-            $classname = 'entry_list';
-        } else if (static::class === GeneralScore::class) {
+        if (static::class === GeneralScore::class) {
             $classname = 'general_score';
         } else {
             $classname = lcfirst(substr(static::class, 11));

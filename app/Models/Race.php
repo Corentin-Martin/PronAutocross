@@ -29,9 +29,9 @@ class Race extends CoreModel {
 
         if ($this->id > 0) {
             $sql = 
-            "UPDATE `race` SET `name`= :name, `date` = :date, `poster` = :poster, `year_id` = :yearId WHERE id = :id";
+            "UPDATE `race` SET `name`= :name, `date` = :date, `poster` = :poster, `year_id` = :yearId, `updated_at` = NOW() WHERE id = :id";
         } else {
-            $sql = "INSERT INTO `race` (`name`, `date`, `poster`, `year_id`) VALUES ( :name, :date, :poster, :yearId)";
+            $sql = "INSERT INTO `race` (`name`, `date`, `poster`, `year_id`, `created_at`) VALUES ( :name, :date, :poster, :yearId, NOW())";
         } 
 
         $query = $pdo->prepare($sql);
