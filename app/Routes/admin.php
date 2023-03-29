@@ -172,6 +172,26 @@ $router->map(
     'driver-updatePlaces'
 );
 
+$router->map(
+    'GET',
+    '/admin/driver/rate/edit/[i:id]',
+    [
+    'controller' => AdminDriverController::class,
+    'method' => 'editRates'
+    ],
+    'driver-editRates'
+);
+
+$router->map(
+    'POST',
+    '/admin/driver/rate/edit/[i:id]',
+    [
+    'controller' => AdminDriverController::class,
+    'method' => 'updateRates'
+    ],
+    'driver-updateRates'
+);
+
 // ENTRY LIST
 $router->map(
     'GET',
@@ -477,22 +497,3 @@ $router->map(
 );
 
 // RATE
-$router->map(
-    'GET',
-    '/admin/rate/edit/[i:id]',
-    [
-    'controller' => AdminRateController::class,
-    'method' => 'edit'
-    ],
-    'rate-edit'
-);
-
-$router->map(
-    'POST',
-    '/admin/rate/edit/[i:id]',
-    [
-    'controller' => AdminRateController::class,
-    'method' => 'update'
-    ],
-    'rate-update'
-);

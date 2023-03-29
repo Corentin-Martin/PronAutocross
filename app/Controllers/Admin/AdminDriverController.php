@@ -4,7 +4,9 @@ namespace App\Controllers\Admin;
 
 use App\Models\Category;
 use App\Models\Driver;
-use App\Models\Rate;
+use App\Models\EntryList;
+use App\Models\Participation;
+use App\Models\Race;
 
 class AdminDriverController extends AdminCoreController
 {
@@ -24,13 +26,7 @@ class AdminDriverController extends AdminCoreController
             $categoriesById[$category->getId()] = $category;
         }
 
-        $rateByDriverId = [];
-        foreach ($drivers as $driver) {
-            $rate = Rate::findRateByDriverId($driver->getId(), date('Y'));
-            $rateByDriverId[$driver->getId()] = $rate;
-        }
-
-        $this->show('admin/driver/list', ['drivers' => $drivers, 'categoriesById' => $categoriesById, 'action' => $action, 'categoryId' => $categoryId, 'rate' => $rateByDriverId]);
+        $this->show('admin/driver/list', ['drivers' => $drivers, 'categoriesById' => $categoriesById, 'action' => $action, 'categoryId' => $categoryId]);
     }
 
     public function addOrEdit($id = null) {
@@ -58,6 +54,10 @@ class AdminDriverController extends AdminCoreController
             $vehicle = filter_input(INPUT_POST, 'vehicle', FILTER_SANITIZE_SPECIAL_CHARS);
             $categoryId = filter_input(INPUT_POST, 'category', FILTER_VALIDATE_INT);
             $status = filter_input(INPUT_POST, 'status', FILTER_VALIDATE_INT);
+            $place = filter_input(INPUT_POST, 'place', FILTER_VALIDATE_INT);
+            $rate1 = filter_input(INPUT_POST, 'rate1', FILTER_VALIDATE_FLOAT);
+            $rate2 = filter_input(INPUT_POST, 'rate2', FILTER_VALIDATE_FLOAT);
+            $overall = filter_input(INPUT_POST, 'overall', FILTER_VALIDATE_FLOAT);
             $picture = isset($_POST['picture']) ? filter_input(INPUT_POST, 'picture', FILTER_SANITIZE_SPECIAL_CHARS) : 'assets/images/damier-picto.png';
 
             if ($id) {
@@ -73,10 +73,10 @@ class AdminDriverController extends AdminCoreController
             $driver->setCategoryId($categoryId);
             $driver->setStatus($status);
             $driver->setPicture($picture);
-
-            if (!$id) {
-            $driver->setPlace(0);
-            }
+            $driver->setPlace($place);
+            $driver->setRate1($rate1);
+            $driver->setRate2($rate2);
+            $driver->setOverall($overall);
 
             if ($id) {
             $driver->setId($id);
@@ -84,27 +84,9 @@ class AdminDriverController extends AdminCoreController
 
             if ($driver->createOrUpdate()) {
 
-                if (is_null($id)) {
-                    $rate = new Rate();
+                header("Location: {$this->router->generate('driver-list', ['categoryId' => $categoryId, 'action' => 'number'])}");
+                exit; 
 
-                    $rate->setRate1(10);
-                    $rate->setRate2(10);
-                    $rate->setOverall(10);
-                    $rate->setDriverId($driver->getId());
-                    $rate->setYearId(date('Y'));
-
-                    if ($rate->createOrUpdate()) {
-                        header("Location: {$this->router->generate('driver-list', ['categoryId' => $categoryId, 'action' => 'number'])}");
-                        exit; 
-                    } else {
-                        echo "Erreur";
-                        exit;
-                    }
-                } else {
-                    header("Location: {$this->router->generate('driver-list', ['categoryId' => $categoryId, 'action' => 'number'])}");
-                    exit; 
-                }
-                
             } else {
                 echo "<p> Erreur, pilote non ajouté </p>";
                 exit;
@@ -207,5 +189,69 @@ class AdminDriverController extends AdminCoreController
 
     }
 
+    public function editRates($id) {
 
+        $races = Race::findByYear(date('Y'));
+
+        $this->show('admin/driver/editRates', ['races' => $races]);
+    }
+
+    public function updateRates($raceId) {
+        $participations = count(Participation::showAllParticipations(date('Y'), $raceId));
+
+        $drivers = Driver::findAll();
+
+        foreach ($drivers as $driver) {
+
+            $entry = EntryList::findDriverParticipation(date('Y'), $raceId, $driver->getId());
+
+            if ($entry) {
+                $driverVotes = count(Participation::showAllForADriver(date('Y'), $raceId, $driver->getId()));
+
+                if ($driverVotes === 0) {
+                    $newRate = 20;
+                } else {
+                    $percentage = $driverVotes * 100 / $participations;
+        
+                    $newRate = 30 / $percentage;
+            
+                    if ($newRate > 20) {
+                        $newRate = 20;
+                    } elseif ($newRate <= 1) {
+                        $newRate = 1.01;
+                    }
+                }
+        
+                $rate2 = $driver->getRate2();
+        
+                $averageRate = ($newRate + $rate2) / 2;
+
+                $coeff = [
+                    0 => 9,
+                    1 => 1.01,
+                    2 => 1.25,
+                    3 => 1.50,
+                    4 => 1.70,
+                    5 => 1.80,
+                    6 => 2.30,
+                    7 => 2.50,
+                    8 => 3.30,
+                    9 => 3.90,
+                    10 => 4.20,
+                ];
+
+                $rateWithPlace = round((($averageRate + $coeff[$driver->getPlace()]) / 2), 2);
+        
+                $driver->setRate1($rate2);
+                $driver->setRate2($newRate);
+                $driver->setOverall($rateWithPlace);
+                
+                $driver->createOrUpdate();
+            }
+
+        }
+
+        header("Location: {$this->router->generate('driver-list', ['categoryId' => 1, 'action' => 'number'])}");
+        exit;
+    }
 }

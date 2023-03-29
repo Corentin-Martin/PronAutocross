@@ -39,10 +39,12 @@
             <th>Nom de famille</th>
             <th>Numéro</th>
             <th>Véhicule</th>
-            <!-- <th>Photo</th> -->
             <th>Catégorie</th>
             <th>Statut</th>
-            <th>Cote</th>
+            <th>Place</th>
+            <th>Cote 1</th>
+            <th>Cote 2</th>
+            <th>Cote globale</th>
             <th>Editer</th>
             <th>Supprimer</th>
         </tr>
@@ -56,18 +58,14 @@
     <td><?= $driver->getLastName() ?></td>
     <td><?= $driver->getNumber() ?></td>
     <td><?= $driver->getVehicle() ?></td>
-    <!-- <td><img src="<?= $baseURI .$driver->getPicture() ?>" alt="" class="picture-driver"></td> -->
     <td><?= $categoriesById[$driver->getcategoryId()]->getName() ?></td>
     <td><?= ($driver->getstatus() == 1) ? 'Prioritaire' : 'Invité' ?></td>
-    <td><?= $rate[$driver->getId()]->getOverall()  ?></td>
+    <td><?= $driver->getPlace()  ?></td>
+    <td><?= $driver->getRate1()  ?></td>
+    <td><?= $driver->getRate2()  ?></td>
+    <td><?= $driver->getOverall()  ?></td>
     <td>
-        <div class="dropdown">
-            <button class="btn btn-outline-warning dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Editer</button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="<?= $this->router->generate('driver-edit', ['id' => $driver->getId()]) ?>">Editer la fiche pilote</a></li>
-                    <li><a class="dropdown-item" href="TODO">Editer la cote</a></li>
-                </ul>
-        </div>
+        <a type="button" class="btn btn-outline-warning" href="<?= $this->router->generate('driver-edit', ['id' => $driver->getId()]) ?>">Modifier</a>
     </td>
     <td>
         <div class="dropdown">

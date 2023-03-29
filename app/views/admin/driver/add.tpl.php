@@ -24,7 +24,7 @@
     </label>
     </div>
     <div class="form-group">
-    <label for="firstName"> Numéro
+    <label for="number"> Numéro
 
         <input type="number" class="form-control" name="number" id="number" placeholder="Numéro de course" <?= ($driver) ? "value = \"{$driver->getNumber()}\"" : "" ?>required>
     
@@ -72,6 +72,34 @@
 
         </select>
 
+    </label>
+    </div>
+    <div class="form-group">
+    <label for="place"> Position au championnat
+
+        <input type="place" class="form-control" name="place" id="place" placeholder="Place" <?= ($driver) ? "value = \"{$driver->getPlace()}\"" : "value=\"0\"" ?>required>
+    
+    </label>
+    </div>
+    <div class="form-group">
+    <label for="rate1"> Cote 1
+
+        <input type="rate1" class="form-control" name="rate1" id="rate1" placeholder="Cote 1" <?= ($driver) ? "value = \"{$driver->getRate1()}\"" : "value=\"10\"" ?>required>
+    
+    </label>
+    </div>
+    <div class="form-group">
+    <label for="rate2"> Cote 2
+
+        <input type="rate2" class="form-control" name="rate2" id="rate2" placeholder="Cote 2" <?= ($driver) ? "value = \"{$driver->getRate2()}\"" : "value=\"10\"" ?>required>
+    
+    </label>
+    </div>
+    <div class="form-group">
+    <label for="overall"> Cote affinée
+
+        <input type="overall" class="form-control" name="overall" id="overall" placeholder="Cote affinée" <?= ($driver) ? "value = \"{$driver->getOverall()}\"" : "value=\"10\"" ?>required>
+    
     </label>
     </div>
     <div class="form-group">

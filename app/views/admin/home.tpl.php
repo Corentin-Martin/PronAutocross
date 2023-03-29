@@ -81,7 +81,7 @@
                     <a href="<?= $this->router->generate('driver-editPlaces') ?>">Editer les classements</a>
                 </li>
                 <li>
-                    <a href="<?= $this->router->generate('rate-edit', ['id' => 1]) ?>">Mettre à jour les cotes</a>
+                    <a href="<?= $this->router->generate('driver-editRates', ['id' => 1]) ?>">Mettre à jour les cotes</a>
                 </li>
             </ul>
         </div>
