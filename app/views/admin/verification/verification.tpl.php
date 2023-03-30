@@ -9,6 +9,9 @@
             <h4 class="questionnaire__title"><?= $category->getName() ?></h4>
             <h5 class="questionnaire__subtitle"><?= $questions->{'get'.$categoriesOnDB[$category->getId()]}()?></h5>
             <h6 class="validation__driver"><?= $driversById[$verification->{'get'.$categoriesOnDB[$category->getId()]}()]->getFirstName() . " " . $driversById[$verification->{'get'.$categoriesOnDB[$category->getId()]}()]->getLastName() ?></h6>
+            <?php for ($i = 2; $i <6; $i++) : ?>
+            <h6 class="validation__driver"><?= $driversById[$verification->{'get'.$categoriesOnDB[$category->getId()].$i}()]->getFirstName() . " " . $driversById[$verification->{'get'.$categoriesOnDB[$category->getId()].$i}()]->getLastName() ?></h6>
+            <?php endfor; ?>
         </div>
 
     <?php endforeach; ?>
@@ -26,7 +29,7 @@
     </div>
 
     <div>
-        <a type="button" class="btn btn-info btn-lg"  href="<?= $this->router->generate('verification-edit', ['raceId' => $verification->getRaceId()]) ?>">Je veux éditer cette vérification</a>
+        <a type="button" class="btn btn-info btn-lg"  href="<?= $this->router->generate('verification-edit', ['raceId' => $verification->getRaceId(),'id' => $verification->getId()]) ?>">Je veux éditer cette vérification</a>
     </div>
 
     <div>

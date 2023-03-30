@@ -14,12 +14,15 @@ use App\Models\Year;
 
 class AdminVerificationController extends AdminCoreController
 {
+    public function home() {
+        $this->show('admin/verification/home');
+    }
 
-    public function addOrEdit($raceId = null) {
+    public function addOrEdit($raceId = null, $id = null) {
 
 
-        if ($raceId) {
-            $verification = Verification::showByRaceId($raceId, date('Y'));
+        if ($id) {
+            $verification = Verification::find($id);
         } else {
             $verification = null;
         }
@@ -61,46 +64,71 @@ class AdminVerificationController extends AdminCoreController
         $this->show('admin/verification/add', ['racesById' => $racesById, 'entryList' => $entryList, 'categories' => $categories, 'categoriesOnDB' => $categoriesOnDB, 'driversById' => $driversById, 'currentRace' => $raceId, 'questions' => $questions, 'verification' => $verification]);
     }
 
-    public function home() {
-        $this->show('admin/verification/home');
-    }
-
-    public function create() {
+    public function createOrUpdate($raceId = null, $id = null) {
 
         if (isset($_POST)) {
-            $MaxiSprint = filter_input(INPUT_POST, 'MaxiSprint', FILTER_VALIDATE_INT);
-            $TourismeCup = filter_input(INPUT_POST, 'TourismeCup', FILTER_VALIDATE_INT);
-            $SprintGirls = filter_input(INPUT_POST, 'SprintGirls', FILTER_VALIDATE_INT);
-            $BuggyCup = filter_input(INPUT_POST, 'BuggyCup', FILTER_VALIDATE_INT);
-            $JuniorSprint = filter_input(INPUT_POST, 'JuniorSprint', FILTER_VALIDATE_INT);
-            $MaxiTourisme = filter_input(INPUT_POST, 'MaxiTourisme', FILTER_VALIDATE_INT);
-            $Buggy1600 = filter_input(INPUT_POST, 'Buggy1600', FILTER_VALIDATE_INT);
-            $SuperSprint = filter_input(INPUT_POST, 'SuperSprint', FILTER_VALIDATE_INT);
-            $SuperBuggy = filter_input(INPUT_POST, 'SuperBuggy', FILTER_VALIDATE_INT);
+
+            $MaxiSprint = [];
+            $TourismeCup = [];
+            $SprintGirls = [];
+            $BuggyCup = [];
+            $JuniorSprint = [];
+            $MaxiTourisme = [];
+            $Buggy1600 = [];
+            $SuperSprint = [];
+            $SuperBuggy = [];
+
+            for ($i = 1; $i <6; $i++) {
+                $MaxiSprint[$i] = filter_input(INPUT_POST, "MaxiSprint$i", FILTER_VALIDATE_INT);
+                $TourismeCup[$i] = filter_input(INPUT_POST, "TourismeCup$i", FILTER_VALIDATE_INT);
+                $SprintGirls[$i] = filter_input(INPUT_POST, "SprintGirls$i", FILTER_VALIDATE_INT);
+                $BuggyCup[$i] = filter_input(INPUT_POST, "BuggyCup$i", FILTER_VALIDATE_INT);
+                $JuniorSprint[$i] = filter_input(INPUT_POST, "JuniorSprint$i", FILTER_VALIDATE_INT);
+                $MaxiTourisme[$i] = filter_input(INPUT_POST, "MaxiTourisme$i", FILTER_VALIDATE_INT);
+                $Buggy1600[$i] = filter_input(INPUT_POST, "Buggy1600$i", FILTER_VALIDATE_INT);
+                $SuperSprint[$i] = filter_input(INPUT_POST, "SuperSprint$i", FILTER_VALIDATE_INT);
+                $SuperBuggy[$i] = filter_input(INPUT_POST, "SuperBuggy$i", FILTER_VALIDATE_INT);
+            }
+
             $bonus1 = filter_input(INPUT_POST, 'bonus1', FILTER_SANITIZE_SPECIAL_CHARS);
             $bonus2 = filter_input(INPUT_POST, 'bonus2', FILTER_SANITIZE_SPECIAL_CHARS);
             $raceId = filter_input(INPUT_POST, 'raceId', FILTER_VALIDATE_INT);
             $yearId = filter_input(INPUT_POST, 'yearId', FILTER_VALIDATE_INT);
 
-            $verification = new Verification();
+            if ($id) {
+                $verification = Verification::find($id);
+            } else {
+                $verification = new Verification();
+            }
 
-            $verification->setMaxiSprint($MaxiSprint);
-            $verification->setTourismeCup($TourismeCup);
-            $verification->setSprintGirls($SprintGirls);
-            $verification->setBuggyCup($BuggyCup);
-            $verification->setJuniorSprint($JuniorSprint);
-            $verification->setMaxiTourisme($MaxiTourisme);
-            $verification->setBuggy1600($Buggy1600);
-            $verification->setsuperSprint($SuperSprint);
-            $verification->setSuperBuggy($SuperBuggy);
+            $verification->setMaxiSprint($MaxiSprint[1]);
+            $verification->setTourismeCup($TourismeCup[1]);
+            $verification->setSprintGirls($SprintGirls[1]);
+            $verification->setBuggyCup($BuggyCup[1]);
+            $verification->setJuniorSprint($JuniorSprint[1]);
+            $verification->setMaxiTourisme($MaxiTourisme[1]);
+            $verification->setBuggy1600($Buggy1600[1]);
+            $verification->setsuperSprint($SuperSprint[1]);
+            $verification->setSuperBuggy($SuperBuggy[1]);
+
+            for ($i = 2; $i <6; $i++) {
+                $verification->{"setMaxiSprint$i"}($MaxiSprint[$i]);
+                $verification->{"setTourismeCup$i"}($TourismeCup[$i]);
+                $verification->{"setSprintGirls$i"}($SprintGirls[$i]);
+                $verification->{"setBuggyCup$i"}($BuggyCup[$i]);
+                $verification->{"setJuniorSprint$i"}($JuniorSprint[$i]);
+                $verification->{"setMaxiTourisme$i"}($MaxiTourisme[$i]);
+                $verification->{"setBuggy1600$i"}($Buggy1600[$i]);
+                $verification->{"setsuperSprint$i"}($SuperSprint[$i]);
+                $verification->{"setSuperBuggy$i"}($SuperBuggy[$i]);
+            }
+
             $verification->setBonus1($bonus1);
             $verification->setBonus2($bonus2);
             $verification->setRaceId($raceId);
             $verification->setYearId($yearId);
 
-            $verif = $verification->createOrUpdate();
-
-            if ($verif) {
+            if ($verification->createOrUpdate()) {
 
                 header("Location: {$this->router->generate('verification-validation', ['id' => $verification->getId()])}");
                 exit;
@@ -108,6 +136,9 @@ class AdminVerificationController extends AdminCoreController
             } else {
                 exit ("erreur");
             }
+        } else {
+            header("Location: {$this->router->generate('error403')}");
+            exit; 
         }
     }
 
@@ -157,14 +188,23 @@ class AdminVerificationController extends AdminCoreController
                 foreach ($categories as $category) {
                     $categoryOnVerif = str_replace(" ", "", $category->getName());
 
-                    if ($verification->{'get'.$categoryOnVerif}() === $participation->{'get'.$categoryOnVerif}()) {
-                        $driver = Driver::find($verification->{'get'.$categoryOnVerif}());
+                    $getter = "get$categoryOnVerif";
+                    $setter = "set$categoryOnVerif";
 
-                        $pointsToAdd = 10 * $driver->getOverall();
-                        $score->{'set'.$categoryOnVerif}($pointsToAdd);
-                    } else {
-                        $score->{'set'.$categoryOnVerif}(0);
+                    for ($i = 1; $i < 6; $i++) {
+                        ($i == 1) ? ($cible = '') : ($cible = $i);
+
+                        if ($verification->{$getter.$cible}() === $participation->$getter()) {
+                            $driver = Driver::find($verification->{$getter.$cible}());
+
+                            $pointsToAdd = 10 * $driver->getOverall();
+                            $score->$setter($pointsToAdd);
+                            break;
+                        } else {
+                            $score->$setter(0);
+                        }
                     }
+
                 }
 
                 if ($verification->getBonus1() === $participation->getBonus1()) {
@@ -210,104 +250,62 @@ class AdminVerificationController extends AdminCoreController
                 }
             }
 
-                $allGeneral = GeneralScore::sortingGeneral(date('Y'));
+            $allGeneral = GeneralScore::sortingGeneralToUpdatePlaces(date('Y'));
 
-                $place=2;
-                $increment=1;
-                $preceding = null;
+            $place=2;
+            $increment=1;
+            $preceding = null;
 
-                foreach ($allGeneral as $general) {
-                    $generalForAPlayer = GeneralScore::findGeneralForPlayer($general->getPlayerId());
+            foreach ($allGeneral as $general) {
+                $generalForAPlayer = GeneralScore::findGeneralForPlayer($general->getPlayerId());
 
-                    if (is_null($preceding) || $preceding === $general->getTotal()) {
-                        $place--;
-                        $generalForAPlayer->setPlace($place);
-                    } else {
-                        $generalForAPlayer->setPlace($increment);
-                        $place = $increment;
-                    }
-
-                    $place++;
-                    $increment++;
-                    $preceding = $general->getTotal();
-
-                    $generalForAPlayer->updatePlace();
+                if (is_null($preceding) || $preceding === $general->getTotal()) {
+                    $place--;
+                    $generalForAPlayer->setPlace($place);
+                } else {
+                    $generalForAPlayer->setPlace($increment);
+                    $place = $increment;
                 }
 
-                $scores = Score::sortingByRace(date('Y'), $raceId);
+                $place++;
+                $increment++;
+                $preceding = $general->getTotal();
 
-                $place=2;
-                $increment=1;
-                $preceding = null;
+                $generalForAPlayer->updatePlace();
+            }
 
-                foreach ($scores as $score) {
-                    $scorePlace = Score::findForGeneral(date('Y'), $raceId, $score->getPlayerId());
+            $scores = Score::sortingByRace(date('Y'), $raceId);
 
-                    if (is_null($preceding) || $preceding === $score->getTotal()) {
-                        $place--;
-                        $scorePlace->setPlace($place);
-                    } else {
-                        $scorePlace->setPlace($increment);
-                        $place = $increment;
-                    }
+            $place=2;
+            $increment=1;
+            $preceding = null;
 
-                    $place++;
-                    $increment++;
-                    $preceding = $score->getTotal();
+            foreach ($scores as $score) {
+                $scorePlace = Score::findForGeneral(date('Y'), $raceId, $score->getPlayerId());
 
-                    $scorePlace->updatePlace();
+                if (is_null($preceding) || $preceding === $score->getTotal()) {
+                    $place--;
+                    $scorePlace->setPlace($place);
+                } else {
+                    $scorePlace->setPlace($increment);
+                    $place = $increment;
                 }
+
+                $place++;
+                $increment++;
+                $preceding = $score->getTotal();
+
+                $scorePlace->updatePlace();
+            }
             
 
             header("Location: {$this->router->generate('results', ['year' => $yearId, 'id' => $raceId])}");
             exit;
                 
             
-        }
-    }
-
-    public function update($raceId) {
-
-        if (isset($_POST)) {
-            $MaxiSprint = filter_input(INPUT_POST, 'MaxiSprint', FILTER_VALIDATE_INT);
-            $TourismeCup = filter_input(INPUT_POST, 'TourismeCup', FILTER_VALIDATE_INT);
-            $SprintGirls = filter_input(INPUT_POST, 'SprintGirls', FILTER_VALIDATE_INT);
-            $BuggyCup = filter_input(INPUT_POST, 'BuggyCup', FILTER_VALIDATE_INT);
-            $JuniorSprint = filter_input(INPUT_POST, 'JuniorSprint', FILTER_VALIDATE_INT);
-            $MaxiTourisme = filter_input(INPUT_POST, 'MaxiTourisme', FILTER_VALIDATE_INT);
-            $Buggy1600 = filter_input(INPUT_POST, 'Buggy1600', FILTER_VALIDATE_INT);
-            $SuperSprint = filter_input(INPUT_POST, 'SuperSprint', FILTER_VALIDATE_INT);
-            $SuperBuggy = filter_input(INPUT_POST, 'SuperBuggy', FILTER_VALIDATE_INT);
-            $bonus1 = filter_input(INPUT_POST, 'bonus1', FILTER_SANITIZE_SPECIAL_CHARS);
-            $bonus2 = filter_input(INPUT_POST, 'bonus2', FILTER_SANITIZE_SPECIAL_CHARS);
-            $raceId = filter_input(INPUT_POST, 'raceId', FILTER_VALIDATE_INT);
-            $yearId = filter_input(INPUT_POST, 'yearId', FILTER_VALIDATE_INT);
-    
-            $verification = Verification::showByRaceId($raceId, date('Y'));
-
-
-            $verification->setMaxiSprint($MaxiSprint);
-            $verification->setTourismeCup($TourismeCup);
-            $verification->setSprintGirls($SprintGirls);
-            $verification->setBuggyCup($BuggyCup);
-            $verification->setJuniorSprint($JuniorSprint);
-            $verification->setMaxiTourisme($MaxiTourisme);
-            $verification->setBuggy1600($Buggy1600);
-            $verification->setsuperSprint($SuperSprint);
-            $verification->setSuperBuggy($SuperBuggy);
-            $verification->setBonus1($bonus1);
-            $verification->setBonus2($bonus2);
-            $verification->setRaceId($raceId);
-            $verification->setYearId($yearId);
-    
-            if ($verification->createOrUpdate()) {
-    
-                header("Location: {$this->router->generate('verification-validation', ['id' => $verification->getId()])}");
-                exit;
-    
-            } else {
-                exit ("erreur");
-            }
+        } else {
+            header("Location: {$this->router->generate('error403')}");
+            exit; 
         }
     }
 

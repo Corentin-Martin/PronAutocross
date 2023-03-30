@@ -32,7 +32,8 @@ abstract class CoreController {
           'user-participation'
         ];
 
-        if (in_array($match['name'], $csrfTokenToCheck)) {
+        if (isset($match['name'])) {
+          if (in_array($match['name'], $csrfTokenToCheck)) {
             
             $postToken = isset($_POST['token']) ? $_POST['token'] : '';
             $sessionToken = isset($_SESSION['token']) ? $_SESSION['token'] : '';
@@ -47,6 +48,8 @@ abstract class CoreController {
             } else {
                 unset($_SESSION['token']);
             }
+          }
+
         }
 
     }

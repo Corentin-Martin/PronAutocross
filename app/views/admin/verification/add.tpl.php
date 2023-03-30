@@ -31,16 +31,21 @@
             <label for="<?= $categoriesOnDB[$category->getId()] ?>">
                 <h4 class="questionnaire__title"><?= $questions->{'get'.$categoriesOnDB[$category->getId()]}() ?></h4>
 
-                <select name="<?= $categoriesOnDB[$category->getId()] ?>" id="<?= $categoriesOnDB[$category->getId()] ?>">
+                <?php for ($i = 1; $i < 6; $i++) : ?>
 
-                    <?php if ($verification) : ?>
-                        <option value="<?=$verification->{'get'.$categoriesOnDB[$category->getId()]}()?>" selected><?= $driversById[$verification->{'get'.$categoriesOnDB[$category->getId()]}()]->getNumber() . " - " . $driversById[$verification->{'get'.$categoriesOnDB[$category->getId()]}()]->getFirstName() . " " . $driversById[$verification->{'get'.$categoriesOnDB[$category->getId()]}()]->getLastName() ?></option>
+                <select name="<?= $categoriesOnDB[$category->getId()].$i ?>" id="<?= $categoriesOnDB[$category->getId()] ?>">
+
+                    <?php if ($verification) : ($i == 1) ? ($test = '') : ($test = $i) ; ?>
+                        <option value="<?=$verification->{'get'.$categoriesOnDB[$category->getId()].$test}()?>" selected><?= $driversById[$verification->{'get'.$categoriesOnDB[$category->getId()].$test}()]->getNumber() . " - " . $driversById[$verification->{'get'.$categoriesOnDB[$category->getId()].$test}()]->getFirstName() . " " . $driversById[$verification->{'get'.$categoriesOnDB[$category->getId()].$test}()]->getLastName() ?></option>
                     <?php endif; ?>
+                        <option value="0">/</option>
                     <?php foreach ($entryList[$category->getId()] as $entry) : ?>
                         <option value="<?= $entry->getId() ?>"><?= $entry->getNumber() . " - " . $entry->getFirstName() . " " . $entry->getLastName() ?></option>
                     <?php endforeach; ?>
 
                 </select>
+
+                <?php endfor ; ?>
             </label>
         </div>
     <?php endforeach; ?>
@@ -87,6 +92,7 @@
 
         <?php $token = $_SESSION['token'] = random_bytes(5); ?>
         <input type="hidden" name="token" value="<?= $token ?>">
+
     </form>
     </div>
     

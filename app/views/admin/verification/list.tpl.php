@@ -45,7 +45,7 @@
                     <td><?= $verification->getBonus1()?></td>
                     <td><?= $verification->getBonus2() ?></td>
                     <td>
-                        <a type="button" class="btn btn-outline-warning" href="<?= $this->router->generate('verification-edit', ['raceId' => $verification->getRaceId()]) ?>">Modifier</a>
+                        <a type="button" class="btn btn-outline-warning" href="<?= $this->router->generate('verification-edit', ['raceId' => $verification->getRaceId(), 'id' => $verification->getId()]) ?>">Modifier</a>
                     </td>
                     <td>
                         <div class="dropdown">

@@ -22,9 +22,9 @@ class Category extends CoreModel {
 
         if ($this->id > 0) {
             $sql = 
-            "UPDATE `category` SET `name`= :name, `running_order` = :running_order WHERE id = :id";
+            "UPDATE `category` SET `name`= :name, `running_order` = :running_order, `updated_at` = NOW() WHERE id = :id";
         } else {
-            $sql = "INSERT INTO `category` (`name`, `running_order`) VALUES (:name, :running_order)";
+            $sql = "INSERT INTO `category` (`name`, `running_order`, 'created_at') VALUES (:name, :running_order, NOW())";
         }
 
 

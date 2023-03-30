@@ -406,7 +406,7 @@ $router->map(
 
 $router->map(
     'GET',
-    '/admin/verification/edit/[i:raceId]',
+    '/admin/verification/edit/[i:raceId]/[i:id]',
     [
     'controller' => AdminVerificationController::class,
     'method' => 'addOrEdit'
@@ -416,10 +416,10 @@ $router->map(
 
 $router->map(
     'POST',
-    '/admin/verification/edit/[i:raceId]',
+    '/admin/verification/edit/[i:raceId]/[i:id]',
     [
     'controller' => AdminVerificationController::class,
-    'method' => 'update'
+    'method' => 'createOrUpdate'
     ],
     'verification-update'
 );
@@ -449,7 +449,7 @@ $router->map(
     '/admin/verification/add/[i:raceId]',
     [
     'controller' => AdminVerificationController::class,
-    'method' => 'create'
+    'method' => 'createOrUpdate'
     ],
     'verification-create'
 );

@@ -79,6 +79,27 @@ class GeneralScore extends CoreModel
         return $query->fetchAll(PDO::FETCH_CLASS, GeneralScore::class);
     }
 
+    /**
+     * Tri les scores des participants pour une course
+     *
+     * @param int $raceId // L'id de la course
+     * @return GeneralScore[]
+     */
+    static public function sortingGeneralToUpdatePlaces($yearId) {
+
+        $pdo = Database::getPDO();
+
+        $sql = "SELECT general_score.*, player.pseudo FROM `general_score` JOIN `player` ON player.id = general_score.player_id WHERE general_score.year_id = :yearId ORDER BY general_score.total DESC, player.pseudo ASC";
+
+        $query = $pdo->prepare($sql);
+
+        $query->bindValue(":yearId",   $yearId,   PDO::PARAM_INT);
+
+        $query->execute();
+
+        return $query->fetchAll(PDO::FETCH_CLASS, GeneralScore::class);
+    }
+
 
     /**
      * Undocumented function
