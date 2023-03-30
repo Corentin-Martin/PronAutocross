@@ -60,6 +60,7 @@ class UserParticipationController extends UserCoreController
         $race = Race::find($raceId);
 
         if (isset($_POST)) {
+
             $maxiSprint = filter_input(INPUT_POST, 'MaxiSprint', FILTER_VALIDATE_INT);
             $tourismeCup = filter_input(INPUT_POST, 'TourismeCup', FILTER_VALIDATE_INT);
             $sprintGirls = filter_input(INPUT_POST, 'SprintGirls', FILTER_VALIDATE_INT);

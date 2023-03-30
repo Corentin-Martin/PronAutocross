@@ -2,6 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Models\Questions;
+use App\Models\Race;
+use App\Models\Verification;
 
 abstract class CoreController {
 
@@ -75,6 +78,23 @@ abstract class CoreController {
     protected function show($viewName, $viewData = [], $year = null) {
 
         $baseURI = $_SERVER['BASE_URI'];
+
+        $question = Questions::checkLast();
+
+        if ($question) {
+            $verificationExist = Verification::showByRaceId($question->getRaceId(), $question->getYearId());
+
+            $raceInProgress = Race::find($question->GetRaceId());
+    
+            if (!$verificationExist && $raceInProgress->getDate() > date('Y-m-d H:i:s')) {
+                $viewData['gameInProgress'] = true;
+            } else {
+              $viewData['gameInProgress'] = null;
+            }
+        } else {
+          $viewData['gameInProgress'] = null;
+          $viewData['raceInProgress'] = null;
+        }
 
         extract($viewData);
 

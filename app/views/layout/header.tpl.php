@@ -26,6 +26,10 @@
                     <?php else : ?>
                         <a class="navbar-brand" href="<?= $this->router->generate('home'); ?>">Pron'Autocross</a>
                     <?php endif; ?>
+
+                    <?php if ($_SESSION && $gameInProgress) : ?>
+                    <a class="btn btn-danger" href="<?= $this->router->generate('user-add', ['id' => $raceInProgress->getId()]) ?>">JOUER POUR <?= $raceInProgress->getName() ?></a>
+                    <?php endif; ?>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>

@@ -33,10 +33,10 @@
                             <td class="fw-bold"><?= $player['fiche']->getPseudo() ?></td>
                             <td class="table-success fw-bold"><?= $player['score']->getTotal(); ?></td>
                             <?php foreach ($categories as $category) : $categoryToGet = str_replace(" ", "", $category->getName()); ?>
-                                <td><?= $player['score']->{'get'.$categoryToGet}(); ?></td>
+                                <td <?= ($player['score']->{'get'.$categoryToGet}() == 0) ? "class='table-danger'" : '' ?>><?= $player['score']->{'get'.$categoryToGet}(); ?></td>
                             <?php endforeach; ?>
-                            <td><?= $player['score']->getBonus1(); ?></td>
-                            <td><?= $player['score']->getBonus2(); ?></td>
+                            <td <?= ($player['score']->getBonus1() == 0) ? "class='table-danger'" : '' ?>><?= $player['score']->getBonus1(); ?></td>
+                            <td <?= ($player['score']->getBonus2() == 0) ? "class='table-danger'" : '' ?>><?= $player['score']->getBonus2(); ?></td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else : ?>

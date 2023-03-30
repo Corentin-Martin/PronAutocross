@@ -55,24 +55,7 @@ class MainController extends CoreController {
             $race = null;
         }
 
-        $question = Questions::checkLast();
-
-        if ($question) {
-            $verificationExist = Verification::showByRaceId($question->getRaceId(), $question->getYearId());
-
-            $raceInProgress = Race::find($question->GetRaceId());
-    
-            if (!$verificationExist && $raceInProgress->getDate() > date('Y-m-d H:i:s')) {
-                $gameInProgress = true;
-            } else {
-                $gameInProgress = null;
-            }
-        } else {
-            $gameInProgress = null;
-            $raceInProgress = null;
-        }
-
-        $this->show('main/home', ['players' => $players, 'playersForRace' => $playersForRace, 'race' => $race, 'gameInProgress' => $gameInProgress, 'raceInProgress' => $raceInProgress]);
+        $this->show('main/home', ['players' => $players, 'playersForRace' => $playersForRace, 'race' => $race]);
     }
 
     public function rules() {

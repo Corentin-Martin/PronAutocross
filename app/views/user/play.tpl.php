@@ -10,12 +10,13 @@
     </div>
 <?php endif; ?>
 
-<p class="row bg-success rounded-3 p-2 m-3 justify-content-center text-light shadow">Sélectionnez un pilote par catégorie en cliquant dessus, faites défiler l'écran pour toutes les parcourir puis répondez aux deux questions bonus et validez votre participation !</p>
+<p class="row bg-success rounded-3 p-2 m-3 justify-content-center text-light shadow">Sélectionnez un pilote par catégorie en cliquant dessus et validez en cliquant sur "Catégorie suivante" puis répondez aux deux questions bonus et envoyez votre participation !</p>
 
-<form action="" method="post" class="row d-flex flex-column align-items-center">
+<form action="" method="post" class="row d-flex flex-column align-items-center playform">
 
     <?php foreach ($categories as $category) : $categoryToGet = str_replace(" ", "", $category->getName()); ?>
-
+    <div class="row justify-content-center <?=$categoryToGet?>">
+        <div class="col-8 btn btn-warning next d-none">Catégorie suivante</div>
         <h3 class="badge bg-dark fs-1 col-6 mt-3"><?= $category->getName() ?></h3>
         <h4 class="bg-light col-10 my-2 rounded-4"><?= $questions->{'get'.$categoryToGet}() ?></h4>
         <div class = "row justify-content-center bg-light" style="--bs-bg-opacity: .5;">
@@ -45,29 +46,36 @@
                 </label>
             <?php endforeach; ?>
         </div>
+        <div class="col-6 btn btn-warning next d-none">Catégorie suivante</div>
+    </div>
     <?php endforeach; ?>
 
-        <h3 class="badge bg-dark fs-1 col-6 mt-3">Bonus 1</h3>
-        <h4 class="bg-light col-10 my-2 rounded-4"><?= $questions->getBonus1() ?></h4>
-        <div class = "row justify-content-center bg-light" style="--bs-bg-opacity: .5;">
-            <div class="col-6">
-                <select class="form-select col-8" name="bonus1" id="bonus1" required>
-                    <option class="text-center"> - </option>
-                    <option class="text-center" value ="oui"> Oui </option>
-                    <option class="text-center" value ="non"> Non </option>
-                </select>
+    <div class="endbloc justify-content-center">
+        <div class="row justify-content-center">
+            <h3 class="badge bg-dark fs-1 col-6 mt-3">Bonus 1</h3>
+            <h4 class="bg-light col-10 my-2 rounded-4"><?= $questions->getBonus1() ?></h4>
+            <div class = "row justify-content-center bg-light" style="--bs-bg-opacity: .5;">
+                <div class="col-6">
+                    <select class="form-select col-8" name="bonus1" id="bonus1" required>
+                        <option class="text-center"> - </option>
+                        <option class="text-center" value ="oui"> Oui </option>
+                        <option class="text-center" value ="non"> Non </option>
+                    </select>
+                </div>
             </div>
         </div>
 
-        <h3 class="badge bg-dark fs-1 col-6 mt-3">Bonus 2</h3>
-        <h4 class="bg-light col-10 my-2 rounded-4"><?= $questions->getBonus2() ?></h4>
-        <div class = "row justify-content-center bg-light" style="--bs-bg-opacity: .5;">
-            <div class="col-6">
-                <select class="form-select" name="bonus2" id="bonus2" required>
-                    <option class="text-center"> - </option>
-                    <option class="text-center" value ="oui"> Oui </option>
-                    <option class="text-center" value ="non"> Non </option>
-                </select>
+        <div class="row justify-content-center">
+            <h3 class="badge bg-dark fs-1 col-6 mt-3">Bonus 2</h3>
+            <h4 class="bg-light col-10 my-2 rounded-4"><?= $questions->getBonus2() ?></h4>
+            <div class = "row justify-content-center bg-light" style="--bs-bg-opacity: .5;">
+                <div class="col-6">
+                    <select class="form-select" name="bonus2" id="bonus2" required>
+                        <option class="text-center"> - </option>
+                        <option class="text-center" value ="oui"> Oui </option>
+                        <option class="text-center" value ="non"> Non </option>
+                    </select>
+                </div>
             </div>
         </div>
 
@@ -78,5 +86,6 @@
         <input type="hidden" name="token" value="<?= $token ?>">
 
         <button class="btn btn-success col-6 mt-3" type="submit">Envoyer votre participation</button>
+    </div>
 </form>
 

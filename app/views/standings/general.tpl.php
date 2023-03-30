@@ -23,7 +23,7 @@
                             <td class="table-success fw-bold"><?= $player['general'] ?></td>
 
                             <?php foreach ($races as $race) : ?>
-                                <td><?= ($player['scores'][$race->getId()]) ? $player['scores'][$race->getId()]->getTotal() : '/' ?></td>
+                                <td <?= (($player['scores'][$race->getId()]) && $player['scores'][$race->getId()]->getTotal() == 0) ? "class='table-danger'" : '' ?>><?= ($player['scores'][$race->getId()]) ? $player['scores'][$race->getId()]->getTotal() : '/' ?></td>
                             <?php  endforeach;  ?>
                         </tr>
                     <?php endforeach; ?>
