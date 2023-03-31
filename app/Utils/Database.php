@@ -12,8 +12,7 @@ class Database
 
     private function __construct()
     {
-        // Récupération des données du fichier de config
-        // la fonction parse_ini_file parse le fichier et retourne un array associatif
+
         $configData = parse_ini_file(__DIR__ . '/../config.ini');
 
         try {
@@ -21,7 +20,7 @@ class Database
                 "mysql:host={$configData['DB_HOST']};dbname={$configData['DB_NAME']};charset=utf8",
                 $configData['DB_USERNAME'],
                 $configData['DB_PASSWORD'],
-                array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING) // Affiche les erreurs SQL à l'écran
+                array(PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT)
             );
         } catch (\Exception $exception) {
             echo 'Erreur de connexion...<br>';
@@ -38,7 +37,6 @@ class Database
      */
     public static function getPDO()
     {
-        // If no instance => create one
         if (empty(self::$_instance)) {
             self::$_instance = new Database();
         }
