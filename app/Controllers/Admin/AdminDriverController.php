@@ -167,9 +167,10 @@ class AdminDriverController extends AdminCoreController
 
         foreach ($_POST['place'] as $categoryId => $content) {
 
-            $uniqueCategory = array_unique($content);
+            $definedContent = array_filter($content);
+            $uniqueCategory = array_unique($definedContent);
 
-            if (count($uniqueCategory) !== $content) {
+            if (count($uniqueCategory) !== count($definedContent)) {
                 $category = Category::find($categoryId);
                 $errorList[] = 'Attention, un pilote est en double en ' . $category->getName() . " !";
             }

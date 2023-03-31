@@ -10,7 +10,7 @@
     </div>
 <?php endif; ?>
 
-<p class="row bg-success rounded-3 p-2 m-3 justify-content-center text-light shadow">Sélectionnez un pilote par catégorie en cliquant dessus et validez en cliquant sur "Catégorie suivante" puis répondez aux deux questions bonus et envoyez votre participation !</p>
+<p class="row bg-success rounded-3 p-2 m-3 justify-content-center text-light shadow">Sélectionnez un pilote par catégorie en cliquant dessus et validez en cliquant sur le bouton "Catégorie suivante" qui apparaitra au dessus et en dessous de chaque liste des engagés puis répondez aux deux questions bonus et envoyez votre participation !</p>
 
 <form action="" method="post" class="row d-flex flex-column align-items-center playform">
 
