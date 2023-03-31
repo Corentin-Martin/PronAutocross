@@ -88,4 +88,5 @@
         <button class="btn btn-success col-6 mt-3" type="submit">Envoyer votre participation</button>
     </div>
 </form>
+<script src="<?= $baseURI ?>assets/js/play.js"></script>
 
