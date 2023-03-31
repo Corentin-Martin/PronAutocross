@@ -1,5 +1,9 @@
 body {
     text-align: center;
+    background-image: url("../images/backgroundadmin.jpg");
+    background-size: cover;
+    height: 100vh;
+    overflow: auto;
 }
 
 .container {
@@ -169,9 +173,9 @@ input::placeholder {
     font-family: 'Faster One', display;
     color: #158CBA;
 }
-
+/* 
 .main {
     background-image: url("../images/backgroundadmin.jpg");
     background-size: cover;
     height: 100vh;
-}
+} */
