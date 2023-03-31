@@ -26,6 +26,8 @@
                 <li><a class="dropdown-item" href="<?= $this->router->generate('driver-list', ['categoryId' => $categoryId, 'action' => 'number']) ?>">Numéro</a></li>
                 <li><a class="dropdown-item" href="<?= $this->router->generate('driver-list', ['categoryId' => $categoryId, 'action' => 'vehicle']) ?>">Véhicule</a></li>
                 <li><a class="dropdown-item" href="<?= $this->router->generate('driver-list', ['categoryId' => $categoryId, 'action' => 'status']) ?>">Statut</a></li>
+                <li><a class="dropdown-item" href="<?= $this->router->generate('driver-list', ['categoryId' => $categoryId, 'action' => 'place']) ?>">Place</a></li>
+                <li><a class="dropdown-item" href="<?= $this->router->generate('driver-list', ['categoryId' => $categoryId, 'action' => 'overall']) ?>">Cote</a></li>
 
             </ul>
     </div>
