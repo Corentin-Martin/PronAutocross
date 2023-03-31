@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="<?= $baseURI ?>assets/css/style.css">
     <title>BackOffice Admin Pron'Autocross</title>
 </head>
-<body class="container-fluid">
+<body class="container-fluid overflow-hidden">
 <header class="admin_header">
 
     <nav class="navbar navbar-expand-lg bg-body-tertiary">

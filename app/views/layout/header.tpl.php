@@ -33,7 +33,7 @@
     <title>Pron'Autocross</title>
 </head>
 
-<body class="container-fluid bg-secondary text-center">
+<body class="container-fluid bg-secondary text-center overflow-hidden">
 
     <header class="row m-auto">
 
