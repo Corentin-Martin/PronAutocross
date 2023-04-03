@@ -1,4 +1,4 @@
-        <footer class="sticky-bottom d-flex justify-content-center">
+        <footer class="d-flex justify-content-center">
             <p>&copy; Corentin Martin (2023) || </p>
             <a class="text-decoration-none fw-bold" href="https://www.facebook.com/pronautocross"><i class="bi bi-facebook text-primary shadow "></i> Page Facebook</a>
         </footer>

@@ -1,25 +1,19 @@
 <?php $token = $_SESSION['token'] = random_bytes(5); ?>
-<div class="admin__container">
-    
-    <div>
-        <h2 class="admin__container__title">Liste des questions - <?= $currentYear ?></h2>
+<div class="row mt-3 justify-content-center">
 
-        <div class="btn-group" role="group">
-            <button type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Année</button>
-            
-            <ul class="dropdown-menu">
-            <?php foreach ($years as $year) : ?>
-                <li><a class="dropdown-item" href="<?= $year->getId() ?>"><?= $year->getId() ?></a></li>
-            <?php endforeach; ?>
-            </ul>
-        </div>
+    <h2 class="bg-danger text-light rounded-4 shadow fw-bold col-8 p-2">Liste des questions - <?= $currentYear ?></h2>
+
+    <div class="btn-group col-5 mt-2" role="group">
+        <button type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Année</button>
+        <ul class="dropdown-menu">
+        <?php foreach ($years as $year) : ?>
+            <li ><a class="dropdown-item" href="<?= $year->getId() ?>"><?= $year->getId() ?></a></li>
+        <?php endforeach; ?>
+        </ul>
     </div>
 
-    
-
-    <div>
-
-        <table class="table table-light table-stripped table-striped-columns table-hover">
+    <div class="col-12 overflow-auto mt-3">
+        <table class="table table-dark table-stripped table-striped-columns table-hover">
             <thead>
                 <th>Epreuve</th>
                 <?php foreach ($categories as $category) : ?>
@@ -31,7 +25,6 @@
                 <th>Supprimer</th>
             </thead>
             <tbody>
-
             <?php foreach ($questions as $question) : ?>
                 <tr>
                     <td><?= $races[$question->getRaceId()]->getName() ?></td>
@@ -62,16 +55,10 @@
                     </td>
                 </tr>
             <?php endforeach; ?>
-
             </tbody>
-     </table>
-
+        </table>
     </div>
     
-
-    <div>
-        <a type="button" class="btn btn-warning btn-lg"  href="<?= $this->router->generate('question-home') ?>">Retour</a>
-    </div>
-
+    <a type="button" class="btn btn-warning btn-lg mt-3 col-8"  href="<?= $this->router->generate('question-home') ?>">Retour</a>
 
 </div>

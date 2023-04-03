@@ -23,14 +23,15 @@
     <meta name="msapplication-TileImage" content="<?= $baseURI ?>assets/favicon/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="https://bootswatch.com/5/darkly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <link rel="stylesheet" href="<?= $baseURI ?>assets/css/style.css">
     <title>BackOffice Admin Pron'Autocross</title>
 </head>
-<body class="container-fluid overflow-hidden">
-<header class="admin_header">
 
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+<body class="container-fluid bg-light text-center">
+<header class="row m-auto">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
             <a class="navbar-brand" href="<?= $this->router->generate('admin'); ?>">Admin Pron'Autocross</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,6 +53,6 @@
 
 </header>
 
-<main class="main__admin m-auto vh-100 overflow-auto">
+<main class="m-auto">
 
 
