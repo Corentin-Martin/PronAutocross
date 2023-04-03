@@ -1,10 +1,10 @@
 <?php $token = $_SESSION['token'] = random_bytes(5); ?>
-<div class="admin__container">
+<div class="row mt-3 justify-content-center">
     
-    <div>
-        <h2 class="admin__container__title">Liste des engagés</h2>
 
-        <div class="btn-group" role="group">
+        <h2 class="bg-danger text-light rounded-4 shadow fw-bold col-8 p-2">Liste des engagés</h2>
+
+        <div class="btn-group col-6 mt-2" role="group">
             <button type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Année</button>
             
             <ul class="dropdown-menu">
@@ -13,9 +13,9 @@
             <?php endforeach; ?>
             </ul>
         </div>
-    </div>
 
-    <div class="btn-group" role="group">
+
+    <div class="btn-group col-7 mt-2" role="group">
             <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Epreuve</button>
             
             <ul class="dropdown-menu">
@@ -25,13 +25,14 @@
             </ul>
     </div>
 
-    <div>
-        <h2 class="questionnaire__title">
+
+        <h2 class="bg-info rounded-4 shadow fw-bold col-8 p-2 mt-2">
             <?php if (!isset($races[$raceId])) : ?>
                 Aucune liste générée
             <?php else : ?>
             Liste des engagés pour <?= $races[$raceId]->getName() ?> - <?= $currentYear ?>
         <?php endif; ?></h2>
+
         <?php if (isset($races[$raceId])) : ?>
         <div class="dropdown">
             <button class="btn btn-danger dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -43,10 +44,10 @@
             </ul>
         </div>
         <?php endif; ?>
-    </div>
 
-    <div>
-        <table class="table table-light table-stripped table-striped-columns table-hover">
+
+    <div class="col-12 overflow-auto mt-3">
+        <table class="table table-dark table-stripped table-striped-columns table-hover">
             <thead>
                 <th>Catégorie</th>
                 <th>Numéro</th>
@@ -79,10 +80,6 @@
         </table>
     </div>
 
-
-    <div>
-        <a type="button" class="btn btn-warning btn-lg"  href="<?= $this->router->generate('entrylist-home') ?>">Retour</a>
-    </div>
-
+    <a type="button" class="btn btn-warning btn-lg mt-3 col-8"  href="<?= $this->router->generate('entrylist-home') ?>">Retour</a>
 
 </div>
