@@ -63,7 +63,7 @@ class AdminDriverController extends AdminCoreController
 
             $errorList = [];
 
-            if (empty($firstName) || empty($lastName) || empty($number) || empty($vehicle) || empty($categoryId) || empty($status) || empty($rate1) || empty($rate2) || empty($overall)) {
+            if (empty($firstName) || empty($lastName) || empty($number) || empty($vehicle) || empty($categoryId) || empty($rate1) || empty($rate2) || empty($overall)) {
                 $errorList[] = "Tous les champs sont obligatoires.";
             }
 
