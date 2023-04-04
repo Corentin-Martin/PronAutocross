@@ -1,7 +1,12 @@
 body {
-    text-align: center;
-    height: 100vh;
-    overflow: auto;
+    background-image: url("../images/backgroundadmin.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.header__title {
+    font-family: 'Faster One', display;
+    color: #158CBA;
 }
 
 input[type="radio"].radio {
@@ -11,20 +16,10 @@ input[type="radio"].radio {
 input[type="radio"].radio:checked + .driver{
     background-color: #ff0000;
     color: #fff;
-    /* border-radius : 5%; */
   }
-
 
 input::placeholder {
     text-align: center;
 }
 
-.header__title {
-    font-family: 'Faster One', display;
-    color: #158CBA;
-}
 
-.main {
-    background-image: url("../images/backgroundadmin.jpg");
-    background-size: cover;
-}

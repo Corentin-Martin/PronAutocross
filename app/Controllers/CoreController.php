@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Participation;
 use App\Models\Questions;
 use App\Models\Race;
 use App\Models\Verification;
@@ -91,9 +92,23 @@ abstract class CoreController {
             } else {
               $viewData['gameInProgress'] = null;
             }
+
+            if ($_SESSION) {
+              $participation = Participation::checkForAPlayer(date('Y'), $raceInProgress->getId(), $_SESSION['user']->getId());
+
+              if ($participation) {
+                $viewData['participationForRaceInProgress'] = true;
+              } else {
+                $viewData['participationForRaceInProgress'] = false;
+              }
+            } else {
+              $viewData['participationForRaceInProgress'] = false;
+            }
+
         } else {
           $viewData['gameInProgress'] = null;
           $viewData['raceInProgress'] = null;
+          $viewData['participationForRaceInProgress'] = null;
         }
 
         extract($viewData);

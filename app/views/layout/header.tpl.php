@@ -33,11 +33,15 @@
     <title>Pron'Autocross</title>
 </head>
 
-<body class="container-fluid bg-secondary text-center">
+<body class="container-fluid bg-secondary text-center overflow-auto vh-100">
 
     <header class="row m-auto">
 
             <a href="<?= $this->router->generate('home'); ?>" class="header__title fs-1 col-12 text-decoration-none">Pron'Autocross</a>
+
+            <?php if ($_SESSION && $gameInProgress && !$participationForRaceInProgress) : ?>
+                    <a class="btn btn-danger col-12" href="<?= $this->router->generate('user-add', ['id' => $raceInProgress->getId()]) ?>">JOUER POUR <?= $raceInProgress->getName() ?></a>
+            <?php endif; ?>
 
             <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
                 <div class="container-fluid">
@@ -47,9 +51,6 @@
                         <a class="navbar-brand" href="<?= $this->router->generate('home'); ?>">Pron'Autocross</a>
                     <?php endif; ?>
 
-                    <?php if ($_SESSION && $gameInProgress) : ?>
-                    <a class="btn btn-danger" href="<?= $this->router->generate('user-add', ['id' => $raceInProgress->getId()]) ?>">JOUER POUR <?= $raceInProgress->getName() ?></a>
-                    <?php endif; ?>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -95,6 +96,6 @@
             </nav>
     </header>
 
-    <main class='main m-auto'>
+    <main class='m-auto'> 
 
 

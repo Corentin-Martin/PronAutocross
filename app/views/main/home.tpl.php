@@ -1,5 +1,7 @@
-<?php if ($gameInProgress) : ?>
+<?php if ($gameInProgress && !$participationForRaceInProgress) : ?>
     <a class="col-10 col-sm-6 mt-3 m-auto btn btn-danger shadow" href="<?= $this->router->generate('user-add', ['id' => $raceInProgress->getId()]) ?>">LES PARTICIPATIONS POUR <?= $raceInProgress->getName() ?> SONT OUVERTES ! CLIQUEZ ICI POUR PARTICIPER ! </a>
+<?php elseif ($gameInProgress && $participationForRaceInProgress) : ?>
+    <a class="col-10 col-sm-6 mt-3 m-auto btn btn-success shadow" href="<?= $this->router->generate('user-recap', ['id' => $raceInProgress->getId()]) ?>">Vous avez participé pour <?= $raceInProgress->getName() ?> ! Cliquez ici pour découvrir votre fiche récap' ! </a>
 <?php endif; ?>
 
 <div class="row mt-3 m-auto align-items-center">
