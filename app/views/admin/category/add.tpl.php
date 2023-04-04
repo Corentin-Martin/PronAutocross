@@ -19,12 +19,12 @@
     <div class="col-12">
         <form action="" method="post">
             <div class="form-group">
-                <label class="col-8 text-primary fw-bold shadow border border-primary p-2 mt-2" for="name">Nom de la catégorie
+                <label class="col-8 text-primary fw-bold bg-light  shadow border border-primary p-2 mt-2" for="name">Nom de la catégorie
                     <input class="form-control" type="text" name="name" id="name" placeholder="Nom de la catégorie" <?= ($category) ? "value = \" {$category->getName()} \"" : "" ?>>
                 </label>
             </div>
             <div class="form-group">
-                <label class="col-8 text-primary fw-bold shadow border border-primary p-2 mt-2" for="running_order">Ordre de passage
+                <label class="col-8 text-primary fw-bold bg-light  shadow border border-primary p-2 mt-2" for="running_order">Ordre de passage
                     <input class="form-control" type="number" name="running_order" id="running_order" min="0" max="20" step="1" <?= ($category) ? "value = \"{$category->getRunningOrder()}\"" : "value = \"0\"" ?> >
                 </label>
             </div>

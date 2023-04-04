@@ -99,5 +99,24 @@ class Player extends CoreUser {
         
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param [type] $order
+     * @return Player[]
+     */
+    static public function findOrderBy($order) {
+        $pdo = Database::getPDO();
+
+        $sql = "SELECT * FROM `player` ORDER BY $order";
+
+        $query = $pdo->prepare($sql);
+
+        $query->execute();
+
+        return $query->fetchAll(PDO::FETCH_CLASS, Player::class);
+        
+    }
+
 }
 

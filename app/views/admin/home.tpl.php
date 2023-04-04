@@ -83,20 +83,20 @@
         </div>
 
         <?php if ($_SESSION['user']->getRole() === 'admin') : ?>
-        <div class="col-5 col-sm-3 bg-secondary p-3 rounded-3 shadow m-1 d-flex flex-column justify-content-around">
-            <a href="<?= $this->router->generate('race-home') ?>"><h3 class="col-12 btn btn-primary shadow" >Gestion des utilisateurs</h3></a>
-            <ul class="list-group text-primary col-12">
-                <li class="list-group-item p-1">
-                    <a class="btn p-0" href="<?= $this->router->generate('race-list', ['year' => 2023]) ?>">TO DO</a>
-                </li>
-                <li class="list-group-item p-1">
-                    <a class="btn p-0" href="<?= $this->router->generate('race-add') ?>">TO DO</a>
-                </li>
-            </ul>
-        </div>
+            <div class="col-5 col-sm-3 bg-secondary p-3 rounded-3 shadow m-1 d-flex flex-column justify-content-around">
+                <a href="<?= $this->router->generate('adminuser-home') ?>"><h3 class="col-12 btn btn-primary shadow" >Gestion des utilisateurs</h3></a>
+                <ul class="list-group text-primary col-12">
+                    <li class="list-group-item p-1">
+                        <a class="btn p-0" href="<?= $this->router->generate('adminuser-list', ['action' => 'id']) ?>">Tous les utilisateurs</a>
+                    </li>
+                    <li class="list-group-item p-1">
+                        <a class="btn p-0" href="<?= $this->router->generate('adminuser-participations', ['id' => 1]) ?>">Participations</a>
+                    </li>
+                </ul>
+            </div>
         <?php endif; ?>
 
     </div>
 
-    <a type="button" class="btn btn-warning btn-lg col-6"  href="<?= $this->router->generate('home') ?>">RETOUR AU SITE GENERAL</a>
+    <a type="button" class="btn btn-warning btn-lg col-6 mt-3"  href="<?= $this->router->generate('home') ?>">RETOUR AU SITE GENERAL</a>
 </div>

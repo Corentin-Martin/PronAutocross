@@ -5,6 +5,7 @@ use App\Controllers\Admin\AdminCoreController;
 use App\Controllers\Admin\AdminDriverController;
 use App\Controllers\Admin\AdminQuestionController;
 use App\Controllers\Admin\AdminRaceController;
+use App\Controllers\Admin\AdminUserController;
 use App\Controllers\Admin\AdminVerificationController;
 
 $router->map(
@@ -494,4 +495,65 @@ $router->map(
     'verification-delete'
 );
 
-// RATE
+// USER
+
+$router->map(
+    'GET',
+    '/admin/user',
+    [
+        'controller' => AdminUserController::class,
+        'method' => 'home'
+    ],
+    'adminuser-home'
+);
+
+$router->map(
+    'GET',
+    '/admin/users/[a:action]',
+    [
+        'controller' => AdminUserController::class,
+        'method' => 'list'
+    ],
+    'adminuser-list'
+);
+
+$router->map(
+    'GET',
+    '/admin/user/edit/[i:id]',
+    [
+        'controller' => AdminUserController::class,
+        'method' => 'edit'
+    ],
+    'adminuser-edit'
+);
+
+$router->map(
+    'POST',
+    '/admin/user/edit/[i:id]',
+    [
+        'controller' => AdminUserController::class,
+        'method' => 'update'
+    ],
+    'adminuser-update'
+);
+
+$router->map(
+    'GET',
+    '/admin/user/delete/[i:id]/[h:token]',
+    [
+        'controller' => AdminUserController::class,
+        'method' => 'delete'
+    ],
+    'adminuser-delete'
+);
+
+$router->map(
+    'GET',
+    '/admin/users/participations/[i:id]',
+    [
+        'controller' => AdminUserController::class,
+        'method' => 'showParticipations'
+    ],
+    'adminuser-participations'
+);
+
