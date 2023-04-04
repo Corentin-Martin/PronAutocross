@@ -14,11 +14,8 @@
                 <label class="col-8" for="raceId">
                     <h4 class="bg-primary rounded-4 shadow fw-bold p-2">Course</h4>
                     <select name="raceId" id="raceId" required>
-                        <?php if ($questionnaire) : ?>
-                            <option value="<?= $questionnaire->getRaceId() ?>" selected><?= $racesById[$questionnaire->getRaceId()]->getName() ?></option>
-                        <?php endif; ?>
                         <?php foreach ($races as $race) : ?>
-                            <option value="<?= $race->getId() ?>"><?= $race->getName() ?></option>
+                            <option value="<?= $race->getId() ?>" <?= ($questionnaire && $questionnaire->getRaceId() == $race->getId()) ? 'selected' : '' ?>><?= $race->getName() ?></option>
                         <?php endforeach; ?>
                     </select>
                 </label>

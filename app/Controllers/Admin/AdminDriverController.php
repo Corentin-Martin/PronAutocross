@@ -215,7 +215,9 @@ class AdminDriverController extends AdminCoreController
 
         $races = Race::findByYear(date('Y'));
 
-        $this->show('admin/driver/editRates', ['races' => $races]);
+        $currentRace = Race::find($id);
+
+        $this->show('admin/driver/editRates', ['races' => $races, 'currentRace' => $currentRace]);
     }
 
     public function updateRates($raceId) {

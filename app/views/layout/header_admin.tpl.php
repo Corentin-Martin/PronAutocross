@@ -46,6 +46,7 @@
                 <a class="nav-link" href="<?= $this->router->generate('driver-home'); ?>">Pilotes</a>
                 <a class="nav-link" href="<?= $this->router->generate('category-list'); ?>">Catégories</a>
                 <a class="nav-link" href="<?= $this->router->generate('race-home'); ?>">Courses</a>
+                <a class="nav-link" aria-current="page" href="<?= $this->router->generate('home'); ?>">Site public</a>
             </div>
             </div>
         </div>
