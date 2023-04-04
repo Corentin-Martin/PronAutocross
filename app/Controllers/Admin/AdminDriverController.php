@@ -7,6 +7,7 @@ use App\Models\Driver;
 use App\Models\Participation;
 use App\Models\Race;
 use App\Models\Year;
+use ParseError;
 
 class AdminDriverController extends AdminCoreController
 {
@@ -275,6 +276,34 @@ class AdminDriverController extends AdminCoreController
 
         header("Location: {$this->router->generate('driver-list', ['categoryId' => 1, 'action' => 'number'])}");
         exit;
+    }
+
+    public function showVotesPerDriver($categoryId, $raceId) {
+
+        $races = Race::findByYear(date('Y'));
+
+        $currentRace = Race::find($raceId);
+        
+        $currentCategory = Category::find($categoryId);
+
+        $categories = Category::findAll();
+
+        $participations = count(Participation::showAllParticipations(date('Y'), $raceId));
+
+        $entryList = [];
+        foreach (Driver::listByRaceAndCategory($raceId, $categoryId) as $entry) {
+            $add = [];
+            $add['driver'] = $entry;
+            $add['votes'] = count(Participation::showAllForADriver(date('Y'), $raceId, $entry->getId())) * 100 / $participations ;
+            $entryList[$entry->getId()] = $add;
+        }
+
+        $sortBy = array_column($entryList, 'votes');
+        array_multisort($sortBy, SORT_DESC, $entryList);
+        
+        $this->show('admin/driver/votes', ['races' => $races, 'currentRace' => $currentRace, 'entryList' => $entryList, 'categories' => $categories, 'currentCategory' => $currentCategory]);
+
+        
     }
 
     // ENTRY LIST

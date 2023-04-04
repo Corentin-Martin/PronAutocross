@@ -55,6 +55,9 @@
                 <li class="list-group-item p-1">
                     <a class="btn p-0" href="<?= $this->router->generate('driver-editRates', ['id' => 1]) ?>">Mettre à jour les cotes</a>
                 </li>
+                <li class="list-group-item p-1">
+                    <a class="btn p-0" href="<?= $this->router->generate('driver-showVotes', ['categoryId' => 1, 'raceId' => 1]) ?>">Visualiser les votes</a>
+                </li>
             </ul>
         </div>
         
