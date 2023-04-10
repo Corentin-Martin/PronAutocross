@@ -16,7 +16,7 @@
             <tbody>
                 <?php foreach(array_slice($vote, 0, 9) as $categoryVote) : ?>
                     <tr <?php if (isset($verification)) {
-                        if ($verification->{'get'.str_replace(" ", "", $categoryVote['category'])}() === $participation->{'get'.str_replace(" ", "", $categoryVote['category'])}()) : ?> class="table-success" <?php else: ?> class="table-danger" <?php endif; }?> >
+                        if ($participation->{'get'.str_replace(" ", "", $categoryVote['category'])}() === $verification->{'get'.str_replace(" ", "", $categoryVote['category'])}() || $verification->{'get'.str_replace(" ", "", $categoryVote['category']).'2'}() || $verification->{'get'.str_replace(" ", "", $categoryVote['category']).'3'}() || $verification->{'get'.str_replace(" ", "", $categoryVote['category']).'4'}() || $verification->{'get'.str_replace(" ", "", $categoryVote['category']).'5'}() ) : ?> class="table-success" <?php else: ?> class="table-danger" <?php endif; }?> >
                         <td class="fw-bold"><?= $categoryVote['category'] ?></td>
                         <td><?= $categoryVote['question'] ?></td>
                         <td class="fst-italic"><?= $categoryVote['answer']['driver'] ?></td>
@@ -28,8 +28,8 @@
                 <?php endforeach; ?>
 
                 <?php foreach(array_slice($vote, 9, 11) as $bonusVote) : ?>
-                    <tr <?php if (isset($verification)) {
-                        if ($verification->{'get'.str_replace(" ", "", $bonusVote['category'])}() === $participation->{'get'.str_replace(" ", "", $categoryVote['category'])}()) : ?> class="table-success" <?php else: ?> class="table-danger" <?php endif; }?>>
+                    <tr <?php if (isset($verification)) { 
+                        if ($verification->{'get'.str_replace(" ", "", $bonusVote['category'])}() === $participation->{'get'.str_replace(" ", "", $bonusVote['category'])}()) : ?> class="table-success" <?php else: ?> class="table-danger" <?php endif; }?>>
                         <td class="fw-bold"><?= $bonusVote['category'] ?></td>
                         <td><?= $bonusVote['question'] ?></td>
                         <td class="fst-italic"><?= $bonusVote['answer'] ?></td>
