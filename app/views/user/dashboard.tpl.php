@@ -104,7 +104,11 @@
                             </a>
                             <div class="col-12 mt-1 mb-1 d-flex justify-content-between">
                                 <div class="btn col-11">
-                                    <?= $friend['place']; ?> <?= ($friend['place'] == 1) ? "er" : "ème" ?> - <?= $friend['total']; ?> points
+                                    <?php if($friend['place'] == 0) : ?>
+                                        Non classé
+                                    <?php else : ?>
+                                        <strong><?= $friend['place']; ?> <?= ($friend['place'] == 1) ? "er" : "ème" ?></strong> - <?= $friend['total']; ?> points
+                                    <?php endif; ?>   
                                 </div>
                                 <div class="dropdown col-1">
                                     <button class="btn btn-danger" type="button" data-bs-toggle="dropdown" aria-expanded="false">X</button>
