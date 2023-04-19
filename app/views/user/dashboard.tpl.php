@@ -1,5 +1,7 @@
 <h3 class="col-8 col-sm-5 bg-primary mt-3 mx-auto p-2 text-light rounded-4 shadow">Votre tableau de bord</h3>
 
+<?php $token = $_SESSION['token'] = random_bytes(5); ?>
+
 <div class="row m-auto justify-content-center mt-3" style="max-width: 85%;">
 
     <div class="card text-white bg-primary mb-2">
@@ -77,6 +79,45 @@
                     <?php endforeach; ?>
                     <?php if (empty($participations)) : ?>
                         Aucun participation à afficher pour le moment
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion col-12 col-sm-6 mb-2 p-0" id="accordionFriends">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+                <button class="accordion-button collapsed bg-info fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                Vos amis
+                </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionFriends">
+                <div class="accordion-body">
+                    <a class="btn btn-outline-primary col-12 mb-3" href="<?= $this->router->generate('user-addFriends') ?>">
+                        Ajouter un ami
+                    </a>
+                    <?php foreach ($friends as $friend) : ?>
+                        <div class="row">
+                            <a class="btn btn-outline-warning col-12" href="<?= $this->router->generate('user-frienddashboard', ['friendId' => $friend['id']]) ?>">
+                            <?= $friend['pseudo']; ?>
+                            </a>
+                            <div class="col-12 mt-1 mb-1 d-flex justify-content-between">
+                                <div class="btn col-11">
+                                    <?= $friend['place']; ?> <?= ($friend['place'] == 1) ? "er" : "ème" ?> - <?= $friend['total']; ?> points
+                                </div>
+                                <div class="dropdown col-1">
+                                    <button class="btn btn-danger" type="button" data-bs-toggle="dropdown" aria-expanded="false">X</button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="">Oups...</a></li>
+                                        <li><a class="dropdown-item" href="<?= $this->router->generate('user-deleteFriend', ['friendId' => $friend['id'], 'token' => bin2hex($token)]) ?>">Ne plus suivre</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                    <?php if (empty($friends)) : ?>
+                        Vous n'avez pour le moment sélectionné aucun ami.
                     <?php endif; ?>
                 </div>
             </div>

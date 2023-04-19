@@ -45,9 +45,16 @@ class StandingsController extends CoreController {
 
         $races = Race::findByYear($year);
 
+        $friends = null;
+
+        if (isset($_SESSION['user'])) {
+            $player = Player::find($_SESSION['user']->getId());
+            $friends = $player->showFriends();
+        }
+
 
         $this->show('standings/results', ['players' => $players, 'categories' => $categories, 'race' => 
-        $race, 'races' => $races, 'year' => $year]);
+        $race, 'races' => $races, 'year' => $year, 'friends' => $friends]);
     }
 
     public function general($year) {
@@ -92,6 +99,13 @@ class StandingsController extends CoreController {
             }
         }
 
-        $this->show('standings/general', ['year' => $year, 'players' => $players, 'races' => $races]);
+        $friends = null;
+
+        if (isset($_SESSION['user'])) {
+            $player = Player::find($_SESSION['user']->getId());
+            $friends = $player->showFriends();
+        }
+
+        $this->show('standings/general', ['year' => $year, 'players' => $players, 'races' => $races, 'friends' => $friends]);
     }
 }

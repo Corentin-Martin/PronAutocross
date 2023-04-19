@@ -85,6 +85,46 @@ $router->map(
     'user-dashboard'
 );
 
+$router->map(
+    'GET',
+    '/user/frienddashboard/[i:friendId]',
+    [
+    'controller' => UserCoreController::class,
+    'method' => 'friendDashboard'
+    ],
+    'user-frienddashboard'
+);
+
+$router->map(
+    'GET',
+    '/user/friends/add',
+    [
+    'controller' => UserCoreController::class,
+    'method' => 'addFriends'
+    ],
+    'user-addFriends'
+);
+
+$router->map(
+    'POST',
+    '/user/friends/add',
+    [
+    'controller' => UserCoreController::class,
+    'method' => 'createFriends'
+    ],
+    'user-createFriends'
+);
+
+$router->map(
+    'GET',
+    '/admin/friends/delete/[i:friendId]/[h:token]',
+    [
+    'controller' => UserCoreController::class,
+    'method' => 'deleteFriend'
+    ],
+    'user-deleteFriend'
+);
+
 // PARTICIPATION
 $router->map(
     'GET',

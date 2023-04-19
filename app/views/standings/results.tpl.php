@@ -28,7 +28,7 @@
                 <?php if (!empty($players)) : ?>
                     <?php foreach ($players as $player) : ?>
                         <tr <?= (isset($_SESSION['user']) && ($_SESSION['user']->getPseudo() === $player['fiche']->getPseudo())) ? 'class="table-warning"' : "" ?>
-                        <?= ($player['place'] == 1) ? 'class="table-success"' : "" ?>>
+                        <?= ($player['place'] == 1) ? 'class="table-success"' : "" ?> <?php if (isset($_SESSION['user']) && isset($friends)) { foreach ($friends as $friend) { if ($friend->getPseudo() === $player['fiche']->getPseudo()) { echo 'class="table-light"';}}} ?> <?= ($player['place'] == 1) ? 'class="table-success"' : "" ?>>
                             <td class="table-info fst-italic"><?= $player['place'] ?></td>
                             <td class="fw-bold"><?= $player['fiche']->getPseudo() ?></td>
                             <td class="table-success fw-bold"><?= $player['score']->getTotal(); ?></td>

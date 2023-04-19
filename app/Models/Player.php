@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Utils\Database;
 use PDO;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 class Player extends CoreUser {
 
@@ -116,6 +117,81 @@ class Player extends CoreUser {
 
         return $query->fetchAll(PDO::FETCH_CLASS, Player::class);
         
+    }
+
+    static public function checkIfFriend($playerId, $friendId) {
+        $pdo = Database::getPDO();
+
+        $sql = "SELECT * from `is_friend` WHERE `player_id` = :playerId AND `friend_id` = :friendId";
+
+        $query = $pdo->prepare($sql);
+
+        $query->bindValue(":playerId", $playerId, PDO::PARAM_INT);
+        $query->bindValue(":friendId", $friendId, PDO::PARAM_INT);
+
+        $query->execute();
+
+        return ($query->rowCount() === 1);
+
+    }
+
+    public function createFriend($newFriendId) {
+
+        $pdo = Database::getPDO();
+
+        $sql = "INSERT INTO is_friend (`player_id`, `friend_id`) VALUES (:playerId, :friendId)";
+
+        $query = $pdo->prepare($sql);
+
+        $query->bindValue(":playerId",      $this->id,        PDO::PARAM_INT);
+        $query->bindValue(":friendId",      $newFriendId,     PDO::PARAM_INT);
+
+        $query->execute();
+
+        return ($query->rowCount() === 1);
+
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $order
+     * @return Player[]
+     */
+    public function showFriends() {
+
+        $pdo = Database::getPDO();
+
+        $sql = "SELECT player.* FROM is_friend JOIN player ON player.id = is_friend.friend_id WHERE is_friend.player_id = :playerId";
+
+        $query = $pdo->prepare($sql);
+
+        $query->bindValue(":playerId",  $this->id,   PDO::PARAM_INT);
+
+        $query->execute();
+
+        return $query->fetchAll(PDO::FETCH_CLASS, Player::class);
+    }
+
+    public function deleteFriend($friendId){
+
+        $pdo = Database::getPDO();
+
+        $sql = "DELETE FROM is_friend WHERE `player_id` = :playerId AND friend_id = :friendId";
+
+        $query = $pdo->prepare($sql);
+
+        $query->bindValue(":playerId",      $this->id,       PDO::PARAM_INT);
+        $query->bindValue(":friendId",      $friendId,       PDO::PARAM_INT);
+
+        $query->execute();
+
+        if ($query->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
 }
