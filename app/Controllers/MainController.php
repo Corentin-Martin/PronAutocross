@@ -61,5 +61,9 @@ class MainController extends CoreController {
     public function rules() {
         $this->show('main/rules');
     }
+
+    public function legalNotice() {
+        $this->show('main/legalnotice');
+    }
     
 }

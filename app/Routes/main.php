@@ -21,3 +21,13 @@ $router->map(
     ],
     'rules'
 );
+
+$router->map(
+    'GET',
+    '/notice',
+    [
+    'controller' => MainController::class,
+    'method' => 'legalNotice'
+    ],
+    'notice'
+);
