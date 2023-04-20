@@ -17,22 +17,22 @@
         <form action="" method="post">
             <div class="mb-3">
                 <label for="exampleInputPseudo" class="form-label fw-bold">Pseudo*</label>
-                <input type="text" class="form-control text-center" id="exampleInputPseudo" name="pseudo" placeholder="Votre pseudo" <?= $player ? "value = \" {$player->getPseudo()} \"" : "" ?> required>
+                <input type="text" class="form-control text-center" id="exampleInputPseudo" name="pseudo" placeholder="Votre pseudo" <?= $player ? "value = \"{$player->getPseudo()}\"" : "" ?> required>
             </div>
 
             <div class="mb-3">
                 <label for="exampleInputFirstName" class="form-label fw-bold">Prénom*</label>
-                <input type="text" class="form-control text-center" id="exampleInputFirstName" name="firstName" placeholder="Votre prénom" <?= $player ? "value = \" {$player->getFirstName()} \"" : "" ?> required>
+                <input type="text" class="form-control text-center" id="exampleInputFirstName" name="firstName" placeholder="Votre prénom" <?= $player ? "value = \"{$player->getFirstName()}\"" : "" ?> required>
             </div>
 
             <div class="mb-3">
                 <label for="exampleInputLastName" class="form-label fw-bold">Nom de famille*</label>
-                <input type="text" class="form-control text-center" id="exampleInputLastName" name="lastName" placeholder="Votre nom de famille" <?= $player ? "value = \" {$player->getLastName()} \"" : "" ?> required>
+                <input type="text" class="form-control text-center" id="exampleInputLastName" name="lastName" placeholder="Votre nom de famille" <?= $player ? "value = \"{$player->getLastName()}\"" : "" ?> required>
             </div>
 
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label fw-bold">Adresse mail*</label>
-                <input type="email" class="form-control text-center" id="exampleInputEmail1" name="email" placeholder="Votre adresse mail" <?= $player ? "value = \" {$player->getMail()} \"" : "" ?>  required>
+                <input type="email" class="form-control text-center" id="exampleInputEmail1" name="email" placeholder="Votre adresse mail" <?= $player ? "value = \"{$player->getMail()}\"" : "" ?>  required>
             </div>
 
             <div class="mb-3">
