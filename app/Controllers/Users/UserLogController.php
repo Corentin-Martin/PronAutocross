@@ -62,11 +62,11 @@ class UserLogController extends CoreController
                 $player = new Player();
             }
     
-            $player->setPseudo($pseudo);
-            $player->setFirstName($firstname);
-            $player->setLastName($lastname);
+            $player->setPseudo(rtrim($pseudo));
+            $player->setFirstName(rtrim($firstname));
+            $player->setLastName(rtrim($lastname));
             $player->setMail($email);
-            $player->setPassword(password_hash($password, PASSWORD_DEFAULT));
+            $player->setPassword(password_hash(rtrim($password), PASSWORD_DEFAULT));
             $player->setRole($role);
     
             if ($id) {
