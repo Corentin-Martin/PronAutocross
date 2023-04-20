@@ -30,6 +30,7 @@ const play = {
     },
 
     game: function() {
+        window.top.window.scrollTo(0,0);
         play.form.appendChild(play.all[0]);
 
         const radios = play.all[0].querySelectorAll(".radio");
