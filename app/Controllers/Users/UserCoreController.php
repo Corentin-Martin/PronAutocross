@@ -88,29 +88,41 @@ class UserCoreController extends CoreController
     public function addFriends() {
         $players = Player::findOrderBy('pseudo');
 
+        foreach ($players as $player) {
+            if ($player->getId() == $_SESSION['user']->getId()) {
+
+                $toDestroy = array_search($player, $players);
+                array_splice($players, $toDestroy, 1);
+            }
+
+            if(Player::checkIfFriend($_SESSION['user']->getId(), $player->getId())) {
+                $toDestroy = array_search($player, $players);
+                array_splice($players, $toDestroy, 1);
+            }
+        }
+
         $this->show('user/addfriends', ['players' =>  $players]);
     }
 
     public function createFriends() {
-        $newFriendId = filter_input(INPUT_POST, 'addFriends', FILTER_VALIDATE_INT);
 
         $errorList = [];
 
-        if (!$newFriendId) {
-            $errorList[] = 'Vous devez sélectionner un utilisateur';
-        }
-
-        if (Player::checkIfFriend($_SESSION['user']->getId(), $newFriendId)) {
-            $errorList[] = "Cet utilisateur est déjà dans votre liste d'amis";
+        if (empty($_POST)) {
+            $errorList[] = 'Vous devez sélectionner au moins un utilisateur';
         }
 
         if (empty($errorList)) {
-            $player = Player::find($_SESSION['user']->getId());
+            foreach ($_POST as $newFriendId) {
+                $player = Player::find($_SESSION['user']->getId());
 
-            if ($player->createFriend($newFriendId)) {
-                header("Location: {$this->router->generate('user-dashboard')}");
-                exit;
+                $player->createFriend($newFriendId);
+
             }
+
+            header("Location: {$this->router->generate('user-dashboard')}");
+            exit;
+
         }
 
         $players = Player::findOrderBy('pseudo');
