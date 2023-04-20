@@ -17,10 +17,15 @@
 
 <input type="text" class="col-12 col-sm-7 shadow rounded-4 mb-2" id="searchbar" onkeyup="searchbar()" placeholder="Rechercher un joueur...">
 
+<div class="col-12 inProgress d-none">
+    <p>Vous avez sélectionné :</p>
+    <ul class="toAdd"></ul>
+</div>
+
 
 
 <form class="col-12 col-sm-6" action="" method="post">
-<button class="btn btn-success col-12 mt-3 d-none sendFriends" type="submit">Suivre les résultats de ce(s) joueur(s)</button>
+<button class="btn btn-success col-12 mt-1 d-none sendFriends" type="submit">Suivre les résultats de ce(s) joueur(s)</button>
 
     <div class="border col-12 d-flex flex-column align-items-center" id="playersList">
     <?php foreach ($players as $player) : ?>

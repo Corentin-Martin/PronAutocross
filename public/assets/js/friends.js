@@ -21,8 +21,10 @@ for (const box of checkboxs) {
     box.addEventListener('click', handleRemoveText);
 }
 
-function handleRemoveText() {
-    console.log('coucou');
+function handleRemoveText(event) {
+    let divInProgress = document.querySelector('.inProgress');
+    divInProgress.classList.remove('d-none');
+    inProgress(event.currentTarget.parentElement.textContent);
     let input = document.getElementById('searchbar');
     input.value = "";
     searchbar();
@@ -31,4 +33,11 @@ function handleRemoveText() {
         button.classList.remove('d-none');
     }
 
+}
+
+function inProgress(nameToAdd) {
+    let ul = document.querySelector('.toAdd');
+    let li = document.createElement('li');
+    li.textContent = nameToAdd;
+    ul.append(li);
 }
