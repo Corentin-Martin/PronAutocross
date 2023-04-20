@@ -106,6 +106,7 @@ class UserLogController extends CoreController
 
         $mail = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
         $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_SPECIAL_CHARS);
+        $passwordWithoutEmptySpace = rtrim($password);
 
         $errorList = [];
 
@@ -123,7 +124,7 @@ class UserLogController extends CoreController
 
           } else {
 
-            if( password_verify( $password, $user->getPassword() ) )
+            if( password_verify( $passwordWithoutEmptySpace, $user->getPassword()) )
             {
 
               $_SESSION['user'] = $user;

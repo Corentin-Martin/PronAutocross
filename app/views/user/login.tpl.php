@@ -21,7 +21,7 @@
                 E-mail:
               </label>
               <br>
-              <input type="text" name="email" id="email" class="form-control text-center" placeholder="Votre adresse mail" required>
+              <input type="email" name="email" id="email" class="form-control text-center" placeholder="Votre adresse mail" required>
             </div>
             <div class="form-group mb-3">
               <label class="form-label fw-bold" for="password">
