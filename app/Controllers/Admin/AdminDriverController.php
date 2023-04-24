@@ -236,7 +236,7 @@ class AdminDriverController extends AdminCoreController
                 } else {
                     $percentage = $driverVotes * 100 / $participations;
         
-                    $newRate = 30 / $percentage;
+                    $newRate = 25 / $percentage;
             
                     if ($newRate > 20) {
                         $newRate = 20;
