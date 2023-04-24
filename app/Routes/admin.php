@@ -201,6 +201,16 @@ $router->map(
     'driver-showVotes'
 );
 
+$router->map(
+    'GET',
+    '/admin/driver/rate/[i:categoryId]',
+    [
+    'controller' => AdminDriverController::class,
+    'method' => 'showDriversByRate'
+    ],
+    'driver-showByRate'
+);
+
 // ENTRY LIST
 $router->map(
     'GET',

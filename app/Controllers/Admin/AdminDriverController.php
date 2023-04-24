@@ -306,6 +306,14 @@ class AdminDriverController extends AdminCoreController
         
     }
 
+    public function showDriversByRate($categoryId) {
+
+        $drivers = Driver::findDriversbyRate($categoryId);
+        $categories = Category::findAll();
+
+        $this->show('admin/driver/favorites', ['drivers' => $drivers, 'categories' => $categories]);
+    }
+
     // ENTRY LIST
 
     public function homeForEntryList() {

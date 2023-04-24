@@ -7,6 +7,7 @@
         <a type="button" class="btn btn-info btn-lg m-1" href="<?= $this->router->generate('driver-editPlaces') ?>">EDITER LES CLASSEMENTS</a>
         <a type="button" class="btn btn-success btn-lg m-1" href="<?= $this->router->generate('driver-editRates', ['id' => 1]) ?>">METTRE A JOUR LES COTES</a>
         <a type="button" class="btn btn-light btn-lg m-1" href="<?= $this->router->generate('driver-showVotes', ['categoryId' => 1, 'raceId' => 1]) ?>">VISUALISER LES VOTES</a>
+        <a type="button" class="btn btn-secondary btn-lg m-1" href="<?= $this->router->generate('driver-showByRate', ['categoryId' => 1]) ?>">VISUALISER LES FAVORIS</a>
     </div>
 
     <a type="button" class="btn btn-warning btn-lg  mt-3 col-8"  href="<?= $this->router->generate('admin') ?>">RETOUR AU TABLEAU DE BORD GENERAL</a>

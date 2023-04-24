@@ -283,4 +283,25 @@ class Driver extends CoreUser {
 
     }
 
+        /**
+     * Undocumented function
+     *
+     * @return static::class[]
+     */
+    static public function findDriversbyRate($categoryId) {
+
+        $pdo = Database::getPDO();
+
+        $sql = "SELECT * FROM driver WHERE category_id = :categoryId ORDER by overall ASC LIMIT 10 OFFSET 1";
+
+        $query = $pdo->prepare($sql);
+
+        $query->bindValue(":categoryId",  $categoryId,   PDO::PARAM_INT);
+
+        $query->execute();
+
+        return $query->fetchAll(PDO::FETCH_CLASS, Driver::class);
+
+    }
+
 }
