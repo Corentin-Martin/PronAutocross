@@ -23,7 +23,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($drivers as $driver) : ?>
+                <?php foreach ($drivers as $driver) : if ($driver->getOverall() == 0) { continue; } ?>
                     <tr>
                         <td>#<?= $driver->getNumber() ?></td>
                         <td class="fw-bold"><?= $driver->getFirstName() ?> <?= $driver->getLastName() ?></td>

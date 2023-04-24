@@ -292,7 +292,7 @@ class Driver extends CoreUser {
 
         $pdo = Database::getPDO();
 
-        $sql = "SELECT * FROM driver WHERE category_id = :categoryId ORDER by overall ASC LIMIT 10 OFFSET 1";
+        $sql = "SELECT * FROM driver WHERE category_id = :categoryId ORDER by overall ASC LIMIT 10";
 
         $query = $pdo->prepare($sql);
 
