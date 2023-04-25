@@ -59,6 +59,11 @@ class UserParticipationController extends UserCoreController
 
         $race = Race::find($raceId);
 
+        if (Participation::checkForAPlayer(date('Y'),$raceId, $_SESSION['user']->getId())) {
+            header("Location: {$this->router->generate('user-recap', ['id' => $raceId])}");
+            exit;
+        }
+
         if (isset($_POST)) {
 
             $maxiSprint = filter_input(INPUT_POST, 'MaxiSprint', FILTER_VALIDATE_INT);
