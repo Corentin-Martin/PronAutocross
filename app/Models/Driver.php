@@ -220,6 +220,22 @@ class Driver extends CoreUser {
         return $query->fetchAll(PDO::FETCH_CLASS, Driver::class);
     }
 
+    static public function listByRaceAndCategoryOrderByRate($raceId, $categoryId) {
+
+        $pdo = Database::getPDO();
+
+        $sql = "SELECT driver.* FROM entry_list JOIN driver ON driver.id = entry_list.driver_id  WHERE entry_list.race_id = :raceId AND driver.category_id = :categoryId ORDER BY driver.overall ASC";
+
+        $query = $pdo->prepare($sql);
+
+        $query->bindValue(":raceId",        $raceId,       PDO::PARAM_INT);
+        $query->bindValue(":categoryId",    $categoryId,   PDO::PARAM_INT);
+
+        $query->execute();
+
+        return $query->fetchAll(PDO::FETCH_CLASS, Driver::class);
+    }
+
     /**
      * Undocumented function
      *
