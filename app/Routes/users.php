@@ -87,6 +87,16 @@ $router->map(
 
 $router->map(
     'GET',
+    '/user/charts',
+    [
+    'controller' => UserCoreController::class,
+    'method' => 'charts'
+    ],
+    'user-charts'
+);
+
+$router->map(
+    'GET',
     '/user/frienddashboard/[i:friendId]',
     [
     'controller' => UserCoreController::class,

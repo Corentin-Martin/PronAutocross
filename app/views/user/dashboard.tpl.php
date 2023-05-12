@@ -58,6 +58,7 @@
                     <?php if (empty($scores)) : ?>
                         Aucun résultat à afficher pour le moment
                     <?php endif; ?>
+                    <a href="<?= $this->router->generate('user-charts'); ?>" class="btn btn-info mt-2">Voir l'évolution de vos résultats</a>
                 </div>
             </div>
         </div>
@@ -127,4 +128,6 @@
             </div>
         </div>
     </div>
+
+
 </div>

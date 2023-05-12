@@ -85,6 +85,29 @@ class UserCoreController extends CoreController
         $this->show('user/dashboard', ['scores' => $scores, 'general' => $generalforPlayer, 'participations' => $participations, 'racesById' => $racesById, 'friends' => $allFriends]);
     }
 
+    public function charts() {
+
+        $scores = Score::findAllScoresbyPlayerId($_SESSION['user']->getId());
+        
+        $places = [];
+        foreach ($scores as $score) {
+            $places[] = $score->getPlace();
+        }
+        $placesJson = json_encode($places);
+
+        $players = Player::findAll();
+        $nbPlayers = count($players);
+
+        $allRaces = Race::findAll();
+        $races = [];
+        foreach ($allRaces as $race) {
+            $races[] = $race->getName();
+        }
+        $racesJson = json_encode($races);
+
+        $this->show('user/charts', ['nbPlayers' => $nbPlayers, 'racesJson' => $racesJson, 'placesJson' => $placesJson]);
+    }
+
     public function addFriends() {
         $players = Player::findOrderBy('pseudo');
 
@@ -164,10 +187,26 @@ class UserCoreController extends CoreController
         }
 
         $scores = Score::findAllScoresbyPlayerId($friendId);
+        
+        $places = [];
+        foreach ($scores as $score) {
+            $places[] = $score->getPlace();
+        }
+        $placesJson = json_encode($places);
+
+        $players = Player::findAll();
+        $nbPlayers = count($players);
+
+        $allRaces = Race::findAll();
+        $races = [];
+        foreach ($allRaces as $race) {
+            $races[] = $race->getName();
+        }
+        $racesJson = json_encode($races);
 
         $generalforPlayer = GeneralScore::findGeneralForPlayer($friendId);
 
-        $this->show('user/frienddashboard', ['player' => $player, 'scores' => $scores, 'general' => $generalforPlayer, 'racesById' => $racesById]);
+        $this->show('user/frienddashboard', ['nbPlayers' => $nbPlayers, 'racesJson' => $racesJson, 'placesJson' => $placesJson, 'player' => $player, 'scores' => $scores, 'general' => $generalforPlayer, 'racesById' => $racesById]);
     }
     
 }
