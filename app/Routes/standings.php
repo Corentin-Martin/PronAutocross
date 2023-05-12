@@ -21,3 +21,13 @@ $router->map(
     ],
     'results'
 );
+
+$router->map(
+    'GET',
+    '/drivers/[i:id]',
+    [
+    'controller' => StandingsController::class,
+    'method' => 'drivers'
+    ],
+    'drivers'
+);

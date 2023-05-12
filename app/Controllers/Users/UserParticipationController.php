@@ -45,7 +45,7 @@ class UserParticipationController extends UserCoreController
         $entrylist = [];
         $categoriesById = [];
         foreach ($categories as $category) {
-            $entriesForACategory = Driver::listByRaceAndCategory($raceId, $category->getId());
+            $entriesForACategory = Driver::listByRaceAndCategoryOrderByRate($raceId, $category->getId());
 
             $entrylist[$category->getId()] = $entriesForACategory;
 

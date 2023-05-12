@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Category;
+use App\Models\Driver;
 use App\Models\GeneralScore;
 use App\Models\Player;
 use App\Models\Race;
@@ -107,5 +108,15 @@ class StandingsController extends CoreController {
         }
 
         $this->show('standings/general', ['year' => $year, 'players' => $players, 'races' => $races, 'friends' => $friends]);
+    }
+
+    public function drivers($categoryId) {
+
+        $category = Category::find($categoryId);
+        $drivers = Driver::sortAllByForCategory($categoryId, 'overall');
+        $categories = Category::findAll();
+
+        $this->show('standings/drivers', ['currentCategory' => $category, 'categories' => $categories, 'drivers' => $drivers]);
+
     }
 }

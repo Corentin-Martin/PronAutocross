@@ -70,6 +70,9 @@
                                 <a class="nav-link active" href="<?= $this->router->generate('rules'); ?>">
                                     Règles du jeu
                                 </a>
+                                <a class="nav-link active" href="<?= $this->router->generate('drivers', ['id' => 1]); ?>">
+                                    Les pilotes
+                                </a>
                                 <a class="nav-link active" href="<?= $this->router->generate('general', ['year' => date('Y')]); ?>">
                                     Classement général
                                 </a>
