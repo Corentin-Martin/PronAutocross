@@ -4,7 +4,7 @@ Voici mon premier projet complet réalisé en PHP natif avec une architecture **
 
 Débuté le *03-03-2023* et mis en ligne le *31-03-23*.
 
-Au *03-05-2023*, **790** utilisateurs sont inscrits sur le site et plus de ***1200*** participations ont été enregistré après seulement 2 courses.
+Au *03-05-2023*, **905** utilisateurs sont inscrits sur le site et plus de ***2400*** participations ont été enregistré après seulement 4 courses.
 
 ### Qu'est-ce que c'est ?
 
