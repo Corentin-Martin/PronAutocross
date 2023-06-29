@@ -38,8 +38,8 @@ class Player extends CoreUser {
         if ($this->id > 0) {
             $sql = "UPDATE player SET `pseudo` = :pseudo,  `firstName` = :firstName, `lastName` = :lastName, `mail` = :mail, `password` = :password, `picture` = :picture,`role` = :role, `updated_at` = NOW(), password_asked_date = :passwordAskedDate, password_token = :passwordToken WHERE id = :id";
         } else {
-            $sql = "INSERT INTO player (`pseudo`, `firstName`, `lastName`, `mail`, `password`, `picture`, `role`, `created_at`) VALUES (
-                :pseudo, :firstName, :lastName, :mail, :password, :picture, :role, NOW())";
+            $sql = "INSERT INTO player (`pseudo`, `firstName`, `lastName`, `mail`, `password`, `picture`, `role`, `created_at`, `password_asked_date`, `password_token`) VALUES (
+                :pseudo, :firstName, :lastName, :mail, :password, :picture, :role, NOW(), :passwordAskedDate, :passwordToken)";
         }
 
         $query = $pdo->prepare($sql);
