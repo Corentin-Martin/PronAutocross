@@ -63,6 +63,9 @@ const play = {
     },
 
     endbloc: function() {
+
+        let divBooster = document.querySelector(".booster");
+
         for (let i = 0; i < play.answer.length; i++) {
 
             let input = document.createElement("input");
@@ -71,11 +74,44 @@ const play = {
             input.setAttribute("name", play.category[i]);
             input.setAttribute("value", play.answer[i]);
             document.querySelector(".endbloc").appendChild(input);
+
+            let div = document.createElement('div');
+            div.classList.add('form-check');
+
+
+            let label = document.createElement("label");
+            label.setAttribute("for", play.category[i]);
+            label.classList.add("form-check-label");
+            label.textContent = play.category[i] + " - " + play.answer[i];
+
+            div.append(label);
+    
+            let radio = document.createElement("input");
+            radio.setAttribute("type", "radio");
+            radio.classList.add("form-check-input");
+            radio.setAttribute("id", play.category[i]);
+            radio.setAttribute("name", "booster");
+    
+            div.append(radio);
+    
+            divBooster.append(div);
                 
         }
+
+
+
+
     }
     
 }
 
 document.addEventListener('DOMContentLoaded', play.init);
+
+let list = document.querySelector('#driversJson');
+
+console.log(list);
+
+for (const driver of list) {
+    console.log(driver);
+}
 

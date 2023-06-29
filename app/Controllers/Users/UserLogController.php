@@ -5,6 +5,9 @@ namespace App\Controllers\Users;
 use App\Controllers\CoreController;
 use App\Models\GeneralScore;
 use App\Models\Player;
+use Exception;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
 
 class UserLogController extends CoreController
 {
@@ -157,5 +160,130 @@ class UserLogController extends CoreController
 
         header( "Location: {$this->router->generate('home')}" );
         exit();
+    }
+
+    public function forgetPassword() {
+
+        $this->show('user/forgetpassword');
+
+    }
+
+    public function sendMailForPassword() {
+
+        $errorList = [];
+        $okList = [];
+
+        $player = Player::findByMail($_POST['email']);
+
+        if ($player) {
+
+            $token = uniqid();  
+
+            $player->insertToken($token);
+
+            $mail = new PHPMailer(true);
+
+            try {
+                //Server settings
+                $mail->SMTPDebug = 0;                      //Enable verbose debug output
+                $mail->isSMTP();                                            //Send using SMTP
+                $mail->Host       = 'mail.pronautocross.fr';                     //Set the SMTP server to send through
+                $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+                $mail->Username   = 'corentin@pronautocross.fr';                     //SMTP username
+                $mail->Password   = 'Newcristal14.';                               //SMTP password
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+                $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+                //Recipients
+                $mail->setFrom('no-reply@pronautocross.fr', 'PronAutocross - Recuperation de mot de passe');
+                $mail->addAddress($player->getMail());     //Add a recipient
+
+                $link = "http://www.pronautocross.fr/user/recup-password/" . $token;
+
+                //Content
+                $mail->isHTML(true);                                  //Set email format to HTML
+                $mail->CharSet = "UTF-8";
+                $mail->Subject = "Votre demande de récupération de mot de passe - Pron'Autocross";
+                $mail->Body    = "<p> Bonjour {$player->getPseudo()}, </p> <p> Vous avez effectué une demande de réinitialisation de mot de passe. Pour la poursuivre et créer un nouveau mot de passe, <a href='{$link}'>cliquez ici</a>.</p> <p> Si cette demande ne vient pas de vous, veuillez ignorer cet email. </p>";
+                $mail->AltBody = "Bonjour {$player->getPseudo()}. Vous avez effectué une demande de réinitialisation de mot de passe. Pour la poursuivre et créer un nouveau mot de passe, rendez-vous sur http://www.pronautocross.fr/user/recup-password/{$token} . Si cette demande ne vient pas de vous, veuillez ignorer cet email.";
+
+                $mail->send();
+
+                $okList[] = "Rendez-vous dans votre boite mail pour poursuivre la réinitialisation de votre mot de passe ! (Pensez à regarder dans vos spams si votre boite de réception est vide).";
+
+            } catch (Exception $e) {
+
+                $errorList[] = "Une erreur s'est produite, veuillez réessayer.";
+            }
+
+        } else {
+            $errorList[] = "Cette adresse mail ne correspond à aucun compte.";
+        }
+
+        if (!empty($errorList)) {
+            $this->show('user/forgetpassword', ["errorList" => $errorList]);
+        }
+
+        if (!empty($okList)) {
+            $this->show('user/forgetpassword', ["okList" => $okList]);
+        }
+        
+    }
+
+    public function redefinePassword($token) {
+        $errorList = [];
+
+        $player = Player::findByToken($token);
+
+        if($player) {
+
+            $tokenDate = strtotime('+3 hours', strtotime($player->getPasswordAskedDate()));
+            $todayDate = time();
+            $tokenValid = true;
+
+            if ($tokenDate < $todayDate) {
+                $tokenValid = false;
+                $errorList[] = "Votre demande de réinitialisation de mot de passe a expiré. Veuillez recommencer.";
+            }
+
+
+
+        } else {
+            $player = null;
+            $tokenValid = false;
+            $errorList[] = "Une erreur est survenue, impossible de réinitialiser le mot de passe.";
+        }
+
+        if (!empty($_POST)) {
+            $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_SPECIAL_CHARS);
+            $passwordConfirm = filter_input(INPUT_POST, 'passwordConfirm', FILTER_SANITIZE_SPECIAL_CHARS);
+
+            if ($password !== $passwordConfirm) {
+                $errorList[] = "Attention, les mots de passe ne sont pas identiques.";
+            }
+    
+            if (strlen($password) < 8) {
+                $errorList[] = "Votre mot de passe doit contenir au moins 8 caractères.";
+            }
+
+            if (empty($errorList)) {
+                $player->setPassword(password_hash(rtrim($password), PASSWORD_DEFAULT));
+                $player->setPasswordToken(null);
+                $player->setPasswordAskedDate(null);
+
+                if($player->createOrUpdate()) {
+
+                    $_SESSION['user'] = $player;
+                    header("Location: {$this->router->generate('user-dashboard')}");
+                    exit;
+    
+                } else {
+                    $errorList[] = "Une erreur est survenue, veuillez réessayer";
+                }
+
+
+            }
+        }
+        $this->show('user/reinitpassword', ["player" => $player, "errorList" => $errorList, 'tokenValid' => $tokenValid]);
     }
 }

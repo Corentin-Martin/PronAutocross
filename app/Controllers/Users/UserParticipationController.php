@@ -44,15 +44,24 @@ class UserParticipationController extends UserCoreController
 
         $entrylist = [];
         $categoriesById = [];
+        $entriesForJson = [];
         foreach ($categories as $category) {
             $entriesForACategory = Driver::listByRaceAndCategoryOrderByRate($raceId, $category->getId());
+
+            foreach ($entriesForACategory as $entry) {
+
+                $entriesForJson[$entry->getId()] = ["firstname" => $entry->getFirstName(), "lastname" =>$entry->getLastName(), "number" => $entry->getNumber(), "rating" => $entry->getOverall()];
+            }
 
             $entrylist[$category->getId()] = $entriesForACategory;
 
             $categoriesById[$category->getId()] = $category;
         }
 
-        $this->show('user/play', ['race' => $race, 'categories' => $categories, 'questions' => $questions, 'categoriesById' => $categoriesById, 'entrylist' => $entrylist]);
+        $allDriversJson = $entriesForJson;
+
+
+        $this->show('user/play', ['race' => $race, 'categories' => $categories, 'questions' => $questions, 'categoriesById' => $categoriesById, 'entrylist' => $entrylist, "driversJson" => $allDriversJson]);
     }
 
     public function create($raceId) {

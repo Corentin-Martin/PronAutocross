@@ -77,6 +77,46 @@ $router->map(
 
 $router->map(
     'GET',
+    '/user/forget-password',
+    [
+    'controller' => UserLogController::class,
+    'method' => 'forgetPassword'
+    ],
+    'user-forgetpassword'
+);
+
+$router->map(
+    'POST',
+    '/user/forget-password',
+    [
+    'controller' => UserLogController::class,
+    'method' => 'sendMailForPassword'
+    ],
+    'user-sendMailForPassword'
+);
+
+$router->map(
+    'GET',
+    '/user/recup-password/[a:token]',
+    [
+    'controller' => UserLogController::class,
+    'method' => 'redefinePassword'
+    ],
+    'user-redefinepassword'
+);
+
+$router->map(
+    'POST',
+    '/user/recup-password/[a:token]',
+    [
+    'controller' => UserLogController::class,
+    'method' => 'redefinePassword'
+    ],
+    'user-changepassword'
+);
+
+$router->map(
+    'GET',
     '/user/dashboard',
     [
     'controller' => UserCoreController::class,
