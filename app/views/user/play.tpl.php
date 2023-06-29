@@ -79,6 +79,15 @@
             </div>
         </div>
 
+        <div class="row justify-content-center">
+            <h3 class="badge bg-dark fs-1 col-6 mt-3">Booster</h3>
+            <h4 class="bg-light col-10 my-2 rounded-4">Quelle cote souhaitez-vous booster ?</h4>
+            <div class = "row justify-content-center bg-light" style="--bs-bg-opacity: .5;">
+                <div class="col-6 booster">
+                </div>
+            </div>
+        </div>
+
         <input type="hidden" name="raceId" id="raceId" value="<?= $race->getId() ?>">
         <input type="hidden" name="year" id="year" value="<?= date('Y') ?>">
         <input type="hidden" name="playerId" id="playerId" value="<?= $_SESSION['user']->getId() ?>">
@@ -88,5 +97,6 @@
         <button class="btn btn-success col-6 mt-3" type="submit">Envoyer votre participation</button>
     </div>
 </form>
+
 <script src="<?= $baseURI ?>assets/js/play.js"></script>
 

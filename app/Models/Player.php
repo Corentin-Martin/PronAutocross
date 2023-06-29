@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Utils\Database;
 use PDO;
-use Symfony\Component\VarDumper\Cloner\Data;
 
 class Player extends CoreUser {
 
@@ -12,6 +11,8 @@ class Player extends CoreUser {
     private $mail;
     private $password;
     private $role;
+    private $password_asked_date;
+    private $password_token;
 
     public function getPseudo(){ return $this->pseudo; }
     public function setPseudo($pseudo): self { $this->pseudo = $pseudo; return $this; }
@@ -25,14 +26,20 @@ class Player extends CoreUser {
     public function getRole(){ return $this->role; }
     public function setRole($role): self { $this->role = $role; return $this; }
 
+    public function getPasswordAskedDate(){ return $this->password_asked_date; }
+    public function setPasswordAskedDate($password_asked_date): self { $this->password_asked_date = $password_asked_date; return $this; }
+
+    public function getPasswordToken(){ return $this->password_token; }
+    public function setPasswordToken($password_token): self { $this->password_token = $password_token; return $this; }
+
     public function createOrUpdate() {
         $pdo = Database::getPDO();
 
         if ($this->id > 0) {
-            $sql = "UPDATE player SET `pseudo` = :pseudo,  `firstName` = :firstName, `lastName` = :lastName, `mail` = :mail, `password` = :password, `picture` = :picture,`role` = :role, `updated_at` = NOW() WHERE id = :id";
+            $sql = "UPDATE player SET `pseudo` = :pseudo,  `firstName` = :firstName, `lastName` = :lastName, `mail` = :mail, `password` = :password, `picture` = :picture,`role` = :role, `updated_at` = NOW(), password_asked_date = :passwordAskedDate, password_token = :passwordToken WHERE id = :id";
         } else {
-            $sql = "INSERT INTO player (`pseudo`, `firstName`, `lastName`, `mail`, `password`, `picture`, `role`, `created_at`) VALUES (
-                :pseudo, :firstName, :lastName, :mail, :password, :picture, :role, NOW())";
+            $sql = "INSERT INTO player (`pseudo`, `firstName`, `lastName`, `mail`, `password`, `picture`, `role`, `created_at`, `password_asked_date`, `password_token`) VALUES (
+                :pseudo, :firstName, :lastName, :mail, :password, :picture, :role, NOW(), :passwordAskedDate, :passwordToken)";
         }
 
         $query = $pdo->prepare($sql);
@@ -44,6 +51,8 @@ class Player extends CoreUser {
         $query->bindValue(":password",        $this->password,          PDO::PARAM_STR);
         $query->bindValue(":picture",        $this->picture,          PDO::PARAM_STR);
         $query->bindValue(":role",        $this->role,          PDO::PARAM_STR);
+        $query->bindValue(":passwordAskedDate",        $this->password_asked_date,          PDO::PARAM_STR);
+        $query->bindValue(":passwordToken",        $this->password_token,          PDO::PARAM_STR);
 
         if ($this->id > 0) {
 
@@ -84,6 +93,43 @@ class Player extends CoreUser {
 
         return $query->fetchObject(Player::class);
     }
+
+    public function insertToken($token) {
+        $pdo = Database::getPDO();
+
+        $sql = "UPDATE player SET password_asked_date = NOW(), password_token = :token WHERE id = :id";
+
+        $query = $pdo->prepare($sql);
+
+        $query->bindValue(":id",        $this->id,          PDO::PARAM_INT);
+        $query->bindValue(":token",        $token,          PDO::PARAM_STR);
+
+        // dd($this->id);
+
+        $query->execute();
+
+        return $query->rowCount() === 1;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return Player
+     */
+    static public function findByToken($token) {
+        $pdo = Database::getPDO();
+
+        $sql = "SELECT * FROM `player` WHERE password_token = :token";
+
+        $query = $pdo->prepare($sql);
+
+        $query->bindValue(":token",        $token,          PDO::PARAM_STR);
+
+        $query->execute();
+
+        return $query->fetchObject(Player::class);
+    }
+
 
     static public function findByPseudo($pseudo) {
         $pdo = Database::getPDO();
@@ -193,6 +239,7 @@ class Player extends CoreUser {
         }
 
     }
+
 
 }
 
