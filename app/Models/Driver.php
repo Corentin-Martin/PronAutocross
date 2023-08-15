@@ -102,6 +102,8 @@ class Driver extends CoreUser {
 
         return $query->fetchAll(PDO::FETCH_CLASS, Driver::class);
 
+
+
     }
 
     /**

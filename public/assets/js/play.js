@@ -75,26 +75,26 @@ const play = {
             input.setAttribute("value", play.answer[i]);
             document.querySelector(".endbloc").appendChild(input);
 
-            let div = document.createElement('div');
-            div.classList.add('form-check');
+            // let div = document.createElement('div');
+            // div.classList.add('form-check');
 
 
-            let label = document.createElement("label");
-            label.setAttribute("for", play.category[i]);
-            label.classList.add("form-check-label");
-            label.textContent = play.category[i] + " - " + play.answer[i];
+            // let label = document.createElement("label");
+            // label.setAttribute("for", play.category[i]);
+            // label.classList.add("form-check-label");
+            // label.textContent = play.category[i] + " - " + play.answer[i];
 
-            div.append(label);
+            // div.append(label);
     
-            let radio = document.createElement("input");
-            radio.setAttribute("type", "radio");
-            radio.classList.add("form-check-input");
-            radio.setAttribute("id", play.category[i]);
-            radio.setAttribute("name", "booster");
+            // let radio = document.createElement("input");
+            // radio.setAttribute("type", "radio");
+            // radio.classList.add("form-check-input");
+            // radio.setAttribute("id", play.category[i]);
+            // radio.setAttribute("name", "booster");
     
-            div.append(radio);
+            // div.append(radio);
     
-            divBooster.append(div);
+            // divBooster.append(div);
                 
         }
 
@@ -106,12 +106,4 @@ const play = {
 }
 
 document.addEventListener('DOMContentLoaded', play.init);
-
-let list = document.querySelector('#driversJson');
-
-console.log(list);
-
-for (const driver of list) {
-    console.log(driver);
-}
 
