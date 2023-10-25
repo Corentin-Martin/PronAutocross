@@ -184,7 +184,7 @@ class UserLogController extends CoreController
             $mail = new PHPMailer(true);
 
             try {
-                $configData = parse_ini_file(__DIR__ . '/../config.ini');
+                $configData = parse_ini_file(__DIR__ . '/../../config.ini');
                 //Server settings
                 $mail->SMTPDebug = 0;                      //Enable verbose debug output
                 $mail->isSMTP();                                            //Send using SMTP
