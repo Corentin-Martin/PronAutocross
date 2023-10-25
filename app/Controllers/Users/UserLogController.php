@@ -184,13 +184,14 @@ class UserLogController extends CoreController
             $mail = new PHPMailer(true);
 
             try {
+                $configData = parse_ini_file(__DIR__ . '/../config.ini');
                 //Server settings
                 $mail->SMTPDebug = 0;                      //Enable verbose debug output
                 $mail->isSMTP();                                            //Send using SMTP
                 $mail->Host       = 'mail.pronautocross.fr';                     //Set the SMTP server to send through
                 $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-                $mail->Username   = 'corentin@pronautocross.fr';                     //SMTP username
-                $mail->Password   = 'Newcristal14.';                               //SMTP password
+                $mail->Username   = $configData['MAIL_USERNAME'];                     //SMTP username
+                $mail->Password   = $configData['MAIL_PASSWORD'];                               //SMTP password
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
                 $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
