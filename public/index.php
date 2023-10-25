@@ -21,6 +21,7 @@ require_once __DIR__ . '/../app/Routes/standings.php';
 require_once __DIR__ . '/../app/Routes/users.php';
 require_once __DIR__ . '/../app/Routes/admin.php';
 
+
 $match = $router->match();
 
 $dispatcher = new Dispatcher($match, 'App\Controllers\ErrorController::error404');

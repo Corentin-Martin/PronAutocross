@@ -42,8 +42,6 @@ abstract class CoreController {
             $postToken = isset($_POST['token']) ? $_POST['token'] : '';
             $sessionToken = isset($_SESSION['token']) ? $_SESSION['token'] : '';
 
-            dd(bin2hex($postToken), bin2hex($sessionToken));
-
             if ($postToken !== $sessionToken || empty($postToken)) {
 
               header( "Location: {$this->router->generate('error403')}" );
