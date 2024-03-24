@@ -240,7 +240,7 @@ class AdminVerificationController extends AdminCoreController
 
 
                 if ($score->createOrUpdate()) {
-                    $general = GeneralScore::findGeneralForPlayer($score->getPlayerId());
+                    $general = GeneralScore::findGeneralForPlayer($score->getPlayerId(), date('Y'));
 
                     $newTotal = $general->getTotal() + $score->getTotal();
 
@@ -257,7 +257,7 @@ class AdminVerificationController extends AdminCoreController
             $preceding = null;
 
             foreach ($allGeneral as $general) {
-                $generalForAPlayer = GeneralScore::findGeneralForPlayer($general->getPlayerId());
+                $generalForAPlayer = GeneralScore::findGeneralForPlayer($general->getPlayerId(), date('Y'));
 
                 if (is_null($preceding) || $preceding === $general->getTotal()) {
                     $place--;

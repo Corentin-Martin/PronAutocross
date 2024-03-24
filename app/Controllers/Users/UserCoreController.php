@@ -55,9 +55,9 @@ class UserCoreController extends CoreController
             $racesById[$race->getId()] = $race;
         }
 
-        $scores = Score::findAllScoresbyPlayerId($playerId);
+        $scores = Score::findAllScoresbyPlayerId($playerId, date('Y'));
 
-        $generalforPlayer = GeneralScore::findGeneralForPlayer($playerId);
+        $generalforPlayer = GeneralScore::findGeneralForPlayer($playerId, date('Y'));
 
         $participations = Participation::showAllForAPlayer(date('Y'), $playerId);
 
@@ -68,7 +68,7 @@ class UserCoreController extends CoreController
 
         if (!empty($friends)) {
             foreach ($friends as $friend) {
-                $generalforFriend = GeneralScore::findGeneralForPlayer($friend->getId());
+                $generalforFriend = GeneralScore::findGeneralForPlayer($friend->getId(), date('Y'));
 
                 $newFriend = [];
                 $newFriend['pseudo'] = $friend->getPseudo();
@@ -87,7 +87,7 @@ class UserCoreController extends CoreController
 
     public function charts() {
 
-        $scores = Score::findAllScoresbyPlayerId($_SESSION['user']->getId());
+        $scores = Score::findAllScoresbyPlayerId($_SESSION['user']->getId(), date('Y'));
         
         $places = [];
         foreach ($scores as $score) {
@@ -98,7 +98,7 @@ class UserCoreController extends CoreController
         $players = Player::findAll();
         $nbPlayers = count($players);
 
-        $allRaces = Race::findAll();
+        $allRaces = Race::findByYear(date('Y'));
         $races = [];
         foreach ($allRaces as $race) {
             $races[] = $race->getName();
@@ -186,7 +186,7 @@ class UserCoreController extends CoreController
             $racesById[$race->getId()] = $race;
         }
 
-        $scores = Score::findAllScoresbyPlayerId($friendId);
+        $scores = Score::findAllScoresbyPlayerId($friendId, date('Y'));
         
         $places = [];
         foreach ($scores as $score) {
@@ -197,14 +197,14 @@ class UserCoreController extends CoreController
         $players = Player::findAll();
         $nbPlayers = count($players);
 
-        $allRaces = Race::findAll();
+        $allRaces = Race::findByYear(date('Y'));
         $races = [];
         foreach ($allRaces as $race) {
             $races[] = $race->getName();
         }
         $racesJson = json_encode($races);
 
-        $generalforPlayer = GeneralScore::findGeneralForPlayer($friendId);
+        $generalforPlayer = GeneralScore::findGeneralForPlayer($friendId, date('Y'));
 
         $this->show('user/frienddashboard', ['nbPlayers' => $nbPlayers, 'racesJson' => $racesJson, 'placesJson' => $placesJson, 'player' => $player, 'scores' => $scores, 'general' => $generalforPlayer, 'racesById' => $racesById]);
     }

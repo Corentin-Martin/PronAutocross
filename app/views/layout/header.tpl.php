@@ -76,7 +76,7 @@
                                 <a class="nav-link active" href="<?= $this->router->generate('general', ['year' => date('Y')]); ?>">
                                     Classement général
                                 </a>
-                                <a class="nav-link active" href="<?= $this->router->generate('results', ['year' => date('Y'), 'id' => 1]); ?>">
+                                <a class="nav-link active" href="<?= $this->router->generate('results', ['year' => date('Y'), 'id' => 11]); ?>">
                                     Classement par course
                                 </a>
 

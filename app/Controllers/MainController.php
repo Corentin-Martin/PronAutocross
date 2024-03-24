@@ -29,7 +29,7 @@ class MainController extends CoreController {
             $players[$general->getPlayerId()] = $model;
         }
 
-        $verification = Verification::lastVerif();
+        $verification = Verification::lastVerif(date('Y'));
 
         if ($verification) {
             $race = Race::find($verification->getRaceId());

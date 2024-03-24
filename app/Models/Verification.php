@@ -236,12 +236,15 @@ class Verification extends CoreGame {
         return $query->fetchObject(Verification::class);
     }
 
-    static public function lastVerif() {
+    static public function lastVerif($yearId) {
         $pdo = Database::getPDO();
 
-        $sql = "SELECT * FROM `verification` ORDER BY id DESC LIMIT 1";
+        $sql = "SELECT * FROM `verification` WHERE year_id = :yearId ORDER BY id DESC LIMIT 1";
 
-        $query = $pdo->query($sql);
+        $query = $pdo->prepare($sql);
+        $query->bindValue(":yearId",     $yearId,      PDO::PARAM_INT);
+
+        $query->execute();
 
         return $query->fetchObject(Verification::class);
     }

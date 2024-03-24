@@ -1,8 +1,6 @@
 <div class="row mt-3 m-auto justify-content-center">
         <article class="col-10 bg-light rounded-3 mb-2 p-2 shadow lh-1" style="--bs-bg-opacity: .7;">
             <h2 class="fw-bold fst-italic fs-1">Les règles du jeu</h2>
-            <p>Si vous avez déjà participé les saisons précédentes, le principe général reste le même : <strong>9 catégories - 9 questions + 2 questions bonus</strong> !</p>
-            <p>En revanche, il y a UN <strong>changement majeur</strong>, désormais, une bonne réponse ne vaudra plus forcément 10 points mais ... <span class="fst-italic text-decoration-underline">entre 10 et 200 points</span> !</p>
             <h3 class="text-primary fw-bold">Les cotes</h3>
             <p>A chaque course, la cote de chaque pilote variera et ce sont <span class="fst-italic text-decoration-underline">vos votes</span> qui vont les influencer !</p>
             <p>En effet, le calcul sera un mélange des <span class="fw-bold">votes reçus sur les deux épreuves précédentes</span> et d'un coefficient déterminé par <span class="fw-bold">la place du pilote au championnat</span>.</p>
@@ -39,12 +37,10 @@
             <hr>
             <h3 class="text-primary fw-bold">A savoir</h3>
             <ul class="lh-5">
-                <li>Pour le début de championnat, les cotes sont calculées <span class="text-decoration-underline">par rapport à la fin de saison 2022</span> pour les pilotes restant dans la même catégorie.</li>
                 <li>Les pilotes changeant de catégorie démarreront <span class="text-decoration-underline">avec une cote à 10</span>.</li>
-                <li><span class="fw-bold">Aucun pilote n'aura la cote maximale pour l'ouverture de la saison</span>. Celle-ci est rabaissée à 10.</li>
                 <li>Un pilote invité participant à sa première épreuve de la saison se verra automatiquement attribuer <span class="text-decoration-underline">une cote de 10</span>.</li>
-                <li>Les questions bonus sont toujours là et elles rapportent toujours <span class="text-decoration-underline">20 points chacune</span>.</li>
-                <li>Attention, les votes seront <span class="fw-bold text-decoration-underline">automatiquement clos à 8h45</span> chaque samedi matin ! Le formulaire sera inaccessible...</li>
+                <li>Les questions bonus rapportent <span class="text-decoration-underline">20 points chacune</span>.</li>
+                <li>Attention, les votes seront <span class="fw-bold text-decoration-underline">automatiquement clos à 8h45</span> chaque samedi matin !</li>
             </ul>
             <?php if (!$_SESSION) : ?>
                 <hr>
