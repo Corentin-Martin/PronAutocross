@@ -47,7 +47,7 @@ class Driver extends CoreUser {
             $sql = 
             "UPDATE `driver` SET `firstName`= :firstName, `lastName` = :lastName, `number` = :number, `vehicle` = :vehicle, `category_id` = :categoryId, `status` = :status, `picture` = :picture, `place` = :place, `rate1` = :rate1, `rate2` = :rate2, `overall` = :overall, `updated_at` = NOW() WHERE id = :id";
         } else {
-            $sql = "INSERT INTO `driver` (`firstName`, `lastName`, `number`, `vehicle`, `category_id`, `status`, `picture`, `place`, `rate1`, `rate2`, `overall`, `created_at`) VALUES (:firstName, :lastName, :number, :vehicle, :categoryId, :status, :picture, :place, :rate1, :rate2, :overall, NOW())";
+            $sql = "INSERT INTO `driver` (`firstName`, `lastName`, `number`, `vehicle`, `category_id`, `status`, `picture`, `place`, `rate1`, `rate2`, `overall`, `is_inactive`, `created_at`) VALUES (:firstName, :lastName, :number, :vehicle, :categoryId, :status, :picture, :place, :rate1, :rate2, :overall, 0, NOW())";
         }
 
         $query = $pdo->prepare($sql);
@@ -92,7 +92,7 @@ class Driver extends CoreUser {
 
         $pdo = Database::getPDO();
 
-        $sql = "SELECT * FROM driver WHERE category_id = :categoryId";
+        $sql = "SELECT * FROM driver WHERE category_id = :categoryId AND is_inactive = 0";
 
         $query = $pdo->prepare($sql);
 
@@ -115,7 +115,7 @@ class Driver extends CoreUser {
 
         $pdo = Database::getPDO();
 
-        $sql = "SELECT * FROM driver WHERE category_id = :categoryId AND `status` = :status";
+        $sql = "SELECT * FROM driver WHERE category_id = :categoryId AND `status` = :status AND is_inactive = 0 ORDER BY number ASC";
 
         $query = $pdo->prepare($sql);
 
@@ -137,7 +137,7 @@ class Driver extends CoreUser {
 
         $pdo = Database::getPDO();
 
-        $sql = "SELECT * FROM driver WHERE `category_id` = :categoryId ORDER BY $order";
+        $sql = "SELECT * FROM driver WHERE `category_id` = :categoryId AND is_inactive = 0 ORDER BY $order";
 
         $query = $pdo->prepare($sql);
 
@@ -310,7 +310,7 @@ class Driver extends CoreUser {
 
         $pdo = Database::getPDO();
 
-        $sql = "SELECT * FROM driver WHERE category_id = :categoryId ORDER by overall ASC LIMIT 10";
+        $sql = "SELECT * FROM driver WHERE category_id = :categoryId AND is_inactive = 0 ORDER by overall ASC LIMIT 10";
 
         $query = $pdo->prepare($sql);
 
