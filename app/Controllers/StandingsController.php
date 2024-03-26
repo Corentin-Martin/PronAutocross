@@ -113,7 +113,7 @@ class StandingsController extends CoreController {
     public function drivers($categoryId) {
 
         $category = Category::find($categoryId);
-        $drivers = Driver::sortAllByForCategory($categoryId, 'overall');
+        $drivers = Driver::sortAllByForCategory($categoryId, 'overall', true);
         $categories = Category::findAll();
 
         $this->show('standings/drivers', ['currentCategory' => $category, 'categories' => $categories, 'drivers' => $drivers]);

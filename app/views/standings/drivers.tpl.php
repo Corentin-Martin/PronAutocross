@@ -13,7 +13,7 @@
         <table class="table table-light  table-hover table-striped shadow align-middle">
             <thead class="table-dark">
                 <tr>
-                    <th colspan="14"><h2 class="fw-bold"> Les cotes - <?= $currentCategory->getName() ?></h2></th>
+                    <th colspan="14"><h2 class="fw-bold"> Les cotes des pilotes prioritaires - <?= $currentCategory->getName() ?></h2></th>
                 </tr>
                 <tr>
                     <th>Numéro</th>

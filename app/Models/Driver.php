@@ -133,11 +133,18 @@ class Driver extends CoreUser {
      *
      * @return static::class[]
      */
-    static public function sortAllByForCategory($categoryId, $order) {
+    static public function sortAllByForCategory($categoryId, $order, $onlyPrio = false) {
 
         $pdo = Database::getPDO();
 
-        $sql = "SELECT * FROM driver WHERE `category_id` = :categoryId AND is_inactive = 0 ORDER BY $order";
+        $sql = "SELECT * FROM driver WHERE `category_id` = :categoryId AND is_inactive = 0";
+
+        if ($onlyPrio)
+        {
+            $sql .= " AND status = 1";
+        }
+
+        $sql .= " ORDER BY $order";
 
         $query = $pdo->prepare($sql);
 

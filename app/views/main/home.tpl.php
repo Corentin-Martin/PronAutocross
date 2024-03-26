@@ -7,19 +7,17 @@
 <div class="row mt-3 m-auto align-items-center">
         <div class="col-12 col-sm-8">
             <article class="bg-light rounded-3 mb-2 p-2 shadow lh-1" style="--bs-bg-opacity: .7;">
-                <h2 class="fw-bold fst-italic fs-1">Bienvenue !</h2>
-                <p>Cette saison, <strong>Pron'Autocross</strong> fait sa révolution !</p>
-                <p>Après 2 premières années concluantes où les participations ont été au rendez-vous, il était temps de <span class="fst-italic text-decoration-underline">passer à la vitesse supérieure</span> !</p>
-                <h3 class="text-primary fw-bold">La stratégie arrive </h3>
-                <p>Parier sur les courses, c'était bien, amusant, mais à mesure que la saison avançait, l'enjeu disparaissait légèrement et surtout, cela manquait cruellement d'une <span class="fst-italic">bonne dose de stratégie</span> !</p>
-                <p>Désormais, il faudra choisir : assurer en misant à tout prix sur le favori ou tenter de parier sur <span class="badge bg-dark fw-bold fs-6">"une grosse cote"</span> !</p>
-                <p>Oui oui, cette saison, les <span class="fw-bold text-decoration-underline">cotes</span> font leur apparition dans <strong>Pron'Autocross</strong> ! Elles seront calculées suivant les votes reçus par les pilotes sur les deux épreuves précédentes ainsi que sur leur classement au championnat!</p>
-                <h3 class="text-primary fw-bold">On assure tranquille jusqu'à la ligne d'arrivée ou grosse attaque et prise de risques ?</h3>
-                <p>Allez-vous simplement voter pour les <span class="fst-italic">favoris aux petites cotes</span> et espérer remporter une centaine de points ? Ou allez-vous être joueur en misant sur des <span class="fst-italic">surprises</span> qui pourront faire grimper votre score jusqu'à plus de 1800 points (ou au contraire le laisseront stagner vers 0...) ? Et si la solution idéale était de savoir créer <span class="fw-bold">un savant dosage entre les deux</span> ?</p>
-                <p>Et oui, plus que jamais, il faudra sentir les coups, réfléchir et ... <span class="fw-bold text-decoration-underline">faire les bons choix</span> !</p>
+                <h2 class="fw-bold fst-italic fs-1">Pron'Autocross saison 4 </h2>
+                <p>Bienvenue dans cette nouvelle saison de <span class="fst-italic text-decoration-underline">Pron'Autocross</span> !</p>
+                <h3 class="text-primary fw-bold">Des cotes affinées</h3>
+                <p>La recette qui a fait le succès de Pron'Autocross la saison dernière avec 1000 inscriptions est toujours d'actualité ! Une question par catégorie, deux questions bonus et ... des coups de poker à tenter !</p>
+                <p>Pour débuter la saison, un nouveau système de calcul de cotes est en place : celui-ci ne se base plus seulement sur le classement au championnat et le nombre de votes reçus sur les deux dernières épreuves mais ... sur <span class="fw-bold text-decoration-underline">tous les résultats de la saison 2023</span> (des essais chronométrés aux finales en passant par les manches) !</p>
+                <h3 class="text-primary fw-bold">Quelle stratégie pour la première de l'année ?</h3>
+                <p>Alors, allez-vous être prudents, ne miser que sur des "valeurs sûres" pour l'ouverture de la saison ? Ou avez-vous suffisamment été observateurs la saison dernière pour étudier les montées en puissance ou les nouveaux pilotes venant des challenges régionaux ? Peut-être allez-vous être tenté de voter pour des pilotes changeant de catégorie et avec une cote forcément à 10 ? À vous de voir...</p>
+
             </article>
 
-            <article class="bg-light rounded-3 mb-2 p-2 shadow lh-1" style="--bs-bg-opacity: .7;">
+            <!--<article class="bg-light rounded-3 mb-2 p-2 shadow lh-1" style="--bs-bg-opacity: .7;">
                 <h2 class="fw-bold fst-italic fs-1">Les autres changements majeurs</h2>
                 <p>Mis à part les cotes, tout le reste de l'expérience va changer et <span class="text-decoration-underline">être simplifiée</span> !</p>
                 <h3 class="text-primary fw-bold">Un compte unique pour chaque joueur</h3>
@@ -31,7 +29,7 @@
                 <div>
                     <a class="btn btn-primary" href="<?= $this->router->generate('rules') ?>">Découvrir les règles du jeu en détails</a>
                 </div>
-            </article>
+            </article>-->
 
             <?php if (!$_SESSION) : ?>
             <div class="bg-light rounded-3 mb-2 p-2 shadow lh-1" style="--bs-bg-opacity: .7;">
